@@ -24,13 +24,17 @@ UPLOAD_DIR = os.path.join(settings.BASE_DIR, 'project', 'uploads')
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 SYS_MSG = {
-    'GEO_LOCATION_PERMISSION': '稍後將進行地理位置授權。',
-    'QKIT_ERR_MSG_001': '系統發生異常，請稍後再試。',
-    'BIG_FILE_SIZE': '檔案大小不可超過 {0} KB。',
-    'RESTRICT_IMG': '請上傳圖片格式的檔案。',
-    'FILE_SIZE_LIMIT': '10000',
-    'FORBIDDEN_FILE': '不允許此類型的檔案。',
-    'CTACT_ADD_ERR_MSG_001': '聯絡表單送出失敗，請稍後再試。',
+    'CHT': {
+        'GEO_LOCATION_PERMISSION': '稍後將進行地理位置授權。',
+        'QKIT_ERR_MSG_001': '系統發生異常，請稍後再試。',
+        'BIG_FILE_SIZE': '檔案大小不可超過 {0} KB。',
+        'RESTRICT_IMG': '請上傳圖片格式的檔案。',
+        'FILE_SIZE_LIMIT': '10000',
+        'FORBIDDEN_FILE': '不允許此類型的檔案。',
+        'CTACT_ADD_ERR_MSG_001': '聯絡表單送出失敗，請稍後再試。',
+    },
+    # 新增語系時在此加入對應 key，例如：
+    # 'ENG': { 'GEO_LOCATION_PERMISSION': 'Location permission will be requested.', ... },
 }
 
 
@@ -42,9 +46,33 @@ def _alert_back(msg):
     )
 
 
-def _serve_page(filename):
-    path = os.path.abspath(os.path.join(PAGES_DIR, filename))
-    return FileResponse(open(path, 'rb'), content_type='text/html; charset=utf-8')
+def _get_lang(request):
+    return request.session.get('lang', 'CHT').upper()
+
+
+def _serve_page(request, filename):
+    """Serve a page file, preferring a language-specific variant if it exists.
+
+    Lookup order: {base}_{lang}.{ext}  →  {base}.{ext}
+    e.g. for lang=ENG: mainEntry_eng.html → mainEntry.html
+    """
+    lang = _get_lang(request)
+    base, ext = os.path.splitext(filename)
+    for name in [f'{base}_{lang.lower()}{ext}', filename]:
+        path = os.path.abspath(os.path.join(PAGES_DIR, name))
+        if os.path.exists(path):
+            return FileResponse(open(path, 'rb'), content_type='text/html; charset=utf-8')
+    raise FileNotFoundError(filename)
+
+
+def _page_template(request, filename):
+    """Return a language-specific Django template name if one exists, else the default."""
+    lang = _get_lang(request)
+    base, ext = os.path.splitext(filename)
+    variant = f'{base}_{lang.lower()}{ext}'
+    if os.path.exists(os.path.join(PAGES_DIR, variant)):
+        return variant
+    return filename
 
 
 def _compute_captcha(seed):
@@ -67,17 +95,17 @@ def _client_ip(request):
 # ── 頁面路由 ─────────────────────────────────────────────────────────────────
 
 def index(request):
-    return _serve_page('index.html')
+    return _serve_page(request, 'index.html')
 
 
 def main_entry(request):
-    return _serve_page('mainEntry.html')
+    return _serve_page(request, 'mainEntry.html')
 
 
 def mem_login(request):
     if request.method == 'POST':
         return redirect('/memLogin.do?msg=maintenance')
-    return _serve_page('memLogin.html')
+    return _serve_page(request, 'memLogin.html')
 
 
 @csrf_exempt
@@ -141,7 +169,8 @@ def check_truth(request):
                 client_ip=_client_ip(request),
                 user_agent=request.META.get('HTTP_USER_AGENT', ''),
             )
-            return render(request, 'checkTruth.html', _check_truth_ctx(
+            tpl = _page_template(request, 'checkTruth.html')
+            return render(request, tpl, _check_truth_ctx(
                 checksum=code, is_qkit=True, fake_result=_build_fake_result(n),
             ))
         except AntiFakeCode.DoesNotExist:
@@ -151,10 +180,12 @@ def check_truth(request):
                 client_ip=_client_ip(request),
                 user_agent=request.META.get('HTTP_USER_AGENT', ''),
             )
-            return render(request, 'checkTruth.html', _check_truth_ctx(
+            tpl = _page_template(request, 'checkTruth.html')
+            return render(request, tpl, _check_truth_ctx(
                 checksum=code, is_qkit=False, fake_result='',
             ))
-    return render(request, 'checkTruth.html', _check_truth_ctx(
+    tpl = _page_template(request, 'checkTruth.html')
+    return render(request, tpl, _check_truth_ctx(
         checksum='', is_qkit=False, fake_result='',
     ))
 
@@ -162,18 +193,18 @@ def check_truth(request):
 def gen_detem_item_form(request):
     if request.method == 'POST':
         return redirect('/genDetemItemForm.do')
-    return _serve_page('genDetemItemForm.html')
+    return _serve_page(request, 'genDetemItemForm.html')
 
 
 def contact(request):
     if request.method == 'POST':
         _save_contact_ticket(request)
         return redirect('/contact.do')
-    return _serve_page('contact.html')
+    return _serve_page(request, 'contact.html')
 
 
 def questionnaire(request):
-    return _serve_page('Questionnaire.html')
+    return _serve_page(request, 'Questionnaire.html')
 
 
 def advanced_match(request):
@@ -245,14 +276,18 @@ def load_block_cont(request):
 @csrf_exempt
 @require_POST
 def front_lang_change(request):
+    lang = request.POST.get('langType', 'CHT').upper()
+    request.session['lang'] = lang
     return JsonResponse({'success': True})
 
 
 @csrf_exempt
 @require_POST
 def get_sys_msg_front(request):
+    lang = _get_lang(request)
     syscde = request.POST.get('syscde', '')
-    msg = SYS_MSG.get(syscde, syscde)
+    msgs = SYS_MSG.get(lang, SYS_MSG['CHT'])
+    msg = msgs.get(syscde, syscde)
     return JsonResponse({'returnMsg': 'success', 'msg': msg})
 
 

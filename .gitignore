@@ -25,5 +25,5 @@ __pycache__/
 *.pyc
 
 # Node
-project/node_modules/
+node_modules/
 .env

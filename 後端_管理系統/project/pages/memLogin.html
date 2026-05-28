@@ -168,17 +168,7 @@
 	$(function() {
 		$("#login").click(function() {
 			var $form = $("#dataForm");
-			var ok = true;
-			$form.find('input.required').each(function() {
-				if (!$(this).val().trim()) {
-					var label = $('label[for="' + $(this).attr('id') + '"]').text().trim();
-					alert(label + '不可空白');
-					$(this).focus();
-					ok = false;
-					return false;
-				}
-			});
-			if (!ok) return;
+			if (!valid()) return;
 			formSubmit($form, "loginCheck.do");
 		});
 

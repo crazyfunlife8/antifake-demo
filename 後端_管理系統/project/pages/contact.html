@@ -62,9 +62,9 @@
 				<div class="col-xs-12 pd-s text-center">
 					<div id="icon">
 						<span class="language">
-							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="選取語言">
-								<img src="/frontPages/images/icon/language.png" alt="language">
-							</button>
+							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="{{ t.nav_lang_select }}">
+							<img src="/frontPages/images/icon/language.png" alt="language">
+						</button>
 						</span>
 					</div>
 					<div class="mobile-toggle">
@@ -72,8 +72,8 @@
 					</div>
 					<nav id="menu">
 						<ul>
-							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> 查詢結果</a></li>
-							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們</a></li>
+							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> {{ t.nav_result }}</a></li>
+							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> {{ t.nav_contact }}</a></li>
 						</ul>
 					</nav>
 					<div class="clearfix"></div>
@@ -84,12 +84,12 @@
 	<div id="top">
 		<div id="menu-language" style="display: block;">
 			<div class="collapse" id="collapseExample">
-				<a class="close2" href="#" title="關閉語言" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
+				<a class="close2" href="#" title="{{ t.nav_lang_close }}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
 				</a>
 				<ul class="list-inline">
 					
 						<li class="langChange" title="CHT">
-							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="繁體中文">繁體中文</a>
+							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="{{ t.lang_cht }}">{{ t.lang_cht }}</a>
 						</li>
 					
 				</ul>
@@ -103,22 +103,22 @@
 	<div class="row">
 		<div class="col-lg-12 pd-tb-m">
 			<h5 class="h2 title-img">
-				<i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們
+				<i class="fa fa-envelope" aria-hidden="true"></i> {{ t.title_contact }}
 			</h5>
 		</div>
 		<div class="col-lg-12">
 			<div class="bg-white">
 				<form id="dataForm" class="form-pd pd-l"><input type="hidden" id="isMem" name="memCont.isMem" value="F">
 					<div class="form-group">
-						<label for="legalNm">姓名*</label> <input type="text" maxlength="40" class="form-control required" id="legalNm" name="idv.idvProf.legalNm" placeholder="請輸入姓名">
-						<div id="divLegalNm" style="display: none; font-size: 16px; color: red; margin-top: -15px;">*必填</div>
+						<label for="legalNm">{{ t.label_name }}</label> <input type="text" maxlength="40" class="form-control required" id="legalNm" name="idv.idvProf.legalNm" placeholder="{{ t.placeholder_name }}">
+						<div id="divLegalNm" style="display: none; font-size: 16px; color: red; margin-top: -15px;">{{ t.msg_required }}</div>
 					</div>
 					<div class="form-group" aria-labelledby="dropdownMenuButton">
-						<label for="countryCde">國際電話區號</label>
+						<label for="countryCde">{{ t.label_country_code }}</label>
 
 
 						<select class="form-control keyword" id="countryCde" name="idv.tlphnCtact.countryCde">
-							<option value="">請選擇國際電話區號</option>
+							<option value="">{{ t.placeholder_country_code }}</option>
 							
 								<option value="86">86(中國)</option>
 							
@@ -137,45 +137,45 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="tlphnNbr">手機號碼</label> <input type="text" maxlength="20" class="form-control" id="tlphnNbr" name="idv.tlphnCtact.tlphnNbr" onkeyup="value=value.replace(/[^\d]/g,'') " placeholder="請輸入手機號碼">
+						<label for="tlphnNbr">{{ t.label_phone }}</label> <input type="text" maxlength="20" class="form-control" id="tlphnNbr" name="idv.tlphnCtact.tlphnNbr" onkeyup="value=value.replace(/[^\d]/g,'') " placeholder="{{ t.placeholder_phone }}">
 					</div>
 					<div class="form-group">
-						<label for="emailAddr">電子信箱*</label> <input type="text" maxlength="100" class="form-control required" id="emailAddr" name="idv.emailCtact.emailAddr" placeholder="請輸入電子信箱">
-						<div id="divEmailAddr" style="display: none; font-size: 16px; color: red; margin-top: -15px;">*必填</div>
-						<div id="divEmailAddr2" style="display: none; font-size: 16px; color: red; margin-top: -15px;">電子信箱格式錯誤。</div>
+						<label for="emailAddr">{{ t.label_email }}</label> <input type="text" maxlength="100" class="form-control required" id="emailAddr" name="idv.emailCtact.emailAddr" placeholder="{{ t.placeholder_email }}">
+						<div id="divEmailAddr" style="display: none; font-size: 16px; color: red; margin-top: -15px;">{{ t.msg_required }}</div>
+						<div id="divEmailAddr2" style="display: none; font-size: 16px; color: red; margin-top: -15px;">{{ t.msg_email_error }}</div>
 					</div>
 					<div class="form-group">
-						<label for="gender">性別</label>
+						<label for="gender">{{ t.label_gender }}</label>
 
 
 						<select class="form-control" id="sex" name="idv.idvProf.sex">
-							<option value="">請選擇性別</option>
-							
-								<option value="F">女</option>
-							
-								<option value="M">男</option>
+							<option value="">{{ t.placeholder_gender }}</option>
+
+								<option value="F">{{ t.opt_female }}</option>
+
+								<option value="M">{{ t.opt_male }}</option>
 							
 						</select>
 					</div>
 					<div class="form-group" style="display: none">
 					</div>
 					<div class="form-group">
-						<label for="prodSeq">商品防偽碼</label> <input type="text" class="form-control" id="prodSeq" name="memCont.prodSeq" maxlength="50" onkeyup="value=value.replace(/[\W]/g,'')" onchange="getProdNm()" placeholder="請輸入商品防偽碼">
+						<label for="prodSeq">{{ t.label_product_code }}</label> <input type="text" class="form-control" id="prodSeq" name="memCont.prodSeq" maxlength="50" onkeyup="value=value.replace(/[\W]/g,'')" onchange="getProdNm()" placeholder="{{ t.placeholder_product_code }}">
 					</div>
 					<div class="form-group">
-						<label for="probTyp">問題類型</label>
+						<label for="probTyp">{{ t.label_issue_type }}</label>
 
 
 						<select class="form-control" id="probTyp" name="memCont.probTyp">
-							<option value="">請選擇問題類型</option>
-							
-								<option value="2">產品真偽問題</option>
-							
-								<option value="1">產品品質問題</option>
-							
-								<option value="4">產品使用問題</option>
-							
-								<option value="0">其他問題</option>
+							<option value="">{{ t.placeholder_issue_type }}</option>
+
+								<option value="2">{{ t.opt_issue_auth }}</option>
+
+								<option value="1">{{ t.opt_issue_quality }}</option>
+
+								<option value="4">{{ t.opt_issue_usage }}</option>
+
+								<option value="0">{{ t.opt_issue_other }}</option>
 							
 						</select>
 					</div>
@@ -199,36 +199,36 @@
 						<select class="form-control" id="level11" name="memCont.purCity"></select>
 					</div>
 					<div class="form-group">
-						<label for="storeTyp">商店分類</label>
+						<label for="storeTyp">{{ t.label_store_type }}</label>
 
 
 						<select class="form-control" id="storeTyp" name="memCont.storeTyp">
-							<option value="">請選擇商店類型</option>
-							
-								<option value="1">實體商店</option>
-							
-								<option value="2">網路商店</option>
+							<option value="">{{ t.placeholder_store_type }}</option>
+
+								<option value="1">{{ t.opt_store_physical }}</option>
+
+								<option value="2">{{ t.opt_store_online }}</option>
 							
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="labelFor">購買商店</label> <input type="text" maxlength="50" class="form-control" id="purStore" name="memCont.purStore" placeholder="請輸入購買商店名">
+						<label for="labelFor">{{ t.label_store_name }}</label> <input type="text" maxlength="50" class="form-control" id="purStore" name="memCont.purStore" placeholder="{{ t.placeholder_store_name }}">
 					</div>
 					<div class="form-group">
-						<label for="labelFor">購買日期</label> <input class="form-control datepicker" type="text" id="purDate" name="memCont.purDate" placeholder="請輸入購買日期" style="padding: 6px 12px;">
+						<label for="labelFor">{{ t.label_purchase_date }}</label> <input class="form-control datepicker" type="text" id="purDate" name="memCont.purDate" placeholder="{{ t.placeholder_purchase_date }}" style="padding: 6px 12px;">
 					</div>
 					
 					<div class="form-group">
-						<label for="labelFor">購買金額</label> <input type="text" class="form-control numberOrDouble" id="purPrice" name="purPrice" onkeyup="validateNumberPoint($(this),value)" placeholder="請輸入購買金額">
+						<label for="labelFor">{{ t.label_purchase_amount }}</label> <input type="text" class="form-control numberOrDouble" id="purPrice" name="purPrice" onkeyup="validateNumberPoint($(this),value)" placeholder="{{ t.placeholder_purchase_amount }}">
 					</div>
 					
 					
 					<div class="form-group">
-						<label for="labelFor">幣別</label>
+						<label for="labelFor">{{ t.label_currency }}</label>
 						<select class="form-control" id="purPriceCurrency" name="memCont.purPriceCurrency">
-							<option value="">請選擇幣別</option>
-							
-							<optgroup label="建議幣別">
+							<option value="">{{ t.placeholder_currency }}</option>
+
+							<optgroup label="{{ t.optgroup_recommended }}">
 
 								
 
@@ -237,7 +237,7 @@
 								
 							</optgroup>
 							
-							<optgroup label="常用幣別">
+							<optgroup label="{{ t.optgroup_common }}">
 
 								
 
@@ -253,7 +253,7 @@
 
 								
 							</optgroup>
-							<optgroup label="其他幣別">
+							<optgroup label="{{ t.optgroup_other }}">
 
 								
 
@@ -560,10 +560,10 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="probDesc">問題描述*</label>
-						
-						<textarea class="form-control required" maxlength="500" id="probDesc" name="memCont.probDesc" placeholder="請寫下產品系列名稱、規格或型號、有效日期及您遇到的問題。" style="height: 100px;"></textarea>
-						<div id="divProbDesc" style="display: none; font-size: 16px; color: red; margin-top: 0;">*必填</div>
+						<label for="probDesc">{{ t.label_description }}</label>
+
+						<textarea class="form-control required" maxlength="500" id="probDesc" name="memCont.probDesc" placeholder="{{ t.placeholder_description }}" style="height: 100px;"></textarea>
+						<div id="divProbDesc" style="display: none; font-size: 16px; color: red; margin-top: 0;">{{ t.msg_required }}</div>
 					</div>
 					<div class="form-group file">
 						<label for="labelFor"></label>
@@ -579,14 +579,14 @@
 						<input type="hidden" id="file" name="file">
 					</div>
 					<div class="form-group">						
-						<style type="text/css">.featherlight .featherlight-close{display: block;}.featherlight p{font-size:12px;}</style><div><strong><span style="font-size:16px;">我已同意並詳細閱讀<a data-featherlight="#cnt" data-featherlight-variant="fixwidth"><i>個資說明 </i></a>*</span></strong></div><div><label for="agreeTerm"><input class="AgreeToTerms" id="agreeTerm" name="memCont.agreeToTerms" type="radio" value="1"><span style="font-size:16px;">是</span></label></div><div class="lightbox" id="cnt">依據個人資料保護法等相關規定，請詳閱以下告知事項<br>1. 蒐集個人資料單位：防偽系統供應商擎雷防偽科技股份有限公司及其指定之執行單位。<br>2. 蒐集之目的：提供包含但不限於產品真偽、產品使用、系統使用等相關問題處理及回覆。<br>3. 個人資料之類別：詢問產品真偽、產品使用、系統使用等相關問題時所提供之個人資料。<br>4. 個人資料利用之期間：本公司將於營運期間保存您的個人資料。<br>5. 個人資料利用之地區：本公司營運範圍之區域。<br>6. 個人資料利用之對象及方式：由本公司或指定執行單位依通常作業所必要之方式利用此個人資料。我們會依法保障您的資料不會被不當的取得，並要求該等受委託機構亦應恪遵法律規定。<br>7. 依個人資料保護法第三條規定得行使之權利及方式：您得向本公司依個人資料保護法第三條規定行使權利，若需申請查詢、閱覽、製給複製本時，將酌收必要成本費用。<br>8. 修訂之權利：本告知事項將因應法規隨時進行修訂，恕不另行通知。<br>&nbsp;<br>若點選「是」代表您同意上述1~8點並清楚瞭解本公司蒐集、處理或利用個人資料之目的及用途。</div>
-						<div id="divAgreeTerm" style="display: none; font-size: 16px; color: red; margin-top: -15px;">*必填</div>
+						<style type="text/css">.featherlight .featherlight-close{display: block;}.featherlight p{font-size:12px;}</style><div><strong><span style="font-size:16px;">{{ t.label_privacy_agree }}<a data-featherlight="#cnt" data-featherlight-variant="fixwidth"><i>{{ t.label_privacy_link }} </i></a>*</span></strong></div><div><label for="agreeTerm"><input class="AgreeToTerms" id="agreeTerm" name="memCont.agreeToTerms" type="radio" value="1"><span style="font-size:16px;">{{ t.opt_yes }}</span></label></div><div class="lightbox" id="cnt">依據個人資料保護法等相關規定，請詳閱以下告知事項<br>1. 蒐集個人資料單位：防偽系統供應商擎雷防偽科技股份有限公司及其指定之執行單位。<br>2. 蒐集之目的：提供包含但不限於產品真偽、產品使用、系統使用等相關問題處理及回覆。<br>3. 個人資料之類別：詢問產品真偽、產品使用、系統使用等相關問題時所提供之個人資料。<br>4. 個人資料利用之期間：本公司將於營運期間保存您的個人資料。<br>5. 個人資料利用之地區：本公司營運範圍之區域。<br>6. 個人資料利用之對象及方式：由本公司或指定執行單位依通常作業所必要之方式利用此個人資料。我們會依法保障您的資料不會被不當的取得，並要求該等受委託機構亦應恪遵法律規定。<br>7. 依個人資料保護法第三條規定得行使之權利及方式：您得向本公司依個人資料保護法第三條規定行使權利，若需申請查詢、閱覽、製給複製本時，將酌收必要成本費用。<br>8. 修訂之權利：本告知事項將因應法規隨時進行修訂，恕不另行通知。<br>&nbsp;<br>若點選「是」代表您同意上述1~8點並清楚瞭解本公司蒐集、處理或利用個人資料之目的及用途。</div>
+						<div id="divAgreeTerm" style="display: none; font-size: 16px; color: red; margin-top: -15px;">{{ t.msg_required }}</div>
 					</div>
 					<div class="form-group">
-						<label for="validCode" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">驗證碼 *</label>
+						<label for="validCode" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ t.label_captcha_contact }}</label>
 						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
-							<input type="text" maxlength="4" class="form-control required" id="validCode" name="validCode" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="請輸入驗證碼">
-							<div id="divValidCode" style="display: none; font-size: 16px; color: red; margin-top: -15px;">*必填</div>
+							<input type="text" maxlength="4" class="form-control required" id="validCode" name="validCode" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="{{ t.placeholder_captcha }}">
+							<div id="divValidCode" style="display: none; font-size: 16px; color: red; margin-top: -15px;">{{ t.msg_required }}</div>
 						</div>
 						<div class="verify">
 							<img id="validImg" style="cursor: pointer;width:120px;" class="reValid" src="generic/genValidCode.do?code=9">
@@ -594,7 +594,7 @@
 					</div>
 					<div class="clearfix clearfixH-m"></div>
 					<div class="text-center">
-						<a href="#" class="btn btn-primary btn-wdh" onclick="submitForm()">送出</a>
+						<a href="#" class="btn btn-primary btn-wdh" onclick="submitForm()">{{ t.btn_submit }}</a>
 					</div>
 				</form>
 			</div>
@@ -784,10 +784,10 @@
 
         if(!legalNm || !emailAddr || !isValidEmail(emailAddr) || !probDesc || !validCode){
 
-            var msg = "仍有必填欄位未填，請檢查填寫內容。";
-			
+            var msg = "{{ t.js_required_fields }}";
+
             if(legalNm && emailAddr && probDesc && validCode){
-            	msg = "電子信箱格式錯誤，請檢查後再送出。";
+            	msg = "{{ t.js_email_format_error }}";
             }
             $.featherlight("<div class='lightbox'>" +msg +"</div>", {variant : "fixwidth"});
             
@@ -844,7 +844,7 @@
 
     	if($("#agreeTerm").length!=0) {
     		if(!$("#agreeTerm").prop("checked")){
-    			var msg = "仍有必填欄位未填，請檢查填寫內容。";
+    			var msg = "{{ t.js_required_fields }}";
     			$.featherlight("<div class='lightbox'>" +msg +"</div>", 
     				{
     					variant : "fixwidth",
@@ -884,16 +884,16 @@
 
 	</div>
 
-	<div class="col-xs-12 pd-s text-center" id="footer-frontend"><span class="footer-content">版權所有 COPYRIGHT 2016-2026&nbsp;T-SECURITY INC. ALL RIGHTS RESERVED.｜POWERED BY AMAZON WEB SERVICES.</span></div>
+	<div class="col-xs-12 pd-s text-center" id="footer-frontend"><span class="footer-content">{{ t.footer_copy|safe }}</span></div>
 
 	<div class="theme-popover-mask"></div>
 	<div class="theme-popover-mask"></div>
-	<a href="#" title="頁面往上" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
+	<a href="#" title="{{ t.scroll_top }}" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
 
 
 <script type="text/javascript" src="/frontPages/js/scrollTo.min.js?v=1"></script>
 <script type="text/javascript">
-	var commonSelectFile = "選擇檔案";
+	var commonSelectFile = "{{ t.js_select_file }}";
 </script>
 <script type="text/javascript" src="/frontPages/js/bootstrap.min.js?v=2"></script>
 <script type="text/javascript" src="/frontPages/js/bootstrap-filestyle.min.js?v=1"></script>
@@ -908,7 +908,7 @@
 <script type="text/javascript" src="/frontPages/js/jquery-confirm.min.js?v=1"></script>
 <script type="text/javascript">
 	var contextPath = "";
-	var alertMsgNotEmptyId = "不可空白";
+	var alertMsgNotEmptyId = "{{ t.js_not_empty }}";
 
 	$(function () {
 

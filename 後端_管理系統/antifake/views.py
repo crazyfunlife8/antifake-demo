@@ -8,7 +8,7 @@ import base64
 import json as json_lib
 from PIL import Image, ImageDraw, ImageFont
 from django.conf import settings
-from django.http import JsonResponse, HttpResponse, FileResponse
+from django.http import JsonResponse, HttpResponse, FileResponse  # FileResponse still used by get_img
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST, require_GET
 from django.utils import timezone
@@ -16,26 +16,13 @@ from django.shortcuts import redirect, render
 
 from .models import AntiFakeCode, VerificationLog, UploadedFile, \
     ContactTicket, SupplementReport, QuestionnaireResponse, SystemConfig
+from .translations import TRANS
 
 # ── 工具 ────────────────────────────────────────────────────────────────────
 
 PAGES_DIR = os.path.join(settings.BASE_DIR, 'project', 'pages')
 UPLOAD_DIR = os.path.join(settings.BASE_DIR, 'project', 'uploads')
 os.makedirs(UPLOAD_DIR, exist_ok=True)
-
-SYS_MSG = {
-    'CHT': {
-        'GEO_LOCATION_PERMISSION': '稍後將進行地理位置授權。',
-        'QKIT_ERR_MSG_001': '系統發生異常，請稍後再試。',
-        'BIG_FILE_SIZE': '檔案大小不可超過 {0} KB。',
-        'RESTRICT_IMG': '請上傳圖片格式的檔案。',
-        'FILE_SIZE_LIMIT': '10000',
-        'FORBIDDEN_FILE': '不允許此類型的檔案。',
-        'CTACT_ADD_ERR_MSG_001': '聯絡表單送出失敗，請稍後再試。',
-    },
-    # 新增語系時在此加入對應 key，例如：
-    # 'ENG': { 'GEO_LOCATION_PERMISSION': 'Location permission will be requested.', ... },
-}
 
 
 def _alert_back(msg):
@@ -50,29 +37,14 @@ def _get_lang(request):
     return request.session.get('lang', 'CHT').upper()
 
 
-def _serve_page(request, filename):
-    """Serve a page file, preferring a language-specific variant if it exists.
-
-    Lookup order: {base}_{lang}.{ext}  →  {base}.{ext}
-    e.g. for lang=ENG: mainEntry_eng.html → mainEntry.html
-    """
+def _render_page(request, filename, extra_ctx=None):
     lang = _get_lang(request)
-    base, ext = os.path.splitext(filename)
-    for name in [f'{base}_{lang.lower()}{ext}', filename]:
-        path = os.path.abspath(os.path.join(PAGES_DIR, name))
-        if os.path.exists(path):
-            return FileResponse(open(path, 'rb'), content_type='text/html; charset=utf-8')
-    raise FileNotFoundError(filename)
-
-
-def _page_template(request, filename):
-    """Return a language-specific Django template name if one exists, else the default."""
-    lang = _get_lang(request)
+    t = TRANS.get(lang, TRANS['CHT'])
     base, ext = os.path.splitext(filename)
     variant = f'{base}_{lang.lower()}{ext}'
-    if os.path.exists(os.path.join(PAGES_DIR, variant)):
-        return variant
-    return filename
+    tpl = variant if os.path.exists(os.path.join(PAGES_DIR, variant)) else filename
+    ctx = {'t': t, 'lang': lang, **(extra_ctx or {})}
+    return render(request, tpl, ctx)
 
 
 def _compute_captcha(seed):
@@ -95,17 +67,17 @@ def _client_ip(request):
 # ── 頁面路由 ─────────────────────────────────────────────────────────────────
 
 def index(request):
-    return _serve_page(request, 'index.html')
+    return _render_page(request, 'index.html')
 
 
 def main_entry(request):
-    return _serve_page(request, 'mainEntry.html')
+    return _render_page(request, 'mainEntry.html')
 
 
 def mem_login(request):
     if request.method == 'POST':
         return redirect('/memLogin.do?msg=maintenance')
-    return _serve_page(request, 'memLogin.html')
+    return _render_page(request, 'memLogin.html')
 
 
 @csrf_exempt
@@ -123,32 +95,19 @@ def mem_forgot(request):
     return JsonResponse({'data': None})
 
 
-def _build_fake_result(n):
+def _build_fake_result(n, lang='CHT'):
     threshold = int(SystemConfig.get('VERIFY_WARN_THRESHOLD', '2'))
     phone = SystemConfig.get('SERVICE_PHONE', '0800-004-088')
+    t = TRANS.get(lang, TRANS['CHT'])
     if n >= threshold:
-        return (
-            f'<p>本產品被拆封驗證第<span style="color:#FF0000;">{n}</span>次，<br>'
-            f'<span style="color:#FF0000;">如次數顯示大於1，即為有疑慮的探頭，'
-            f'為避免使用到假貨</span>，請儘速與原廠聯絡'
-            f'<a href="tel:{phone.replace("-", "")}">{phone}</a></p>'
-            f'<p>為保障您的權益，請按&quot;下一步&quot; 進行驗證。</p>'
-        )
-    return (
-        f'<p>本產品被拆封驗證第<span style="color:#FF0000;">{n}</span>次</p>'
-        f'<p>感謝您的使用，本產品為原廠正貨。</p>'
-    )
-
-
-def _check_truth_ctx(**kwargs):
-    return {
-        'block_content_7': SystemConfig.get('BLOCK_CONTENT_7', ''),
-        **kwargs,
-    }
+        return t['fake_result_warn'].format(n=n, phone=phone, phone_no=phone.replace('-', ''))
+    return t['fake_result_ok'].format(n=n)
 
 
 @csrf_exempt
 def check_truth(request):
+    lang = _get_lang(request)
+    block_content_7 = SystemConfig.get('BLOCK_CONTENT_7', '')
     if request.method == 'POST':
         code = request.POST.get('authCodeCde', '').strip()
         valid_code_input = request.POST.get('validCode', '').strip()
@@ -169,10 +128,11 @@ def check_truth(request):
                 client_ip=_client_ip(request),
                 user_agent=request.META.get('HTTP_USER_AGENT', ''),
             )
-            tpl = _page_template(request, 'checkTruth.html')
-            return render(request, tpl, _check_truth_ctx(
-                checksum=code, is_qkit=True, fake_result=_build_fake_result(n),
-            ))
+            return _render_page(request, 'checkTruth.html', {
+                'checksum': code, 'is_qkit': True,
+                'fake_result': _build_fake_result(n, lang),
+                'block_content_7': block_content_7,
+            })
         except AntiFakeCode.DoesNotExist:
             VerificationLog.objects.create(
                 code=None,
@@ -180,31 +140,33 @@ def check_truth(request):
                 client_ip=_client_ip(request),
                 user_agent=request.META.get('HTTP_USER_AGENT', ''),
             )
-            tpl = _page_template(request, 'checkTruth.html')
-            return render(request, tpl, _check_truth_ctx(
-                checksum=code, is_qkit=False, fake_result='',
-            ))
-    tpl = _page_template(request, 'checkTruth.html')
-    return render(request, tpl, _check_truth_ctx(
-        checksum='', is_qkit=False, fake_result='',
-    ))
+            return _render_page(request, 'checkTruth.html', {
+                'checksum': code, 'is_qkit': False,
+                'fake_result': '',
+                'block_content_7': block_content_7,
+            })
+    return _render_page(request, 'checkTruth.html', {
+        'checksum': '', 'is_qkit': False,
+        'fake_result': '',
+        'block_content_7': block_content_7,
+    })
 
 
 def gen_detem_item_form(request):
     if request.method == 'POST':
         return redirect('/genDetemItemForm.do')
-    return _serve_page(request, 'genDetemItemForm.html')
+    return _render_page(request, 'genDetemItemForm.html')
 
 
 def contact(request):
     if request.method == 'POST':
         _save_contact_ticket(request)
         return redirect('/contact.do')
-    return _serve_page(request, 'contact.html')
+    return _render_page(request, 'contact.html')
 
 
 def questionnaire(request):
-    return _serve_page(request, 'Questionnaire.html')
+    return _render_page(request, 'Questionnaire.html')
 
 
 def advanced_match(request):
@@ -221,12 +183,13 @@ def logout_check(request):
 @require_POST
 def call_qkit(request):
     checksum = request.POST.get('checksum', '').strip()
+    lang = _get_lang(request)
 
     try:
         code_obj = AntiFakeCode.objects.get(code=checksum, is_active=True, deleted_at__isnull=True)
         return JsonResponse({
             'isSystemMatch': 'false',
-            'data': {'fakeResult': _build_fake_result(code_obj.verify_count), 'fakeJudgeImg': ''},
+            'data': {'fakeResult': _build_fake_result(code_obj.verify_count, lang), 'fakeJudgeImg': ''},
             'isQuest': '0',
         })
     except AntiFakeCode.DoesNotExist:
@@ -286,8 +249,8 @@ def front_lang_change(request):
 def get_sys_msg_front(request):
     lang = _get_lang(request)
     syscde = request.POST.get('syscde', '')
-    msgs = SYS_MSG.get(lang, SYS_MSG['CHT'])
-    msg = msgs.get(syscde, syscde)
+    t = TRANS.get(lang, TRANS['CHT'])
+    msg = t['sys'].get(syscde, syscde)
     return JsonResponse({'returnMsg': 'success', 'msg': msg})
 
 

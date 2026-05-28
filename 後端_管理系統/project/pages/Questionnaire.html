@@ -60,9 +60,9 @@
 			<div class="row">
 				<div class="col-xs-12 pd-s text-center">
 					<div id="icon">
-						<a href="/memLogin.do" title="會員登入"><span class="glyphicon glyphicon-user"></span></a>
+						<a href="/memLogin.do" title="{{ t.nav_login }}"><span class="glyphicon glyphicon-user"></span></a>
 						<span class="language">
-							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="選取語言">
+							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="{{ t.nav_lang_select }}">
 								<img src="/frontPages/images/icon/language.png" alt="language">
 							</button>
 						</span>
@@ -72,8 +72,8 @@
 					</div>
 					<nav id="menu">
 						<ul>
-							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> 查詢結果</a></li>
-							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們</a></li>
+							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> {{ t.nav_result }}</a></li>
+							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> {{ t.nav_contact }}</a></li>
 						</ul>
 					</nav>
 					<div class="clearfix"></div>
@@ -85,12 +85,12 @@
 	<div id="top">
 		<div id="menu-language" style="display: block;">
 			<div class="collapse" id="collapseExample">
-				<a class="close2" href="#" title="關閉語言" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+				<a class="close2" href="#" title="{{ t.nav_lang_close }}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 					<img src="/frontPages/images/close.png" alt="close">
 				</a>
 				<ul class="list-inline">
 					<li class="langChange" title="CHT">
-						<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="繁體中文">繁體中文</a>
+						<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="{{ t.lang_cht }}">{{ t.lang_cht }}</a>
 					</li>
 				</ul>
 			</div>
@@ -136,7 +136,7 @@
 
 			<script type="text/javascript">
 				var multiSelectJSON = '';
-				var langType = 'CHT';
+				var langType = '{{ lang }}';
 
 				$(function() {
 					$.ajax({
@@ -236,8 +236,8 @@
 								}
 
 								if (ansMold == "11") {
-									var $label = $("<label for='input-folder-1' class='sr-only'>").html("檔案上傳");
-									var $input = $("<input type='file' accept='image/*' capture='environment' class='filestyle' data-placeholder='未選擇任何檔案' onchange='fileUpload(this," + idx + ")'><input type='hidden' name='questObjectList[" + idx + "].answer'>");
+									var $label = $("<label for='input-folder-1' class='sr-only'>").html("{{ t.label_file_upload }}");
+									var $input = $("<input type='file' accept='image/*' capture='environment' class='filestyle' data-placeholder='{{ t.placeholder_no_file }}' onchange='fileUpload(this," + idx + ")'><input type='hidden' name='questObjectList[" + idx + "].answer'>");
 									var $div = $("<div class='form-group file'>").append($label).append($input);
 									$(tmp).find('.quesAnsOption').append($div);
 								}
@@ -348,7 +348,7 @@
 					$(".quesAnsOption").not(":first").each(function(idx, item) {
 						var ele = $("input[name='questObjectList[" + idx + "].answer']");
 						if ($(item).hasClass('ansQuzIsMust') && ele.val() == "") {
-							alertMsgFront("尚未回答或選擇答案");
+							alertMsgFront("{{ t.msg_no_answer }}");
 							check = false;
 							item.scrollIntoView({ block: "center" });
 							return false;
@@ -373,15 +373,15 @@
 	</div>
 
 	<div class="col-xs-12 pd-s text-center" id="footer-frontend">
-		<span class="footer-content">版權所有 COPYRIGHT 2016-2026&nbsp;T-SECURITY INC. ALL RIGHTS RESERVED.｜POWERED BY AMAZON WEB SERVICES.</span>
+		<span class="footer-content">{{ t.footer_copy|safe }}</span>
 	</div>
 
 	<div class="theme-popover-mask"></div>
 	<div class="theme-popover-mask"></div>
-	<a href="#" title="頁面往上" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
+	<a href="#" title="{{ t.scroll_top }}" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
 
 	<script type="text/javascript" src="/frontPages/js/scrollTo.min.js?v=1"></script>
-	<script type="text/javascript">var commonSelectFile = "選擇檔案";</script>
+	<script type="text/javascript">var commonSelectFile = "{{ t.js_select_file }}";</script>
 	<script type="text/javascript" src="/frontPages/js/bootstrap.min.js?v=2"></script>
 	<script type="text/javascript" src="/frontPages/js/bootstrap-filestyle.min.js?v=1"></script>
 	<script type="text/javascript" src="/frontPages/js/featherlight.min.js?v=1"></script>
@@ -395,7 +395,7 @@
 	<script type="text/javascript" src="/frontPages/js/jquery-confirm.min.js?v=1"></script>
 	<script type="text/javascript">
 		var contextPath = "";
-		var alertMsgNotEmptyId = "不可空白";
+		var alertMsgNotEmptyId = "{{ t.js_not_empty }}";
 		$(function() {
 			$(window).resize(function() {
 				if (screen.availHeight > document.body.scrollHeight) {

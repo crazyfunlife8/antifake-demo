@@ -59,9 +59,9 @@
 			<div class="row">
 				<div class="col-xs-12 pd-s text-center">
 					<div id="icon">
-						<a href="/memLogin.do" title="會員登入"><span class="glyphicon glyphicon-user"></span></a>
+						<a href="/memLogin.do" title="{{ t.nav_login }}"><span class="glyphicon glyphicon-user"></span></a>
 						<span class="language">
-							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="選取語言">
+							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="{{ t.nav_lang_select }}">
 								<img src="/frontPages/images/icon/language.png" alt="language">
 							</button>
 						</span>
@@ -71,9 +71,9 @@
 					</div>
 					<nav id="menu">
 						<ul>
-							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> 查詢結果</a></li>
-							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們</a></li>
-							<li><a href="/memLogin.do"><span class="fa fa-power-off"></span> 會員登入</a></li>
+							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> {{ t.nav_result }}</a></li>
+							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> {{ t.nav_contact }}</a></li>
+							<li><a href="/memLogin.do"><span class="fa fa-power-off"></span> {{ t.nav_login }}</a></li>
 						</ul>
 					</nav>
 					<div class="clearfix"></div>
@@ -84,12 +84,12 @@
 	<div id="top">
 		<div id="menu-language" style="display: block;">
 			<div class="collapse" id="collapseExample">
-				<a class="close2" href="#" title="關閉語言" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
+				<a class="close2" href="#" title="{{ t.nav_lang_close }}" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
 				</a>
 				<ul class="list-inline">
 					
 						<li class="langChange" title="CHT">
-							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="繁體中文">繁體中文</a>
+							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="{{ t.lang_cht }}">{{ t.lang_cht }}</a>
 						</li>
 					
 				</ul>
@@ -104,20 +104,20 @@
 	<div class="row">
 		<div class="col-lg-12 pd-tb-m">
 			<h5 class="h2 title-img">
-				<i class="fa fa-search" aria-hidden="true"></i> 真偽查詢
+				<i class="fa fa-search" aria-hidden="true"></i> {{ t.title_check }}
 			</h5>
 		</div>
 		<div class="col-lg-12">
 			<div class="bg-white">
 				<form class="form-horizontal pd-l" id="dataForm">
 					<div class="form-group">
-						<label for="authCodeCde" class="col-lg-2 col-md-2 col-sm-3 col-xs-12 control-label">商品防偽碼</label>
+						<label for="authCodeCde" class="col-lg-2 col-md-2 col-sm-3 col-xs-12 control-label">{{ t.label_code }}</label>
 						<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
 							<input type="text" class="form-control required" id="authCodeCde" name="authCodeCde" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="validCode" class="col-lg-2 col-md-2 col-sm-3 col-xs-12 control-label">驗證碼</label>
+						<label for="validCode" class="col-lg-2 col-md-2 col-sm-3 col-xs-12 control-label">{{ t.label_captcha }}</label>
 						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 							<input type="text" class="form-control required" id="validCode" name="validCode" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="4">
 						</div>
@@ -128,7 +128,7 @@
 					<div class="clearfix clearfixH-m"></div>
 					<div class="form-group">
 						<div class="col-sm-12 text-center">
-							<a class="btn btn-primary btn-wdh" onclick="submitForm()">查詢</a>
+							<a class="btn btn-primary btn-wdh" onclick="submitForm()">{{ t.btn_query }}</a>
 						</div>
 					</div>
 				</form>
@@ -168,16 +168,16 @@
 
 	</div>
 
-	<div class="col-xs-12 pd-s text-center" id="footer-frontend" style="top: 687px;"><span class="footer-content">版權所有 COPYRIGHT 2016-2026&nbsp;T-SECURITY INC. ALL RIGHTS RESERVED.｜POWERED BY AMAZON WEB SERVICES.</span></div>
+	<div class="col-xs-12 pd-s text-center" id="footer-frontend" style="top: 687px;"><span class="footer-content">{{ t.footer_copy|safe }}</span></div>
 
 	<div class="theme-popover-mask"></div>
 	<div class="theme-popover-mask"></div>
-	<a href="#" title="頁面往上" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
+	<a href="#" title="{{ t.scroll_top }}" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
 
 
 <script type="text/javascript" src="/frontPages/js/scrollTo.min.js?v=1"></script>
 <script type="text/javascript">
-	var commonSelectFile = "選擇檔案";
+	var commonSelectFile = "{{ t.js_select_file }}";
 </script>
 <script type="text/javascript" src="/frontPages/js/bootstrap.min.js?v=2"></script>
 <script type="text/javascript" src="/frontPages/js/bootstrap-filestyle.min.js?v=1"></script>
@@ -192,7 +192,7 @@
 <script type="text/javascript" src="/frontPages/js/jquery-confirm.min.js?v=1"></script>
 <script type="text/javascript">
 	var contextPath = "";
-	var alertMsgNotEmptyId = " 不可空白";
+	var alertMsgNotEmptyId = " {{ t.js_not_empty }}";
 
 	$(function () {
 

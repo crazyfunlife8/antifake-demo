@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-confirm.min.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- About Favorite Icon -->
+	<link rel="icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="icon" sizes="192x192" href="/resources/assets/img/android-chrome-192x192.png">
+	<link rel="shortcut icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="apple-touch-icon" sizes="57x57" href="/resources/assets/img/apple-touch-icon-57x57.png"> 
+	<link rel="apple-touch-icon" sizes="72x72" href="/resources/assets/img/apple-touch-icon-72x72.png"> 
+	<link rel="apple-touch-icon" sizes="114x114" href="/resources/assets/img/apple-touch-icon-114x114.png"> 
+	<link rel="apple-touch-icon" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120.png"> 
+	<link rel="apple-touch-icon" sizes="144x144" href="/resources/assets/img/apple-touch-icon-144x144.png"> 
+	<link rel="apple-touch-icon" sizes="180x180" href="/resources/assets/img/apple-touch-icon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/resources/assets/img/apple-touch-icon-76x76-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/resources/assets/img/apple-touch-icon-152x152-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="167x167" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="manifest" href="/resources/assets/img/site.webmanifest">
+	<link rel="mask-icon" href="/resources/assets/img/safari-pinned-tab.svg">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+	<!-- About Favorite Icon -->
+	<title>防偽驗證</title>
+	<!-- InstanceEndEditable -->
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/style.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/menu.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/window.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/keyword/keyword.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-ui.min.css?v=1.13.2">
+	<script type="text/javascript" src="/resources/js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery-migrate-3.3.2.min.js"></script>
+	<script type="text/javascript" src="/resources/js/bootstrap-select.min.js?v=1"></script>
+	<script type="text/javascript" src="/resources/js/utils.min.js?v=1"></script>
+	<script type="text/javascript" src="/frontPages/js/common.min.js?v=3"></script>
+	<script type="text/javascript" src="/resources/js/multiSelect.js?v=1"></script>
+	<script type="text/javascript">
+		$( function() {
+			$(".langChange").click(function() {
+				doAjax("generic/frontLangChange.do", {
+					langType: $(this).prop("title")
+				}, function (json, status) {
+					location.reload();
+				});
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div id="loading" style="display: none;"></div>
+	<header class="main_h">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 pd-s text-center">
+					<div id="icon">
+						<a href="/memLogin.do" title="會員登入"><span class="glyphicon glyphicon-user"></span></a>
+						<span class="language">
+							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="選取語言">
+								<img src="/frontPages/images/icon/language.png" alt="language">
+							</button>
+						</span>
+					</div>
+					<div class="mobile-toggle">
+						<span></span> <span></span> <span></span>
+					</div>
+					<nav id="menu">
+						<ul>
+							<!-- <li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> 查詢結果</a></li>
+							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們</a></li> -->
+						</ul>
+					</nav>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="top">
+		<div id="menu-language" style="display: block;">
+			<div class="collapse" id="collapseExample">
+				<a class="close2" href="#" title="關閉語言" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
+				</a>
+				<ul class="list-inline">
+					
+						<li class="langChange" title="CHT">
+							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="繁體中文">繁體中文</a>
+						</li>
+				</ul>
+			</div>
+		</div>
+<div class="container">
+	<div class="row bg-white">
+		<div class="col-lg-12 pd-xl">
+			<form id="dataForm">
+				
+ 
+  <link rel="stylesheet" type="text/css" href="/frontPages/css/widget.css"> 
+  <link rel="stylesheet" type="text/css" href="/resources/assets/font-awesome/css/font-awesome.css"> 
+ 
+ 
+  <div class="rowTemp"> 
+   <div id="message" class="lightbox"> 
+    <p><span style="font-size:16px;">請重新查詢正確的防偽碼，或<a href="/contact.do">與我們聯繫</a>。</span></p> 
+   </div> 
+   <div class="pd-tb-m"> 
+    <h5 class="h2 title-img"></h5> 
+   </div> 
+   <input type="hidden" name="formId" value="135"> 
+   <div class="border"> 
+    <div class="box pd-xl"> 
+     <div> 
+      <div> 
+       <input type="hidden" name="submissionValues[0].fieldName" value="標籤照上傳2-上傳"> 
+       <input type="hidden" name="submissionValues[0].formId" value="135"> 
+       <div class="form-group"> 
+        <span style="color: red">*</span> 
+        <label for="submissionValues[0].fieldValue"><span style="color: black">請您拍照上傳產品包裝圖檔（含防偽標籤），提供我們更多資訊。</span></label> 
+        <input type="file" class="filestyle" accept="image/*" name="file_0" id="filestyle-0" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
+			<!-- <div class="bootstrap-filestyle input-group">
+				<input type="text" class="form-control " placeholder="" disabled=""> 
+				<span class="group-span-filestyle input-group-btn" tabindex="0">
+					<label for="filestyle-0" class="btn btn-default ">
+						<span class="buttonText">選擇檔案</span>
+					</label>
+				</span>
+			</div>  -->
+        <input type="hidden" id="submissionValues[0].fieldValue" class="required" name="submissionValues[0].fieldValue"> 
+       </div> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+   <div class="border"> 
+    <div class="box pd-xl"> 
+     <div> 
+      <div> 
+       <input type="hidden" name="submissionValues[1].fieldName" value="聯絡資訊1-填空"> 
+       <input type="hidden" name="submissionValues[1].formId" value="135"> 
+       <div class="form-group"> 
+        <label for="submissionValues[1].fieldValue"><span style="color: black">請留下您的姓名及電話(範例：王小明/09XXXXXXXX)</span></label> 
+        <input type="text" maxlength="100" class="form-control keyword" onkeyup="value=value.replace('','') " id="submissionValues[1].fieldValue" name="submissionValues[1].fieldValue"> 
+       </div> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  <script type="text/javascript">
+$(function() {
+	jQuery('.widget .widget-title').click(function () {
+		var el = jQuery(this).parents(".widget").children(".widget-body");
+        var icon = jQuery(this).parents(".widget").find(".tools a");
+		if (icon.hasClass("icon-chevron-up")) {
+			icon.removeClass("icon-chevron-up").addClass("icon-chevron-down");
+			el.slideUp(200);
+		} else {
+			icon.removeClass("icon-chevron-down").addClass("icon-chevron-up");
+			el.slideDown(200);
+		}
+	});
+})
+</script>
+ 
+
+				<div class="text-center">
+					<a href="javascript:;" id="submit" class="btn btn-primary btn-wdh" onclick="">送出</a>
+				</div>
+			</form>
+		</div>
+
+
+	</div>
+
+	<!-- InstanceEndEditable -->
+</div>
+
+<script type="text/javascript">
+
+$(function () {
+	
+	$("#submit").click(function () {
+		if(!$("#dataForm").valid()){
+			return;
+		}
+		var formData = getFormData($("#dataForm"));
+		doAjax("/saveFormFields.do", formData, function (json) {
+			if(json.status){
+				if($('#message').text().trim() != ''){
+					$.featherlight("#message", {variant : "fixwidth",closeOnClick: false,closeOnEsc: false,beforeOpen:function(){
+						this.$instance.find(".featherlight-close").remove();
+					}});
+				} else{
+					window.location.href = "/mainEntry.do";
+					return;
+				}
+				
+			} else{
+				alertMsgFront("QKIT_ERR_MSG_001");
+				setTimeout(function(){ 
+					window.location.href = "/mainEntry.do"; }, 2000);
+			}
+			
+			
+		});
+		
+		
+	});
+	
+	$("input[type=file]").change(function() {
+		var idx = this.name.split('_')[1];
+		uploadImg($(this), function(fileNo) {
+			document.getElementById('submissionValues['+idx+'].fieldValue').value = fileNo;
+		});
+	});
+
+	$("input[type=radio]").change(function() {
+		var idx = this.name.split('_')[1];
+		document.getElementById('submissionValues['+idx+'].fieldValue').value = this.value;
+	});
+
+	function uploadImg($file, successFunction) {
+		var filesize = $file[0].files[0].size;
+		var fileType = $file[0].files[0].type;
+		var patt = /image/i;
+		console.log($file);
+		if (filesize > 10000000) {
+			alertMsgFront("BIG_FILE_SIZE", 10000, "", "");
+			$file[0].value = "";
+			return;
+		}
+		else if (!patt.test(fileType)) {
+			$file[0].value = "";
+			alertMsgFront("RESTRICT_IMG");
+			return;
+		}
+
+		var formData = new FormData();
+		var base64Result;
+		$.each($file[0].files, function (i, file) {
+			var reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onloadend = function (e) {
+				var dataUrl = reader.result; // base64 string
+				base64Result = JSON.stringify(dataUrl.substr(dataUrl.indexOf("base64") + 7));
+				formData.append('uploadBase64Img', base64Result);
+				formData.append('uploadFileName', file.name);
+				$.ajaxSettings.traditional = true;
+				$.ajaxSettings.cache = false;
+				$.ajax({
+					url: "/generic/uploadImg.do",
+					data: formData,
+					type: "post",
+					dataType: "json",
+					async: true,
+					contentType: false,
+					processData: false,
+					beforeSend: function () {
+						var progressBar = '<div id="bar" class="container" style="top: 80%;position: relative;"><div class="progress" style="height: 15px;">  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0%;">0%</div></div></div>';
+						$('#loading').append(progressBar);
+						$('#loading').css({ 'opacity': '0.75', 'display': 'block' });
+					},
+					success: function (json, status) {
+						if(json.fileNo){
+							successFunction(json.fileNo);
+						} else{
+							$file[0].value = "";
+							$("input[type=text]")[0].value = "";
+							alertMsgFront("QKIT_ERR_MSG_001");
+						}
+						
+					},
+					xhr: function () {
+						var myXhr = $.ajaxSettings.xhr();
+						if (myXhr.upload) {
+							myXhr.upload.addEventListener('progress', function (e) {
+								if (e.lengthComputable) {
+									$('.progress-bar-success').attr({
+										'aria-valuenow': e.loaded,
+										'aria-valuemax': e.total,
+									});
+									$('.progress-bar-success').css('width', ((e.loaded / e.total) * 100).toFixed(0) + '%');
+									$('.progress-bar-success').text(((e.loaded / e.total) * 100).toFixed(0) + '%');
+								}
+							}, false);
+						}
+						return myXhr;
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						$file[0].value = "";
+						$("input[type=text]")[0].value = "";
+						alertMsgFront("FORBIDDEN_FILE");
+					},
+					complete: function () {
+						$('#loading').fadeOut(800);
+						$('#bar').remove();
+					}
+				});
+			}
+		});
+	}
+	
+	
+});
+
+
+
+
+</script>
+
+	</div>
+
+	<div class="col-xs-12 pd-s text-center" id="footer-frontend" style="top: 430px;"><span class="footer-content">版權所有 COPYRIGHT 2016-2026&nbsp;T-SECURITY INC. ALL RIGHTS RESERVED.｜POWERED BY AMAZON WEB SERVICES.</span></div>
+
+	<div class="theme-popover-mask"></div>
+	<div class="theme-popover-mask"></div>
+	<a href="#" title="頁面往上" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
+
+
+<script type="text/javascript" src="/frontPages/js/scrollTo.min.js?v=1"></script>
+<script type="text/javascript">
+	var commonSelectFile = "選擇檔案";
+</script>
+<script type="text/javascript" src="/frontPages/js/bootstrap.min.js?v=2"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-filestyle.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.gallery.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/menu.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/marquee.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/bootstrap-datepicker/js/bootstrap-datepicker.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-notify.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/js/address.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/keyword/keyword.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/jquery-confirm.min.js?v=1"></script>
+<script type="text/javascript">
+	var contextPath = "";
+	var alertMsgNotEmptyId = "不可空白";
+
+	$(function () {
+
+		$( window ).resize(function() {
+			// adjust footer's position	
+			if (screen.availHeight > document.body.scrollHeight) {
+				$("#footer-frontend").css('top', screen.availHeight-document.body.scrollHeight);
+				//console.log("screen.availHeight > document.body.scrollHeight");
+			} else {
+				$("#footer-frontend").css('bottom', '');
+				//console.log("screen.availHeight < document.body.scrollHeight");
+			}
+		});
+
+		initPageLoad();
+
+		$("#loading").fadeOut(600);
+
+		 
+		$("#bodyLogOut, #myAccLogout").click(function () {
+			console.log("logout .... ");
+			location = "/logoutCheck.do";
+		});
+	});
+
+	window.onload = function () {
+		// adjust footer's position	
+		if (screen.availHeight > document.body.scrollHeight) {
+			$("#footer-frontend").css('top', screen.availHeight - document.body.scrollHeight);
+			//console.log("screen.availHeight > document.body.scrollHeight");
+		} else {
+			$("#footer-frontend").css('bottom', '');
+			//console.log("screen.availHeight < document.body.scrollHeight");
+		}
+	};
+</script>
+
+</body>
+</html>

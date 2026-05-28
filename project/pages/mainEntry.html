@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-confirm.min.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- About Favorite Icon -->
+	<link rel="icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="icon" sizes="192x192" href="/resources/assets/img/android-chrome-192x192.png">
+	<link rel="shortcut icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="apple-touch-icon" sizes="57x57" href="/resources/assets/img/apple-touch-icon-57x57.png"> 
+	<link rel="apple-touch-icon" sizes="72x72" href="/resources/assets/img/apple-touch-icon-72x72.png"> 
+	<link rel="apple-touch-icon" sizes="114x114" href="/resources/assets/img/apple-touch-icon-114x114.png"> 
+	<link rel="apple-touch-icon" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120.png"> 
+	<link rel="apple-touch-icon" sizes="144x144" href="/resources/assets/img/apple-touch-icon-144x144.png"> 
+	<link rel="apple-touch-icon" sizes="180x180" href="/resources/assets/img/apple-touch-icon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/resources/assets/img/apple-touch-icon-76x76-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/resources/assets/img/apple-touch-icon-152x152-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="167x167" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="manifest" href="/resources/assets/img/site.webmanifest">
+	<link rel="mask-icon" href="/resources/assets/img/safari-pinned-tab.svg">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+	<!-- About Favorite Icon -->
+	<title>防偽驗證</title>
+	<!-- InstanceEndEditable -->
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/style.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/menu.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/window.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/keyword/keyword.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-ui.min.css?v=1.13.2">
+	<script type="text/javascript" src="/resources/js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery-migrate-3.3.2.min.js"></script>
+	<script type="text/javascript" src="/resources/js/bootstrap-select.min.js?v=1"></script>
+	<script type="text/javascript" src="/resources/js/utils.min.js?v=1"></script>
+	<script type="text/javascript" src="/frontPages/js/common.min.js?v=3"></script>
+	<script type="text/javascript" src="/resources/js/multiSelect.js?v=1"></script>
+	<script type="text/javascript">
+		$( function() {
+			$(".langChange").click(function() {
+				doAjax("generic/frontLangChange.do", {
+					langType: $(this).prop("title")
+				}, function (json, status) {
+					location.reload();
+				});
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div id="loading" style="display: none;"></div>
+	<header class="main_h">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 pd-s text-center">
+					<div id="icon">							
+						<span class="language">
+							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="選取語言">
+								<img src="/frontPages/images/icon/language.png" alt="language">
+							</button>
+						</span>
+					</div>
+					<div class="mobile-toggle">
+						<span></span> <span></span> <span></span>
+					</div>
+					<nav id="menu">
+						<ul>
+							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> 查詢結果</a></li>
+							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們</a></li>
+						</ul>
+					</nav>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="top">
+		<div id="menu-language" islangchange="true" style="display: block;">
+			<div class="collapse" id="collapseExample">
+				<a class="close2" href="#" title="關閉語言" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
+				</a>
+				<ul class="list-inline">
+					<li class="langChange" title="CHT">
+						<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="繁體中文">繁體中文</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+<link rel="stylesheet" type="text/css" href="/frontPages/css/index.css">
+<link rel="stylesheet" type="text/css" href="/frontPages/css/camp.css">
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js?v=1"></script>
+<div class="container" id="home">
+	<div class="row">
+		
+ 
+ 
+  <div class="col-lg-12">
+   <div class="chaoverscroll" id="chaoverscroll_box"></div>
+  </div>   
+  <section> 
+   <div class="col-lg-12"> 
+    <div class="pd-l" id="main"> 
+     <div id="fakeJudgeMsg"> 
+      <p><span style="font-size:16px;">您查詢的防偽碼無法比對！</span></p> 
+      <p style="display:none;">ending Character</p> 
+      <p><span style="font-size:16px;">請提供防偽標籤照片確認。</span></p> 
+      <p style="text-align: center;"><a class="btn btn-default btn-lg" href="/genDetemItemForm.do">下一步</a></p> 
+     </div> 
+     <div style="text-align: center;"> 
+      <span style="font-size:16px;color:#FF0000;"></span> 
+     </div> 
+    </div> 
+   </div> 
+  </section> 
+  <section id="readyToLoad_7" style="display:none;"></section>
+  <section>
+   <div class="col-lg-12">
+    <div style="text-align:center;">
+     <div class="bg-blue pd-l" style="padding-bottom:0px;padding-top:0px;" id="main6">
+      <p style="margin:0px;">&nbsp;</p>
+      <p>T-Security Inc. © 2016-2026</p>
+      <p style="margin:0px;">&nbsp;</p>
+     </div>
+    </div>
+   </div>
+  </section>
+ 
+
+	</div>
+</div>
+<div id="area"></div>
+<script type="text/javascript">
+	var blockIdStr = "7";
+	var loadId = "readyToLoad_";
+	$("#advancedMatch").hide();
+
+	function loadBlockCont(blockId, _show){
+        console.log(blockIdStr+" / "+loadId);
+		doAjax("loadBlockCont.do", { "blockId" : blockId }, function(json, staus) {
+			if(json.cont){
+				//var _show = true;
+				var blockElem = $("#" +loadId +blockId);
+				var contElem = $(json.cont);
+
+				//將單引號取代成白
+				//g為修飾符用於執行全局匹配（查找所有匹配而非在找到第一個匹配後停止）。
+				if(blockId=='7' && $("#mainCamp", contElem).text().replace(new RegExp("'",'g'),"")==""){
+					_show = false;
+					blockElem.remove();
+				}
+								
+				if(blockId=='1'){
+					initSysAnn();
+				}else if(blockId=='7'){
+					initCampDetailInfo();
+				}
+				
+				if(_show){
+					blockElem.html(contElem);
+					blockElem.show();
+				}else{
+					blockElem.html(contElem);
+				}
+				console.log("End loadBlockCont: ", blockId);
+			}
+		}, true);
+	}
+	
+	function submitForm(method,ajaxParam,param) {
+		var $form = $("#dataForm");
+		if (!$form.valid()) {
+			return;
+		}
+		doAjax(method, ajaxParam, function(json) {
+			if(json.result){
+				setFormTag($form, param, json.result);
+				$form.submit();
+			}
+		}, true);		
+		
+	}
+	
+	function initSysAnn(){
+		// generate sysAnn detail
+		$.each($("[id*=sysAnn]"), function(idx, obj) {
+			var $tag = $(obj);
+			var id = $tag.prop("id");
+			$tag.attr({
+				"data-featherlight-variant" : "fixwidth",
+				"data-featherlight" : "#detail" + $tag.prop("id")
+			});
+			var $div = $("<div>").addClass("lightbox").attr("id", "detail" + $tag.prop("id"));
+			$div.html($(obj).html());
+			$("div#area").append($div);
+		});
+	}
+	
+	function initCampDetailInfo(){
+		
+		$.each($("[id*=campDetailInfo]"), function(idx, obj) {
+			var campId = $(obj).prop("id").replace("campDetailInfo", "");
+			$(obj).initCampInfo({
+				campId : campId,
+				openEle : $("#camp" + campId)
+			});
+		});
+	}
+
+	function initCheckTruthMethod() {
+		var form =$("#menu-language");
+		form.attr("islangchange","true");
+		console.log(form.attr("islangchange"));
+	}
+	
+
+	
+	function setCookie(cname, cvalue, exdays) {
+		  if(exdays == null){
+			  document.cookie = cname + "=" + cvalue + ";" + ";path=/";
+			  return;
+		  }
+		  var d = new Date();
+		  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+		  var expires = "expires="+ d.toUTCString();
+		  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
+	
+	function getCookie(cname) {
+		  var name = cname + "=";
+		  var decodedCookie = decodeURIComponent(document.cookie);
+		  var ca = decodedCookie.split(';');
+		  for(var i = 0; i < ca.length; i++) {
+		    var c = ca[i];
+		    while (c.charAt(0) == ' ') {
+		      c = c.substring(1);
+		    }
+		    if (c.indexOf(name) == 0) {
+		      return c.substring(name.length, c.length);
+		    }
+		  }
+		  return "";
+	}
+
+	$(function() {
+		initSysAnn();
+		initCheckTruthMethod();
+
+		
+
+
+		if (JSON.parse("false")) {
+			doAjax("callQkit.do", {"checksum" : "16798793"}, function(json, status) {
+				if (json.isSystemMatch == 'true') {
+					window.location.href = "/mainEntry.do";
+				} else {
+					if (json.data == null || json.data == 'undefined') {
+						alertMsgFront("QKIT_ERR_MSG_001");
+						return;
+					}
+	
+					console.log("call Qkit resp: ", json);
+					$("#fakeResult").html(json.data.fakeResult);
+					$("#fakeJudge").html(json.data.fakeJudgeImg);
+	
+					var blockIdArray = null;
+					if (blockIdStr) {
+						blockIdArray = blockIdStr.split(",");
+						for (var i = 0; i < blockIdArray.length; i++) {
+							var blockId = blockIdArray[i];
+							loadBlockCont(blockId, true);
+						}
+					}
+	
+					if (json.isQuest == "1") {
+						$("#advancedMatch").remove();
+					}else{
+						$("#advancedMatch").show();
+					}
+				}
+			}, true);
+		} else{
+			doAjax("nonQkit.do", {"checksum" : "16798793"}, function(json, status){}, true);
+			$("#advancedMatch").show();
+		}
+
+		if (JSON.parse("false") || JSON.parse("false")) {
+			// 讀取活動看版
+			var blockIdArray = null;
+			if (blockIdStr) {
+				blockIdArray = blockIdStr.split(",");
+				for (var i = 0; i < blockIdArray.length; i++) {
+					var blockId = blockIdArray[i];
+					loadBlockCont(blockId, true);
+				}
+			}
+		}
+		
+		if(getCookie('requestInfoId')!=''){
+			doAjax("pageEventLog.do", {
+				"event.funcType" : "CHECK_TRUE",
+	            "event.auth" : getCookie('auth'),
+	            "requestInfoId" : getCookie('requestInfoId')
+			},function(){});
+			setCookie('requestInfoId','',-1);
+			setCookie('auth','',-1);
+		}else{
+			let params = new URL(document.location).searchParams;
+			let auth = params.get("auth");
+			let requestInfoId = params.get("requestInfoId");
+			if(auth!=null && requestInfoId!=null){
+				doAjax("pageEventLog.do", {
+					"event.funcType" : "CHECK_TRUE",
+		            "event.auth" : auth,
+		            "requestInfoId" : requestInfoId
+				},function(){});
+			}
+		}
+
+		$("#advancedMatch").click(function() {
+			location.href = "/AdvancedMatch.do";
+		});
+		
+		$(".langChange").off("click");
+		$(".langChange").click(function() {
+			doAjax("generic/frontLangChange.do", {
+				langType: $(this).prop("title")
+			}, function (json, status) {
+				location.href = "/mainEntry.do";
+			});
+		});
+		$(".localtime").each(function(index){
+	    	var date = new Date(parseInt($( this ).attr("data-timestamp")));
+	    	var timeStr = date.toLocaleDateString()+
+	    	" "+date.getHours().toString().padStart(2,0)+":"+date.getMinutes().toString().padStart(2,0);
+	    	$( this ).attr("data-timestring",timeStr);
+	    });
+		var target = document.querySelector('#top');
+		var observer = new MutationObserver(function(mutations) {
+			mutations.forEach(function(mutation) {
+			    console.log(mutation.addedNodes);
+			    $(mutation.addedNodes).find(".localtime").each(function(index){
+			    	var date = new Date(parseInt($( this ).attr("data-timestamp")));
+			    	var timeStr = date.toLocaleDateString()+
+			    	" "+date.getHours().toString().padStart(2,0)+":"+date.getMinutes().toString().padStart(2,0);
+			    	$( this ).attr("data-timestring",timeStr);
+			    });
+			});
+		});
+		var config = { childList: true ,subtree:true};
+		observer.observe(target, config);
+	});
+</script>
+
+	</div>
+
+	<div class="col-xs-12 pd-s text-center" id="footer-frontend" style="top: 719px;"><span class="footer-content">版權所有 COPYRIGHT 2016-2026&nbsp;T-SECURITY INC. ALL RIGHTS RESERVED.｜POWERED BY AMAZON WEB SERVICES.</span></div>
+
+	<div class="theme-popover-mask"></div>
+	<div class="theme-popover-mask"></div>
+	<a href="#" title="頁面往上" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
+
+
+<script type="text/javascript" src="/frontPages/js/scrollTo.min.js?v=1"></script>
+<script type="text/javascript">
+	var commonSelectFile = "選擇檔案";
+</script>
+<script type="text/javascript" src="/frontPages/js/bootstrap.min.js?v=2"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-filestyle.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.gallery.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/menu.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/marquee.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/bootstrap-datepicker/js/bootstrap-datepicker.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-notify.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/js/address.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/keyword/keyword.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/jquery-confirm.min.js?v=1"></script>
+<script type="text/javascript">
+	var contextPath = "";
+	var alertMsgNotEmptyId = "不可空白";
+
+	$(function () {
+
+		$( window ).resize(function() {
+			// adjust footer's position	
+			if (screen.availHeight > document.body.scrollHeight) {
+				$("#footer-frontend").css('top', screen.availHeight-document.body.scrollHeight);
+				//console.log("screen.availHeight > document.body.scrollHeight");
+			} else {
+				$("#footer-frontend").css('bottom', '');
+				//console.log("screen.availHeight < document.body.scrollHeight");
+			}
+		});
+
+		initPageLoad();
+
+		$("#loading").fadeOut(600);
+
+		 
+		$("#bodyLogOut, #myAccLogout").click(function () {
+			console.log("logout .... ");
+			location = "/logoutCheck.do";
+		});
+	});
+
+	window.onload = function () {
+		// adjust footer's position	
+		if (screen.availHeight > document.body.scrollHeight) {
+			$("#footer-frontend").css('top', screen.availHeight - document.body.scrollHeight);
+			//console.log("screen.availHeight > document.body.scrollHeight");
+		} else {
+			$("#footer-frontend").css('bottom', '');
+			//console.log("screen.availHeight < document.body.scrollHeight");
+		}
+	};
+</script>
+
+</body>
+</html>

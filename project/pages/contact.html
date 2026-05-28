@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-confirm.min.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- About Favorite Icon -->
+	<link rel="icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="icon" sizes="192x192" href="/resources/assets/img/android-chrome-192x192.png">
+	<link rel="shortcut icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="apple-touch-icon" sizes="57x57" href="/resources/assets/img/apple-touch-icon-57x57.png"> 
+	<link rel="apple-touch-icon" sizes="72x72" href="/resources/assets/img/apple-touch-icon-72x72.png"> 
+	<link rel="apple-touch-icon" sizes="114x114" href="/resources/assets/img/apple-touch-icon-114x114.png"> 
+	<link rel="apple-touch-icon" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120.png"> 
+	<link rel="apple-touch-icon" sizes="144x144" href="/resources/assets/img/apple-touch-icon-144x144.png"> 
+	<link rel="apple-touch-icon" sizes="180x180" href="/resources/assets/img/apple-touch-icon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/resources/assets/img/apple-touch-icon-76x76-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/resources/assets/img/apple-touch-icon-152x152-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="167x167" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="manifest" href="/resources/assets/img/site.webmanifest">
+	<link rel="mask-icon" href="/resources/assets/img/safari-pinned-tab.svg">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+	<!-- About Favorite Icon -->
+	<title>防偽驗證</title>
+	<!-- InstanceEndEditable -->
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/style.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/menu.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/window.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/keyword/keyword.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-ui.min.css?v=1.13.2">
+	<script type="text/javascript" src="/resources/js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery-migrate-3.3.2.min.js"></script>
+	<script type="text/javascript" src="/resources/js/bootstrap-select.min.js?v=1"></script>
+	<script type="text/javascript" src="/resources/js/utils.min.js?v=1"></script>
+	<script type="text/javascript" src="/frontPages/js/common.min.js?v=3"></script>
+	<script type="text/javascript" src="/resources/js/multiSelect.js?v=1"></script>
+	<script type="text/javascript">
+		$( function() {
+			$(".langChange").click(function() {
+				doAjax("generic/frontLangChange.do", {
+					langType: $(this).prop("title")
+				}, function (json, status) {
+					location.reload();
+				});
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div id="loading" style="display: none;"></div>
+	<header class="main_h">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 pd-s text-center">
+					<div id="icon">
+						<span class="language">
+							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="選取語言">
+								<img src="/frontPages/images/icon/language.png" alt="language">
+							</button>
+						</span>
+					</div>
+					<div class="mobile-toggle">
+						<span></span> <span></span> <span></span>
+					</div>
+					<nav id="menu">
+						<ul>
+							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> 查詢結果</a></li>
+							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們</a></li>
+						</ul>
+					</nav>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="top">
+		<div id="menu-language" style="display: block;">
+			<div class="collapse" id="collapseExample">
+				<a class="close2" href="#" title="關閉語言" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
+				</a>
+				<ul class="list-inline">
+					
+						<li class="langChange" title="CHT">
+							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="繁體中文">繁體中文</a>
+						</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+
+
+<!-- InstanceBeginEditable name="content" -->
+<div class="container form">
+	<div class="row">
+		<div class="col-lg-12 pd-tb-m">
+			<h5 class="h2 title-img">
+				<i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們
+			</h5>
+		</div>
+		<div class="col-lg-12">
+			<div class="bg-white">
+				<form id="dataForm" class="form-pd pd-l"><input type="hidden" id="isMem" name="memCont.isMem" value="F">
+					<div class="form-group">
+						<label for="legalNm">姓名*</label> <input type="text" maxlength="40" class="form-control required" id="legalNm" name="idv.idvProf.legalNm" placeholder="請輸入姓名">
+						<div id="divLegalNm" style="display: none; font-size: 16px; color: red; margin-top: -15px;">*必填</div>
+					</div>
+					<div class="form-group" aria-labelledby="dropdownMenuButton">
+						<label for="countryCde">國際電話區號</label>
+
+
+						<select class="form-control keyword" id="countryCde" name="idv.tlphnCtact.countryCde">
+							<option value="">請選擇國際電話區號</option>
+							
+								<option value="86">86(中國)</option>
+							
+								<option value="852">852(香港)</option>
+							
+								<option value="853">853(澳門)</option>
+							
+								<option value="886">886(臺灣)</option>
+							
+								<option value="60">60(馬來西亞)</option>
+							
+								<option value="81">81(日本)</option>
+							
+								<option value="0">0(其他)</option>
+							
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="tlphnNbr">手機號碼</label> <input type="text" maxlength="20" class="form-control" id="tlphnNbr" name="idv.tlphnCtact.tlphnNbr" onkeyup="value=value.replace(/[^\d]/g,'') " placeholder="請輸入手機號碼">
+					</div>
+					<div class="form-group">
+						<label for="emailAddr">電子信箱*</label> <input type="text" maxlength="100" class="form-control required" id="emailAddr" name="idv.emailCtact.emailAddr" placeholder="請輸入電子信箱">
+						<div id="divEmailAddr" style="display: none; font-size: 16px; color: red; margin-top: -15px;">*必填</div>
+						<div id="divEmailAddr2" style="display: none; font-size: 16px; color: red; margin-top: -15px;">電子信箱格式錯誤。</div>
+					</div>
+					<div class="form-group">
+						<label for="gender">性別</label>
+
+
+						<select class="form-control" id="sex" name="idv.idvProf.sex">
+							<option value="">請選擇性別</option>
+							
+								<option value="F">女</option>
+							
+								<option value="M">男</option>
+							
+						</select>
+					</div>
+					<div class="form-group" style="display: none">
+					</div>
+					<div class="form-group">
+						<label for="prodSeq">商品防偽碼</label> <input type="text" class="form-control" id="prodSeq" name="memCont.prodSeq" maxlength="50" onkeyup="value=value.replace(/[\W]/g,'')" onchange="getProdNm()" placeholder="請輸入商品防偽碼">
+					</div>
+					<div class="form-group">
+						<label for="probTyp">問題類型</label>
+
+
+						<select class="form-control" id="probTyp" name="memCont.probTyp">
+							<option value="">請選擇問題類型</option>
+							
+								<option value="2">產品真偽問題</option>
+							
+								<option value="1">產品品質問題</option>
+							
+								<option value="4">產品使用問題</option>
+							
+								<option value="0">其他問題</option>
+							
+						</select>
+					</div>
+					<div class="form-group" style="display: none">
+						<label for="zone1">購買國家/地區</label>
+
+
+						<select class="form-control front" id="zone1" name="memCont.purCountry">
+							<option value=""></option>
+							
+								<option value="ADDR_CN">中國</option>
+							
+								<option value="ADDR_TW">臺灣</option>
+							
+								<option value="ADDR_OTHER">其他</option>
+							
+						</select>	
+					</div>
+					<div class="form-group" style="display: none">
+						<div class="labelFor">購買城市</div>
+						<select class="form-control" id="level11" name="memCont.purCity"></select>
+					</div>
+					<div class="form-group">
+						<label for="storeTyp">商店分類</label>
+
+
+						<select class="form-control" id="storeTyp" name="memCont.storeTyp">
+							<option value="">請選擇商店類型</option>
+							
+								<option value="1">實體商店</option>
+							
+								<option value="2">網路商店</option>
+							
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="labelFor">購買商店</label> <input type="text" maxlength="50" class="form-control" id="purStore" name="memCont.purStore" placeholder="請輸入購買商店名">
+					</div>
+					<div class="form-group">
+						<label for="labelFor">購買日期</label> <input class="form-control datepicker" type="text" id="purDate" name="memCont.purDate" placeholder="請輸入購買日期" style="padding: 6px 12px;">
+					</div>
+					
+					<div class="form-group">
+						<label for="labelFor">購買金額</label> <input type="text" class="form-control numberOrDouble" id="purPrice" name="purPrice" onkeyup="validateNumberPoint($(this),value)" placeholder="請輸入購買金額">
+					</div>
+					
+					
+					<div class="form-group">
+						<label for="labelFor">幣別</label>
+						<select class="form-control" id="purPriceCurrency" name="memCont.purPriceCurrency">
+							<option value="">請選擇幣別</option>
+							
+							<optgroup label="建議幣別">
+
+								
+
+									<option value="TWD">新臺幣</option>
+
+								
+							</optgroup>
+							
+							<optgroup label="常用幣別">
+
+								
+
+									<option value="TWD">新臺幣</option>
+
+								
+
+									<option value="MYR">馬來西亞林吉特</option>
+
+								
+
+									<option value="CNY">中國人民幣</option>
+
+								
+							</optgroup>
+							<optgroup label="其他幣別">
+
+								
+
+									<option value="AED">阿拉伯聯合大公國迪拉姆</option>
+
+								
+
+									<option value="AMD">亞美尼亞德拉姆</option>
+
+								
+
+									<option value="ARS">阿根廷披索</option>
+
+								
+
+									<option value="AUD">澳幣</option>
+
+								
+
+									<option value="AZN">亞塞拜然馬納特</option>
+
+								
+
+									<option value="BDT">孟加拉塔卡</option>
+
+								
+
+									<option value="BGN">保加利亞列弗</option>
+
+								
+
+									<option value="BHD">巴林第納爾</option>
+
+								
+
+									<option value="BRL">巴西雷亞爾</option>
+
+								
+
+									<option value="BYN">白俄羅斯盧布</option>
+
+								
+
+									<option value="CAD">加幣</option>
+
+								
+
+									<option value="CHF">瑞士法郎</option>
+
+								
+
+									<option value="CLP">智利披索</option>
+
+								
+
+									<option value="CNY">中國人民幣</option>
+
+								
+
+									<option value="COP">哥倫比亞披索</option>
+
+								
+
+									<option value="CRC">哥斯大黎加科朗</option>
+
+								
+
+									<option value="CZK">捷克克郎</option>
+
+								
+
+									<option value="DKK">丹麥克朗</option>
+
+								
+
+									<option value="DZD">阿爾及利亞第納爾</option>
+
+								
+
+									<option value="EGP">埃及鎊</option>
+
+								
+
+									<option value="EUR">歐元</option>
+
+								
+
+									<option value="FJD">斐濟元</option>
+
+								
+
+									<option value="GBP">英鎊</option>
+
+								
+
+									<option value="GEL">喬治亞拉里</option>
+
+								
+
+									<option value="HKD">港幣</option>
+
+								
+
+									<option value="HUF">匈牙利福林</option>
+
+								
+
+									<option value="IDR">印尼盧比</option>
+
+								
+
+									<option value="ILS">以色列新舍克</option>
+
+								
+
+									<option value="INR">印度盧比</option>
+
+								
+
+									<option value="IQD">伊拉克第納爾</option>
+
+								
+
+									<option value="IRR">伊朗里亞爾</option>
+
+								
+
+									<option value="JOD">約旦第納爾</option>
+
+								
+
+									<option value="JPY">日圓</option>
+
+								
+
+									<option value="KGS">吉爾吉斯斯坦索姆</option>
+
+								
+
+									<option value="KHR">柬埔寨瑞爾</option>
+
+								
+
+									<option value="KRW">韓元</option>
+
+								
+
+									<option value="KWD">科威特第納爾</option>
+
+								
+
+									<option value="KZT">哈薩克堅戈</option>
+
+								
+
+									<option value="LAK">寮國基普</option>
+
+								
+
+									<option value="LBP">黎巴嫩鎊</option>
+
+								
+
+									<option value="LKR">斯里蘭卡盧比</option>
+
+								
+
+									<option value="MAD">摩洛哥迪拉姆</option>
+
+								
+
+									<option value="MDL">摩爾多瓦列伊</option>
+
+								
+
+									<option value="MMK">緬元</option>
+
+								
+
+									<option value="MNT">蒙古圖格里克</option>
+
+								
+
+									<option value="MVR">馬爾地夫拉菲亞</option>
+
+								
+
+									<option value="MXN">墨西哥披索</option>
+
+								
+
+									<option value="MYR">馬來西亞林吉特</option>
+
+								
+
+									<option value="NGN">奈及利亞奈拉</option>
+
+								
+
+									<option value="NOK">挪威克朗</option>
+
+								
+
+									<option value="NPR">尼泊爾盧比</option>
+
+								
+
+									<option value="NZD">紐西蘭幣</option>
+
+								
+
+									<option value="OMR">阿曼里亞爾</option>
+
+								
+
+									<option value="PEN">祕魯幣</option>
+
+								
+
+									<option value="PHP">菲律賓披索</option>
+
+								
+
+									<option value="PKR">巴基斯坦盧比</option>
+
+								
+
+									<option value="PLN">波蘭茲羅提</option>
+
+								
+
+									<option value="QAR">卡達里亞爾</option>
+
+								
+
+									<option value="RON">羅馬尼亞列伊</option>
+
+								
+
+									<option value="RSD">塞爾維亞第納爾</option>
+
+								
+
+									<option value="RUB">俄羅斯盧布</option>
+
+								
+
+									<option value="SAR">沙烏地阿拉伯里亞爾</option>
+
+								
+
+									<option value="SEK">瑞典克朗</option>
+
+								
+
+									<option value="SGD">新加坡幣</option>
+
+								
+
+									<option value="SYP">敘利亞鎊</option>
+
+								
+
+									<option value="THB">泰銖</option>
+
+								
+
+									<option value="TND">突尼西亞第納爾</option>
+
+								
+
+									<option value="TRY">土耳其里拉</option>
+
+								
+
+									<option value="TWD">新臺幣</option>
+
+								
+
+									<option value="UAH">烏克蘭赫里納</option>
+
+								
+
+									<option value="USD">美元</option>
+
+								
+
+									<option value="UZS">烏茲別克斯坦索姆</option>
+
+								
+
+									<option value="VND">越南盾</option>
+
+								
+
+									<option value="XPF">太平洋法郎</option>
+
+								
+
+									<option value="ZAR">南非蘭特</option>
+
+								
+							</optgroup>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="probDesc">問題描述*</label>
+						
+						<textarea class="form-control required" maxlength="500" id="probDesc" name="memCont.probDesc" placeholder="請寫下產品系列名稱、規格或型號、有效日期及您遇到的問題。" style="height: 100px;"></textarea>
+						<div id="divProbDesc" style="display: none; font-size: 16px; color: red; margin-top: 0;">*必填</div>
+					</div>
+					<div class="form-group file">
+						<label for="labelFor"></label>
+						<input type="file" class="filestyle" name="fileUpload" id="filestyle-0" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
+						<div class="bootstrap-filestyle input-group">
+							<!-- <input type="text" class="form-control " placeholder="" disabled=""> 
+							<span class="group-span-filestyle input-group-btn" tabindex="0">
+								<label for="filestyle-0" class="btn btn-default ">
+									<span class="buttonText">選擇檔案</span>
+								</label>
+							</span> -->
+						</div>
+						<input type="hidden" id="file" name="file">
+					</div>
+					<div class="form-group">						
+						<style type="text/css">.featherlight .featherlight-close{display: block;}.featherlight p{font-size:12px;}</style><div><strong><span style="font-size:16px;">我已同意並詳細閱讀<a data-featherlight="#cnt" data-featherlight-variant="fixwidth"><i>個資說明 </i></a>*</span></strong></div><div><label for="agreeTerm"><input class="AgreeToTerms" id="agreeTerm" name="memCont.agreeToTerms" type="radio" value="1"><span style="font-size:16px;">是</span></label></div><div class="lightbox" id="cnt">依據個人資料保護法等相關規定，請詳閱以下告知事項<br>1. 蒐集個人資料單位：防偽系統供應商擎雷防偽科技股份有限公司及其指定之執行單位。<br>2. 蒐集之目的：提供包含但不限於產品真偽、產品使用、系統使用等相關問題處理及回覆。<br>3. 個人資料之類別：詢問產品真偽、產品使用、系統使用等相關問題時所提供之個人資料。<br>4. 個人資料利用之期間：本公司將於營運期間保存您的個人資料。<br>5. 個人資料利用之地區：本公司營運範圍之區域。<br>6. 個人資料利用之對象及方式：由本公司或指定執行單位依通常作業所必要之方式利用此個人資料。我們會依法保障您的資料不會被不當的取得，並要求該等受委託機構亦應恪遵法律規定。<br>7. 依個人資料保護法第三條規定得行使之權利及方式：您得向本公司依個人資料保護法第三條規定行使權利，若需申請查詢、閱覽、製給複製本時，將酌收必要成本費用。<br>8. 修訂之權利：本告知事項將因應法規隨時進行修訂，恕不另行通知。<br>&nbsp;<br>若點選「是」代表您同意上述1~8點並清楚瞭解本公司蒐集、處理或利用個人資料之目的及用途。</div>
+						<div id="divAgreeTerm" style="display: none; font-size: 16px; color: red; margin-top: -15px;">*必填</div>
+					</div>
+					<div class="form-group">
+						<label for="validCode" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">驗證碼 *</label>
+						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+							<input type="text" maxlength="4" class="form-control required" id="validCode" name="validCode" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="請輸入驗證碼">
+							<div id="divValidCode" style="display: none; font-size: 16px; color: red; margin-top: -15px;">*必填</div>
+						</div>
+						<div class="verify">
+							<img id="validImg" style="cursor: pointer;width:120px;" class="reValid" src="generic/genValidCode.do?code=9">
+						</div>
+					</div>
+					<div class="clearfix clearfixH-m"></div>
+					<div class="text-center">
+						<a href="#" class="btn btn-primary btn-wdh" onclick="submitForm()">送出</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- InstanceEndEditable -->
+<script type="text/javascript">
+	$(function() {
+		init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		$("input[type=file]").change(function() {
+			if ($("input[type=file]")[0].files.length == 0) {
+				setFormTag($("#dataForm"), "fileNo", "");
+				setFormTag($("#dataForm"), "fileName", "");
+				return;
+			}
+
+			uploadTempFile($(this), function(json, fileNo) {
+				setFormTag($("#dataForm"), "fileName", $("input[type=file]")[0].files[0].name);
+				setFormTag($("#dataForm"), "fileNo", fileNo);
+				console.log(fileNo);
+			});
+		});
+		// 		initSelect($('form select'));
+		
+		var dropdown = document.getElementsByName('memCont.purPriceCurrency')[0];
+	    var optgroups = dropdown.getElementsByTagName('optgroup');
+	    var options;
+	
+	    for(var i = 0; i < optgroups.length; i++) {
+	        options = optgroups[i].getElementsByTagName('option');
+	        if(options.length == 0)
+	        	optgroups[i].style.display = "none";
+		}
+	});
+
+    
+    function validateNumberPoint(e, pnumber)
+    {
+        var reg = /^\d+[.]?\d*$/;
+
+        //if( ! /^[0-9]+.{0,1}[0-9]{0,1}$/.test(pnumber)){
+        if( !reg.test(pnumber)){
+            //alert($(e).val());
+
+            if($(e).val().length==0) return true;
+            inputVal=$(e).val();
+            for (var i=0; i<inputVal.length; i++) {
+                var charCode = inputVal.charCodeAt(i);
+                if (charCode<48 || charCode>57 )
+                {
+                    $("#purPrice").val("");
+                    return false;
+                }
+            }
+
+            //$(e).val(/^[0-9]+.{0,1}[0-9]{0,2}$/.exec($(e).val()));
+
+        }else{
+            if($(e).val()){
+                var ary = $(e).val().split(".");
+                if(ary.length == 2){
+                    var ary0 = ary[0];
+                    var ary1 = ary[1];
+                    if(ary1.length > 2){
+                        $("#purPrice").val(ary0+"."+ary1.substring(0,2));
+					}
+				}
+            }
+		}
+
+        return false;
+    }
+
+    // check 是否為阿拉伯
+    function checkcypher(obj)
+    {
+        if(obj.value.length==0) return true;
+        inputVal=obj.value;
+        for (var i=0; i<inputVal.length; i++) {
+            var charCode = inputVal.charCodeAt(i);
+            if (charCode<48 || charCode>57 )
+            {
+                $("#purPrice").val("");
+                return false;
+            }
+        }
+        return true;
+    }
+
+	function init() {
+		// 會員登入
+
+		var partyId = '';
+
+		var userNm = '';
+
+		var userSex = '';
+
+		var userEmail = '';
+
+		var userPhone = '';
+
+		var userCountryCde = '';
+		console.log("userData: " + partyId + " / " + userNm + " / " + userSex + " / " + userEmail + " / " + userPhone
+				+ " / " + userCountryCde);
+
+        if ($.trim(partyId)) {
+			setHiddenTag($("#dataForm"), "partyId", "memCont.partyId", partyId);
+			setHiddenTag($("#dataForm"), "isMem", "memCont.isMem", "T");
+		} else {
+			setHiddenTag($("#dataForm"), "isMem", "memCont.isMem", "F");
+		}
+		if ($.trim(userNm)) {
+			$("#legalNm").val(userNm);
+			$("#legalNm").prop("readonly", true);
+		}
+		if ($.trim(userSex)) {
+			$("#sex").val(userSex);
+			$("#sex").prop("disabled", true);
+		}
+		if ($.trim(userEmail)) {
+			$("#emailAddr").val(userEmail);
+			$("#emailAddr").prop("readonly", true);
+		}
+		if ($.trim(userPhone)) {
+			$("#tlphnNbr").val(userPhone);
+			$("#tlphnNbr").prop("readonly", true);
+		}
+		if ($.trim(userCountryCde)) {
+			$("#countryCde").val(userCountryCde);
+			$("#countryCde").prop("disabled", true);
+		}
+
+		//防偽碼查詢
+		var authCodeCde = '';
+		var custId = '';
+		var prodId = '';
+		console.log("防偽碼: " + custId + " / " + prodId + " / " + authCodeCde);
+		if ($.trim(authCodeCde)) {
+			$("#prodSeq").val(authCodeCde);
+		}
+		if ($.trim(prodId)) {
+			$("#prodId").val(prodId);
+		}
+	}
+	
+
+	function submitForm() {
+		console.log("submit");
+		var $form = $("#dataForm");
+
+        $("#divLegalNm").hide();
+        $("#divEmailAddr").hide();
+		$("#divEmailAddr2").hide();
+        $("#divProbDesc").hide();
+        $("#divValidCode").hide();
+        $("#divAgreeTerm").hide();
+
+        var legalNm = $("#legalNm").val();
+        var emailAddr = $("#emailAddr").val();
+        var probDesc = $("#probDesc").val();
+        var validCode = $("#validCode").val();
+
+        //alert("probDesc = "+probDesc);
+
+        if(!legalNm || !emailAddr || !isValidEmail(emailAddr) || !probDesc || !validCode){
+
+            var msg = "仍有必填欄位未填，請檢查填寫內容。";
+			
+            if(legalNm && emailAddr && probDesc && validCode){
+            	msg = "電子信箱格式錯誤，請檢查後再送出。";
+            }
+            $.featherlight("<div class='lightbox'>" +msg +"</div>", {variant : "fixwidth"});
+            
+            if(!legalNm){
+                $("#divLegalNm").show();
+                //$("#divLegalNm").css('display','inline-block');
+            }
+            if(!emailAddr){
+                $("#divEmailAddr2").hide();
+                $("#divEmailAddr").show();
+            }else if(!isValidEmail(emailAddr)){
+            	 $("#divEmailAddr").hide();
+                 $("#divEmailAddr2").show();
+                 
+            }            
+            if(!probDesc){
+                $("#divProbDesc").show();
+            }
+            if(!validCode){
+                $("#divValidCode").show();
+            }
+
+            if(!legalNm){
+                //$("#legalNm").prop("focus", true);
+                setTimeout(function () {
+
+                   $("#legalNm").focus();
+                }, 3000);
+			}else if(!isValidEmail(emailAddr)){
+                setTimeout(function () {
+
+                    $("#emailAddr").focus();
+                }, 3000);
+			}else if(!emailAddr){
+                setTimeout(function () {
+
+                    $("#emailAddr").focus();
+                }, 3000);
+			}	
+			else if(!probDesc){
+                setTimeout(function () {
+
+                    $("#probDesc").focus();
+                }, 3000);
+			}else if(!validCode){
+                setTimeout(function () {
+
+                    $("#validCode").focus();
+                }, 3000);
+			}
+            return;
+		}
+        
+
+    	if($("#agreeTerm").length!=0) {
+    		if(!$("#agreeTerm").prop("checked")){
+    			var msg = "仍有必填欄位未填，請檢查填寫內容。";
+    			$.featherlight("<div class='lightbox'>" +msg +"</div>", 
+    				{
+    					variant : "fixwidth",
+    					afterClose:function(){
+    						$("#agreeTerm").focus();
+    						}
+    			});
+    			$("#divAgreeTerm").show();
+    			return;
+    		}
+		}
+        
+		var dataForm = getFormData($("#dataForm"));
+		
+		var str = dataForm['memCont.probDesc'];
+		dataForm['memCont.probDesc'] = $("<div>").text(str).html().replace(/ /g, "&nbsp;");
+		
+		console.log(dataForm);
+
+		doAjaxAndHandleError("ctactAdd.do", dataForm, function(json, status) {
+			// console.log(json.msg);
+			if (json.msg == 'success') {
+				alertInLightbox(json.returnMsg);
+				setTimeout(function(){ window.location.href = "contact.do"; }, 3000);  
+			} else {
+				alertInLightbox(json.returnMsg);
+			}
+		}, function(statusCode){
+			console.log(statusCode);
+			alertMsgFront('CTACT_ADD_ERR_MSG_001');
+		});
+
+	}
+	
+
+</script>
+
+	</div>
+
+	<div class="col-xs-12 pd-s text-center" id="footer-frontend"><span class="footer-content">版權所有 COPYRIGHT 2016-2026&nbsp;T-SECURITY INC. ALL RIGHTS RESERVED.｜POWERED BY AMAZON WEB SERVICES.</span></div>
+
+	<div class="theme-popover-mask"></div>
+	<div class="theme-popover-mask"></div>
+	<a href="#" title="頁面往上" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
+
+
+<script type="text/javascript" src="/frontPages/js/scrollTo.min.js?v=1"></script>
+<script type="text/javascript">
+	var commonSelectFile = "選擇檔案";
+</script>
+<script type="text/javascript" src="/frontPages/js/bootstrap.min.js?v=2"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-filestyle.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.gallery.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/menu.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/marquee.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/bootstrap-datepicker/js/bootstrap-datepicker.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-notify.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/js/address.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/keyword/keyword.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/jquery-confirm.min.js?v=1"></script>
+<script type="text/javascript">
+	var contextPath = "";
+	var alertMsgNotEmptyId = "不可空白";
+
+	$(function () {
+
+		$( window ).resize(function() {
+			// adjust footer's position	
+			if (screen.availHeight > document.body.scrollHeight) {
+				$("#footer-frontend").css('top', screen.availHeight-document.body.scrollHeight);
+				//console.log("screen.availHeight > document.body.scrollHeight");
+			} else {
+				$("#footer-frontend").css('bottom', '');
+				//console.log("screen.availHeight < document.body.scrollHeight");
+			}
+		});
+
+		initPageLoad();
+
+		$("#loading").fadeOut(600);
+
+		 
+		$("#bodyLogOut, #myAccLogout").click(function () {
+			console.log("logout .... ");
+			location = "/logoutCheck.do";
+		});
+	});
+
+	window.onload = function () {
+		// adjust footer's position	
+		if (screen.availHeight > document.body.scrollHeight) {
+			$("#footer-frontend").css('top', screen.availHeight - document.body.scrollHeight);
+			//console.log("screen.availHeight > document.body.scrollHeight");
+		} else {
+			$("#footer-frontend").css('bottom', '');
+			//console.log("screen.availHeight < document.body.scrollHeight");
+		}
+	};
+</script>
+
+</body></html>

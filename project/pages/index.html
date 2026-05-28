@@ -1,0 +1,223 @@
+<html><head>
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-confirm.min.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- About Favorite Icon -->
+	<link rel="icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="icon" sizes="192x192" href="/resources/assets/img/android-chrome-192x192.png">
+	<link rel="shortcut icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="apple-touch-icon" sizes="57x57" href="/resources/assets/img/apple-touch-icon-57x57.png"> 
+	<link rel="apple-touch-icon" sizes="72x72" href="/resources/assets/img/apple-touch-icon-72x72.png"> 
+	<link rel="apple-touch-icon" sizes="114x114" href="/resources/assets/img/apple-touch-icon-114x114.png"> 
+	<link rel="apple-touch-icon" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120.png"> 
+	<link rel="apple-touch-icon" sizes="144x144" href="/resources/assets/img/apple-touch-icon-144x144.png"> 
+	<link rel="apple-touch-icon" sizes="180x180" href="/resources/assets/img/apple-touch-icon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/resources/assets/img/apple-touch-icon-76x76-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/resources/assets/img/apple-touch-icon-152x152-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="167x167" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="manifest" href="/resources/assets/img/site.webmanifest">
+	<link rel="mask-icon" href="/resources/assets/img/safari-pinned-tab.svg">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+	<!-- About Favorite Icon -->
+	<title>防偽驗證</title>
+	<!-- InstanceEndEditable -->
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/style.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/menu.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/window.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/keyword/keyword.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-ui.min.css?v=1.13.2">
+	<script type="text/javascript" src="/resources/js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery-migrate-3.3.2.min.js"></script>
+	<script type="text/javascript" src="/resources/js/bootstrap-select.min.js?v=1"></script>
+	<script type="text/javascript" src="/resources/js/utils.min.js?v=1"></script>
+	<script type="text/javascript" src="/frontPages/js/common.min.js?v=3"></script>
+	<script type="text/javascript" src="/resources/js/multiSelect.js?v=1"></script>
+	<script type="text/javascript">
+		$( function() {
+			$(".langChange").click(function() {
+				doAjax("generic/frontLangChange.do", {
+					langType: $(this).prop("title")
+				}, function (json, status) {
+					location.reload();
+				});
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div id="loading" style="display: none;"></div>
+	<header class="main_h">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 pd-s text-center">
+					<div id="icon">
+						<a href="/memLogin.do" title="會員登入"><span class="glyphicon glyphicon-user"></span></a>
+						<span class="language">
+							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="選取語言">
+								<img src="/frontPages/images/icon/language.png" alt="language">
+							</button>
+						</span>
+					</div>
+					<div class="mobile-toggle">
+						<span></span> <span></span> <span></span>
+					</div>
+					<nav id="menu">
+						<ul>
+							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> 查詢結果</a></li>
+							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們</a></li>
+							<li><a href="/memLogin.do"><span class="fa fa-power-off"></span> 會員登入</a></li>
+						</ul>
+					</nav>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="top">
+		<div id="menu-language" style="display: block;">
+			<div class="collapse" id="collapseExample">
+				<a class="close2" href="#" title="關閉語言" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
+				</a>
+				<ul class="list-inline">
+					
+						<li class="langChange" title="CHT">
+							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="繁體中文">繁體中文</a>
+						</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+
+
+
+
+<div class="container form">
+	<div class="row">
+		<div class="col-lg-12 pd-tb-m">
+			<h5 class="h2 title-img">
+				<i class="fa fa-search" aria-hidden="true"></i> 真偽查詢
+			</h5>
+		</div>
+		<div class="col-lg-12">
+			<div class="bg-white">
+				<form class="form-horizontal pd-l" id="dataForm">
+					<div class="form-group">
+						<label for="authCodeCde" class="col-lg-2 col-md-2 col-sm-3 col-xs-12 control-label">商品防偽碼</label>
+						<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
+							<input type="text" class="form-control required" id="authCodeCde" name="authCodeCde" maxlength="50">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="validCode" class="col-lg-2 col-md-2 col-sm-3 col-xs-12 control-label">驗證碼</label>
+						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+							<input type="text" class="form-control required" id="validCode" name="validCode" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="4">
+						</div>
+						<div class="verify">
+							<img id="validImg" style="cursor: pointer;width:120px;" class="reValid" src="generic/genValidCode.do?code=54">
+						</div>
+					</div>
+					<div class="clearfix clearfixH-m"></div>
+					<div class="form-group">
+						<div class="col-sm-12 text-center">
+							<a class="btn btn-primary btn-wdh" onclick="submitForm()">查詢</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		$("#authCodeCde").focus();
+	});
+
+	function submitForm() {
+		var $form = $("#dataForm");
+		if (!$form.valid()) {
+			return;
+		}
+		// 把目前驗證碼的 seed 帶到後端做 server-side 校驗
+		var src = $("#validImg").attr("src") || "";
+		var match = src.match(/code=(\d+)/);
+		setFormTag($form, "captchaSeed", match ? match[1] : "0");
+		setFormTag($form, "queryType", "page");
+		formSubmit($("#dataForm"), "checkTruth.do");
+	}
+</script>
+
+	</div>
+
+	<div class="col-xs-12 pd-s text-center" id="footer-frontend" style="top: 687px;"><span class="footer-content">版權所有 COPYRIGHT 2016-2026&nbsp;T-SECURITY INC. ALL RIGHTS RESERVED.｜POWERED BY AMAZON WEB SERVICES.</span></div>
+
+	<div class="theme-popover-mask"></div>
+	<div class="theme-popover-mask"></div>
+	<a href="#" title="頁面往上" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
+
+
+<script type="text/javascript" src="/frontPages/js/scrollTo.min.js?v=1"></script>
+<script type="text/javascript">
+	var commonSelectFile = "選擇檔案";
+</script>
+<script type="text/javascript" src="/frontPages/js/bootstrap.min.js?v=2"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-filestyle.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.gallery.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/menu.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/marquee.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/bootstrap-datepicker/js/bootstrap-datepicker.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-notify.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/js/address.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/keyword/keyword.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/jquery-confirm.min.js?v=1"></script>
+<script type="text/javascript">
+	var contextPath = "";
+	var alertMsgNotEmptyId = "不可空白";
+
+	$(function () {
+
+		$( window ).resize(function() {
+			// adjust footer's position	
+			if (screen.availHeight > document.body.scrollHeight) {
+				$("#footer-frontend").css('top', screen.availHeight-document.body.scrollHeight);
+				//console.log("screen.availHeight > document.body.scrollHeight");
+			} else {
+				$("#footer-frontend").css('bottom', '');
+				//console.log("screen.availHeight < document.body.scrollHeight");
+			}
+		});
+
+		initPageLoad();
+
+		$("#loading").fadeOut(600);
+
+		 
+		$("#bodyLogOut, #myAccLogout").click(function () {
+			console.log("logout .... ");
+			location = "/logoutCheck.do";
+		});
+	});
+
+	window.onload = function () {
+		// adjust footer's position	
+		if (screen.availHeight > document.body.scrollHeight) {
+			$("#footer-frontend").css('top', screen.availHeight - document.body.scrollHeight);
+			//console.log("screen.availHeight > document.body.scrollHeight");
+		} else {
+			$("#footer-frontend").css('bottom', '');
+			//console.log("screen.availHeight < document.body.scrollHeight");
+		}
+	};
+</script>
+
+</body></html>

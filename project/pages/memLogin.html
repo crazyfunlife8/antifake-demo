@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-confirm.min.css">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- About Favorite Icon -->
+	<link rel="icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="icon" sizes="192x192" href="/resources/assets/img/android-chrome-192x192.png">
+	<link rel="shortcut icon" type="image/ico" href="/resources/assets/img/favicon.ico"> 
+	<link rel="apple-touch-icon" sizes="57x57" href="/resources/assets/img/apple-touch-icon-57x57.png"> 
+	<link rel="apple-touch-icon" sizes="72x72" href="/resources/assets/img/apple-touch-icon-72x72.png"> 
+	<link rel="apple-touch-icon" sizes="114x114" href="/resources/assets/img/apple-touch-icon-114x114.png"> 
+	<link rel="apple-touch-icon" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120.png"> 
+	<link rel="apple-touch-icon" sizes="144x144" href="/resources/assets/img/apple-touch-icon-144x144.png"> 
+	<link rel="apple-touch-icon" sizes="180x180" href="/resources/assets/img/apple-touch-icon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="../resources/assets/img/apple-touch-icon-76x76-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/resources/assets/img/apple-touch-icon-120x120-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/resources/assets/img/apple-touch-icon-152x152-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="167x167" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/resources/assets/img/apple-touch-icon-180x180-precomposed.png">
+	<link rel="manifest" href="/resources/assets/img/site.webmanifest">
+	<link rel="mask-icon" href="/resources/assets/img/safari-pinned-tab.svg">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+	<!-- About Favorite Icon -->
+	<title>防偽驗證</title>
+	<!-- InstanceEndEditable -->
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/style.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/menu.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/window.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/keyword/keyword.min.css">
+	<link rel="stylesheet" type="text/css" href="/resources/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="/frontPages/css/jquery-ui.min.css?v=1.13.2">
+	<script type="text/javascript" src="/resources/js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="/resources/js/jquery-migrate-3.3.2.min.js"></script>
+	<script type="text/javascript" src="/resources/js/bootstrap-select.min.js?v=1"></script>
+	<script type="text/javascript" src="/resources/js/utils.min.js?v=1"></script>
+	<script type="text/javascript" src="/frontPages/js/common.min.js?v=3"></script>
+	<script type="text/javascript" src="/resources/js/multiSelect.js?v=1"></script>
+	<script type="text/javascript">
+		$( function() {
+			$(".langChange").click(function() {
+				doAjax("generic/frontLangChange.do", {
+					langType: $(this).prop("title")
+				}, function (json, status) {
+					location.reload();
+				});
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div id="loading" style="display: none;"></div>
+	<header class="main_h">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 pd-s text-center">
+					<div id="icon">
+						<span class="language">
+							<button type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" title="選取語言">
+								<img src="/frontPages/images/icon/language.png" alt="language">
+							</button>
+						</span>
+					</div>
+					<div class="mobile-toggle">
+						<span></span> <span></span> <span></span>
+					</div>
+					<nav id="menu">
+						<ul>
+							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> 查詢結果</a></li>
+							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> 聯絡我們</a></li>
+						</ul>
+					</nav>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="top">
+		<div id="menu-language" style="display: block;">
+			<div class="collapse" id="collapseExample">
+				<a class="close2" href="#" title="關閉語言" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> <img src="/frontPages/images/close.png" alt="close">
+				</a>
+				<ul class="list-inline">
+					
+						<li class="langChange" title="CHT">
+							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="繁體中文">繁體中文</a>
+						</li>
+					
+				</ul>
+			</div>
+		</div>
+		
+
+
+
+<div class="container form">
+	<div class="row">
+		<div class="col-lg-12 pd-tb-m">
+			<h5 class="h2 title-img">
+				<span class="glyphicon glyphicon-user"></span> 會員登入
+			</h5>
+		</div>
+		<div class="col-lg-12">
+			<div class="bg-white">
+				<form class="form pd-l" id="dataForm">
+				<input type="hidden" id="socialBindType" value="0" name="socialBindType">
+					
+					
+					<div class="clearfix clearfixH-m"></div>
+					<div class="form-group">
+						<label for="account" class="lable">帳號(電子信箱)</label>
+						<input type="text" class="form-control required" id="account" name="account" value="">
+					</div>
+					<div class="form-group">
+						<span class="help-block pull-right">
+							<a data-featherlight="#forgetPassowrd" data-featherlight-variant="fixwidth">
+								<span class="glyphicon glyphicon-question-sign"></span> 忘記密碼
+							</a>
+						</span>
+						<label for="password" class="lable pull-left">密碼</label>
+						<input type="password" class="form-control required" id="password" name="password" value="">
+					</div>
+					
+					<div class="clearfix"></div>
+					<div class="form-group">
+						<div class="checkbox">
+
+							<label><input type="checkbox" name="checkMe" value="true" id="checkMe">
+								<input type="hidden" id="__checkbox_checkMe" name="__checkbox_checkMe" value="true">記住我的登入資訊
+							</label>
+						</div>
+					</div>
+					<div class="clearfix clearfixH-s"></div>
+					<div class="col-sm-12 text-center btn-wdh2">
+						<a id="login" class="btn btn-primary btn-wdh">登入</a>
+						<a id="register" class="btn btn-primary btn-wdh">會員註冊</a>
+					</div>
+					<div class="clearfix"></div>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="lightbox" id="forgetPassowrd">
+	<h4 class="h3 title text-bold text-primary">
+		<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 重設密碼
+	</h4>
+	<div class="form-group">
+		<label for="accountText">請輸入您的帳號(電子信箱)</label>
+		<input type="text" class="form-control" id="accountText" name="accountText">
+	</div>
+	<div class="form-group text-center">
+		<input type="button" id="confirm" class="btn btn-primary btn-wdh" value="確認">
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+	$(function() {
+		$("#login").click(function() {
+			var $form = $("#dataForm");
+			if (!$form.valid()) {
+				return;
+			}
+			formSubmit($form, "loginCheck.do");
+		});
+
+		$("#register").click(function() {
+			redirect("takeMembershipTerms.do");
+		});
+
+		$("#confirm").click(function() {
+			var $account = $("#accountText", $(".featherlight-content"));
+			if ($account.isBlank()) {
+				//帳號不可空白;
+				alertMsgFront("00-21-001",'帳號');
+				$account.focus();
+				return;
+			}
+			doAjax("memForgot.do", {
+				"account" : $account.val()
+			}, function(json) {
+				if (json.data) {
+					alertMsgFrontAndReload(json.data, true);
+					
+					//location.reload();
+				} else {
+					alertMsgFrontAndReload("MSG_SENT_ACCT_PWD_TMEM_FAIL", true);
+				}
+			});
+		});
+
+		$("#reset").click(function() {
+			var $form = $(".featherlight-content");
+			var $new = $("#newPassword", $form);
+			if ($new.isBlank()) {
+				//新密碼為空
+				alertMsgFront("00-21-001",'新密碼');
+				$new.focus();
+				return;
+			}
+			var $comfirm = $("#confirmPassword", $form);
+			if ($comfirm.isBlank()) {
+				//驗證新密碼為空
+				alertMsgFront("00-21-001",'確認新密碼');
+				$comfirm.focus();
+				return;
+			}
+			if ($new.val().length < 4) {
+				//密碼長度小於4
+				var vals = ['密碼','4'];
+				alertMsgFront("00-21-017", vals);
+				return;
+			}
+			if ($new.val() != $comfirm.val()) {
+				//新密碼與驗證新密碼不相符
+				var vals = ['新密碼','確認新密碼'];
+				alertMsgFront("00-21-010", vals);
+				return;
+			}
+			doAjax("memConfirm.do", {
+				"vone" : "",
+				"password" : $comfirm.val(),
+				"vtwo" : ""
+			}, function(json) {
+				if (json.data) {
+					alertInLightbox(json.data);
+				}
+				redirect("memLogin.do");
+			});
+		});
+
+		if (JSON.parse("false")) {
+			setTimeout(function() {
+				$("#openReset").click();
+			}, 200);
+		} else {
+			$("#openReset").remove();
+			$("#resetPassowrd").remove();
+		}
+
+		if ("0" < 2) {
+			$("#validArea").remove();
+		}
+		$("#account").focus();
+	});
+	
+	function alertMsg(msg, reps) {
+		var rex = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' ];
+		var msgRep = msg;
+		if (isNotUndeOrNull(msg)) {
+			if (reps != undefined && reps instanceof Array && reps.length > 0) {
+				for (var i = 0; i < reps.length; i++) {
+					msgRep = msgRep.replace('$' + rex[i], reps[i]);
+				}
+			} else if (reps != undefined && reps != '') {
+				msgRep = msgRep.replace('$A', reps);
+			}
+		}
+
+		$.featherlight(msgRep, {
+			variant : "fixwidth"
+		});
+	}
+	
+	function alertMsgFrontAndReload(msg, reload){
+		
+		if(reload){
+			$.featherlight("<div class='lightbox'>" +msg +"</div>", {variant : "fixwidth", afterClose : function(){ window.location.reload(); }});
+		} else {
+			$.featherlight("<div class='lightbox'>" +msg +"</div>", {variant : "fixwidth" });
+		}
+	}
+	
+</script>
+
+	</div>
+
+	<div class="col-xs-12 pd-s text-center" id="footer-frontend" style="top: 563px;"><span class="footer-content">版權所有 COPYRIGHT 2016-2026&nbsp;T-SECURITY INC. ALL RIGHTS RESERVED.｜POWERED BY AMAZON WEB SERVICES.</span></div>
+
+	<div class="theme-popover-mask"></div>
+	<div class="theme-popover-mask"></div>
+	<a href="#" title="頁面往上" class="scrollTo"><img src="/frontPages/images/icon/arrowT.png" alt="top"></a>
+
+
+<script type="text/javascript" src="/frontPages/js/scrollTo.min.js?v=1"></script>
+<script type="text/javascript">
+	var commonSelectFile = "選擇檔案";
+</script>
+<script type="text/javascript" src="/frontPages/js/bootstrap.min.js?v=2"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-filestyle.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/featherlight.gallery.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/menu.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/marquee.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/bootstrap-datepicker/js/bootstrap-datepicker.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/bootstrap-notify.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/js/address.min.js?v=1"></script>
+<script type="text/javascript" src="/resources/keyword/keyword.min.js?v=1"></script>
+<script type="text/javascript" src="/frontPages/js/jquery-confirm.min.js?v=1"></script>
+<script type="text/javascript">
+	var contextPath = "";
+	var alertMsgNotEmptyId = "不可空白";
+
+	$(function () {
+
+		$( window ).resize(function() {
+			// adjust footer's position	
+			if (screen.availHeight > document.body.scrollHeight) {
+				$("#footer-frontend").css('top', screen.availHeight-document.body.scrollHeight);
+				//console.log("screen.availHeight > document.body.scrollHeight");
+			} else {
+				$("#footer-frontend").css('bottom', '');
+				//console.log("screen.availHeight < document.body.scrollHeight");
+			}
+		});
+
+		initPageLoad();
+
+		$("#loading").fadeOut(600);
+
+		 
+		$("#bodyLogOut, #myAccLogout").click(function () {
+			console.log("logout .... ");
+			location = "/logoutCheck.do";
+		});
+	});
+
+	window.onload = function () {
+		// adjust footer's position	
+		if (screen.availHeight > document.body.scrollHeight) {
+			$("#footer-frontend").css('top', screen.availHeight - document.body.scrollHeight);
+			//console.log("screen.availHeight > document.body.scrollHeight");
+		} else {
+			$("#footer-frontend").css('bottom', '');
+			//console.log("screen.availHeight < document.body.scrollHeight");
+		}
+	};
+</script>
+
+</body>
+</html>

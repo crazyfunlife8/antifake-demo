@@ -1,0 +1,155 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | T-SECU 管理後台{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}">
+    ⚡ T-SECU 防偽管理後台
+  </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+/* ── 主色 #063a6b（Solta 深藍）─────────────────────────────────── */
+
+/* Header */
+#header {
+  background: #063a6b;
+  color: #fff;
+}
+#header a:link, #header a:visited {
+  color: #fff;
+}
+#header a:hover {
+  color: #d0e8ff;
+}
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+#user-tools, #user-tools a {
+  color: #d0e8ff;
+}
+#user-tools a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Module headers（各區塊標題列）*/
+.module h2, .module caption, .inline-group h2 {
+  background: #063a6b;
+  color: #fff;
+}
+div.breadcrumbs {
+  background: #3a6b96;
+  color: #d0e8ff;
+}
+div.breadcrumbs a {
+  color: #fff;
+}
+
+/* 側欄 app 列表 */
+#nav-sidebar .module h2 {
+  background: #063a6b;
+}
+
+/* 按鈕 */
+.button, input[type=submit], input[type=button],
+.submit-row input, a.button {
+  background: #063a6b;
+  border-color: #1e4060;
+  color: #fff;
+}
+.button:hover, input[type=submit]:hover,
+.submit-row input:hover, a.button:hover {
+  background: #1e4060;
+  border-color: #17334d;
+}
+.button.default, input[type=submit].default,
+.submit-row input.default {
+  background: #063a6b;
+  border-color: #1e4060;
+}
+
+/* 連結顏色 */
+a:link, a:visited {
+  color: #27547f;
+  font-weight: 700;
+}
+a:hover {
+  color: #1e4060;
+}
+
+/* changelist 操作按鈕 */
+.object-tools a:link, .object-tools a:visited {
+  background: #063a6b;
+  color: #fff;
+}
+.object-tools a:hover {
+  background: #1e4060;
+}
+
+/* 選中 row 高亮 */
+tr.selected {
+  background: #e8f0f7;
+}
+
+/* ── 表格密度（行高 36px）─────────────────────────────────────── */
+#result_list td, #result_list th {
+  padding: 8px 10px;
+  line-height: 20px;
+}
+
+/* ── 篩選器側欄 ──────────────────────────────────────────────── */
+#changelist-filter h2 {
+  background: #063a6b;
+  color: #fff;
+}
+#changelist-filter h3 {
+  color: #063a6b;
+  border-bottom: 1px solid #ddd;
+}
+#changelist-filter li.selected a {
+  color: #063a6b;
+  font-weight: bold;
+}
+
+/* ── 頁面標題 ────────────────────────────────────────────────── */
+#content h1 {
+  color: #27547f;
+  font-weight: 700;
+}
+
+/* ── Pagination ─────────────────────────────────────────────── */
+.paginator a:link, .paginator a:visited {
+  color: #063a6b;
+}
+.paginator .this-page {
+  background: #063a6b;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+/* ── 主題切換按鈕（右上角 light/dark toggle）──────────────────── */
+svg use {
+  color: #063a6b;
+}
+
+/* ── 成功/錯誤訊息 ───────────────────────────────────────────── */
+.messagelist li.success {
+  background: #e8f4e8 url(../img/icon-yes.svg) 5px center no-repeat;
+  border-left: 4px solid #2d8a2d;
+}
+.messagelist li.error {
+  background: #fde8e8 url(../img/icon-no.svg) 5px center no-repeat;
+  border-left: 4px solid #c0392b;
+}
+</style>
+{% endblock %}

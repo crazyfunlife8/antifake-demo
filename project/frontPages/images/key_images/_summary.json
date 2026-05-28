@@ -1,0 +1,37 @@
+[
+  {
+    "fileNo": "10736",
+    "size": 120289,
+    "content_type": "image/jpeg",
+    "saved": "fileNo_10736.jpg",
+    "status": 200
+  },
+  {
+    "fileNo": "1833",
+    "size": 1516,
+    "content_type": "image/jpeg",
+    "saved": "fileNo_1833.jpg",
+    "status": 200
+  },
+  {
+    "fileNo": "42284",
+    "size": 548781,
+    "content_type": "image/jpeg",
+    "saved": "fileNo_42284.jpg",
+    "status": 200
+  },
+  {
+    "fileNo": "42285",
+    "size": 123470,
+    "content_type": "image/jpeg",
+    "saved": "fileNo_42285.jpg",
+    "status": 200
+  },
+  {
+    "fileNo": "44389",
+    "size": 567114,
+    "content_type": "image/jpeg",
+    "saved": "fileNo_44389.jpg",
+    "status": 200
+  }
+]

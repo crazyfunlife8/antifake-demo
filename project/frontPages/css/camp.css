@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+.camp-bg{ background:url(../images/camp/camp-bg.png) no-repeat repeat;}
+
+.camp-bg img {max-width:100%;}
+
+.camp-btn{ width:80%; max-width:250px; border-radius:25px; font-weight:bold;}
+
+.camp-btn-bg{ background:url(../images/camp/camp-btn.png) repeat-x center center; color:white;}
+
+.camp-btn-bg:active{background:url(../images/camp/camp-btn.png) repeat-x center center; color:#111;}
+
+.camp-pic-container{height:0; padding-bottom:120%; overflow:hidden;}
+
+.bg-lightbox{background-color:rgb(127, 127, 127);}
+
+.featherlight-inner .justify-content-center{margin:auto;}
+
+.title-collapse{padding-left:1em;}
+
+.title-collapse:before {
+    font-family: "Glyphicons Halflings";
+    content:"\e252";
+	font-size: 14px;
+}
+.title-collapse.collapsed:before {
+    content:"\e250";
+}
+
+.dots {
+  margin: 40px auto;
+}
+
+.dot {
+  display: inline-block;
+  border-radius: 50%;
+  width: 50%;
+  background-color: #666;
+  height: 11px;
+  width: 11px;
+  margin: 0 2px;
+}
+.dot.dot-sm {
+  height: 8px;
+  width: 8px;
+}
+.dot.dot-lg {
+  margin: 0 4px;
+  height: 15px;
+  width: 15px;
+}

@@ -1,0 +1,37 @@
+@charset "utf-8";
+.mp_input {
+}
+ol.mp_list {
+  background-color: #ffffff;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-radius: 0 0 4px 4px;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  z-index: 99999;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.175);
+}
+ol.mp_list li {
+  padding: 7px 15px;
+}
+ol.mp_list li.mp_item {
+}
+ol.mp_list li.mp_selectable {
+  cursor: pointer;
+}
+ol.mp_list li.mp_highlighted {
+  background-color: #8ba3ba;
+}
+ol.mp_list li.mp_no_results {
+}
+ol.mp_list li.mp_min_chars {
+}
+ol.mp_list li.mp_error {
+}
+#location {
+}

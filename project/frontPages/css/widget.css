@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+.portlet .widget {
+  background: none repeat scroll 0 0 #f9f9f9;
+  clear: both;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+  -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+}
+.portlet .widget-title {
+  background-color: #EFEFEF;
+  background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#FDFDFD), to(#EAEAEA));
+  background-image: -webkit-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+  background-image: -moz-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+  background-image: -ms-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+  background-image: -o-linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+  background-image: -linear-gradient(top, #FDFDFD 0%, #EAEAEA 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fffdfdfd', endColorstr='#ffeaeaea', GradientType=0 );
+  border-bottom: 1px solid #e0dede;
+  height:23px;
+  -webkit-border-radius: 3px 3px 0px 0px;
+  -moz-border-radius: 3px 3px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
+}
+.portlet .widget-title > h4 {
+  float: left;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 6px 6px 5px 7px;
+  line-height: 1px;
+  margin: 0;
+}
+.portlet .widget-title > h4 i {
+  font-size: 14px;
+  margin-right: 2px;
+}
+.portlet .widget-title span.tools {
+  padding: 0px 5px 0px;
+  float: right;
+  margin-top:-1px !important;
+}
+.portlet .widget-title span.tools > a {
+  display: inline-block;
+  padding: 5px 10px 10px 11px;
+  height: 8px;
+  font-size: 8px;
+}
+.portlet .widget-title span.tools > a:hover {
+  text-decoration: none;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  opacity: .6;
+}
+.portlet .widget-title .btn-group {
+  margin-right:5px;
+  margin-top: -2px;
+}
+.portlet .widget-title .btn-group .caret {
+  margin-top: 8px;
+  margin-left: 3px;
+}
+.portlet .widget-body {
+  padding: 8px;
+  border-bottom: 1px solid #CDCDCD;
+  -webkit-border-radius: 0px 0px 3px 3px;
+  -moz-border-radius: 0px 0px 3px 3px;
+  border-radius: 0px 0px 3px 3px;
+}
+.portlet .widget-body img {
+  max-width: 100% ;!important
+  height:auto;
+}
+.widget-title > .actions {
+  padding: 3px 5px 2px;
+  float: right;
+  margin: 2px 0 0 0;
+}
+/* widget background color */
+.widget.w-blue {
+  background: none repeat scroll 0 0 #e1f2f4;
+}
+.widget.w-cream {
+  background: none repeat scroll 0 0 #f0efe6;
+}
+.widget.w-magenta {
+  background: none repeat scroll 0 0 #f7e8ee;
+}
+.widget.w-orange {
+  background: none repeat scroll 0 0 #fce9e0;
+}
+.widget.w-purple {
+  background: none repeat scroll 0 0 #ece9ed;
+}
+.widget.w-green {
+  background: none repeat scroll 0 0 #eef8e9;
+}

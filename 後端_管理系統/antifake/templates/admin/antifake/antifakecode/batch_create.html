@@ -1,0 +1,71 @@
+{% extends "admin/base_site.html" %}
+{% block title %}批量新增防偽碼{% endblock %}
+{% block content %}
+<h1>批量新增防偽碼</h1>
+
+{% if messages %}
+<ul class="messagelist">
+    {% for msg in messages %}
+    <li class="{{ msg.tags }}">{{ msg }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<style>
+    .batch-section { background:#f8f8f8; border:1px solid #ddd; border-radius:4px; padding:20px; margin-bottom:24px; }
+    .batch-section h2 { margin-top:0; font-size:16px; }
+    .batch-section label { display:block; margin-bottom:4px; font-weight:bold; }
+    .batch-section input[type=text], .batch-section input[type=number],
+    .batch-section select, .batch-section textarea { width:100%; max-width:400px; padding:6px 8px; box-sizing:border-box; }
+    .batch-section .help { color:#888; font-size:12px; margin-top:2px; }
+    .submit-row { margin-top:12px; }
+</style>
+
+<!-- 方式 A：CSV 上傳 -->
+<div class="batch-section">
+    <h2>方式 A：上傳 CSV</h2>
+    <p>CSV 格式：第一欄 <code>code</code>（必填），第二欄 <code>notes</code>（選填），不含標題列。</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="csv">
+        <div style="margin-bottom:12px;">
+            <label>選擇 CSV 檔案</label>
+            <input type="file" name="csv_file" accept=".csv" required>
+        </div>
+        <div class="submit-row">
+            <input type="submit" value="匯入 CSV" class="default">
+        </div>
+    </form>
+</div>
+
+<!-- 方式 B：自動產生 -->
+<div class="batch-section">
+    <h2>方式 B：自動產生</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="generate">
+        <div style="margin-bottom:12px;">
+            <label>產生數量</label>
+            <input type="number" name="count" value="10" min="1" max="10000" required>
+        </div>
+        <div style="margin-bottom:12px;">
+            <label>碼的長度</label>
+            <select name="length">
+                <option value="12" selected>12 字元（預設）</option>
+                <option value="16">16 字元</option>
+                <option value="8">8 字元</option>
+            </select>
+        </div>
+        <div style="margin-bottom:12px;">
+            <label>共用備註（選填）</label>
+            <input type="text" name="notes" placeholder="例：2026Q2 出貨批次">
+            <div class="help">這批碼都會套用同一個備註</div>
+        </div>
+        <div class="submit-row">
+            <input type="submit" value="產生並建立" class="default">
+        </div>
+    </form>
+</div>
+
+<a href="../">← 返回防偽碼清單</a>
+{% endblock %}

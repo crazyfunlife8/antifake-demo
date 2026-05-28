@@ -1,0 +1,100 @@
+{% extends "admin/base_site.html" %}
+{% block title %}異常檢測報表{% endblock %}
+{% block content %}
+<h1>異常檢測報表</h1>
+<p style="color:#888;">資料時間：{{ now }}</p>
+
+<style>
+    .anomaly-section { margin-bottom: 32px; }
+    .anomaly-section h2 { font-size: 16px; border-left: 4px solid #c0392b; padding-left: 10px; }
+    .anomaly-table { width: 100%; border-collapse: collapse; }
+    .anomaly-table th { background: #f2f2f2; text-align: left; padding: 8px 10px; border-bottom: 2px solid #ddd; }
+    .anomaly-table td { padding: 7px 10px; border-bottom: 1px solid #eee; }
+    .anomaly-table tr:hover td { background: #fffbea; }
+    .badge { display:inline-block; background:#c0392b; color:#fff; border-radius:3px; padding:1px 7px; font-size:13px; }
+    .none { color: #888; font-style: italic; }
+</style>
+
+<!-- 1. 同碼 24h ≥5 次 -->
+<div class="anomaly-section">
+    <h2>① 同一防偽碼 24 小時內被驗 ≥5 次</h2>
+    {% if anomaly_codes %}
+    <table class="anomaly-table">
+        <thead>
+            <tr>
+                <th>防偽碼</th>
+                <th>24h 內驗證次數</th>
+                <th>累計總次數</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in anomaly_codes %}
+            <tr>
+                <td><a href="/admin/antifake/antifakecode/{{ row.code_id }}/change/">{{ row.code_id }}</a></td>
+                <td><span class="badge">{{ row.count }}</span></td>
+                <td>{{ row.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="none">無異常記錄。</p>
+    {% endif %}
+</div>
+
+<!-- 2. 同 IP 一天 ≥10 個不同碼 -->
+<div class="anomaly-section">
+    <h2>② 同一 IP 今日驗了 ≥10 個不同防偽碼</h2>
+    {% if anomaly_ips %}
+    <table class="anomaly-table">
+        <thead>
+            <tr>
+                <th>IP 位址</th>
+                <th>今日驗證不同碼數</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in anomaly_ips %}
+            <tr>
+                <td>{{ row.client_ip }}</td>
+                <td><span class="badge">{{ row.code_count }}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="none">無異常記錄。</p>
+    {% endif %}
+</div>
+
+<!-- 3. 同 GPS 一天 ≥10 個不同碼 -->
+<div class="anomaly-section">
+    <h2>③ 同一地點今日驗了 ≥10 個不同防偽碼（疑似診所重複使用探頭）</h2>
+    {% if anomaly_gps %}
+    <table class="anomaly-table">
+        <thead>
+            <tr>
+                <th>緯度</th>
+                <th>經度</th>
+                <th>今日驗證不同碼數</th>
+                <th>地圖</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in anomaly_gps %}
+            <tr>
+                <td>{{ row.geo_lat }}</td>
+                <td>{{ row.geo_lng }}</td>
+                <td><span class="badge">{{ row.code_count }}</span></td>
+                <td><a href="https://www.google.com/maps?q={{ row.geo_lat }},{{ row.geo_lng }}" target="_blank">Google Maps</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="none">無異常記錄。</p>
+    {% endif %}
+</div>
+
+<a href="../">← 返回驗證歷史</a>
+{% endblock %}

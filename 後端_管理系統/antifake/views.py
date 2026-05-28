@@ -192,21 +192,18 @@ def call_qkit(request):
     checksum = request.POST.get('checksum', '').strip()
 
     try:
-        code_obj = AntiFakeCode.objects.get(code=checksum)
+        AntiFakeCode.objects.get(code=checksum, is_active=True, deleted_at__isnull=True)
+        return JsonResponse({
+            'isSystemMatch': 'true',
+            'data': {'fakeResult': '', 'fakeJudgeImg': ''},
+            'isQuest': '0',
+        })
     except AntiFakeCode.DoesNotExist:
         return JsonResponse({
             'isSystemMatch': 'false',
             'data': {'fakeResult': '', 'fakeJudgeImg': ''},
             'isQuest': '0',
         })
-
-    # 計數已在 check_truth POST 時累加，這裡只讀取回傳
-    n = code_obj.verify_count
-    return JsonResponse({
-        'isSystemMatch': 'false',
-        'data': {'fakeResult': _build_fake_result(n), 'fakeJudgeImg': ''},
-        'isQuest': '0',
-    })
 
 
 @csrf_exempt

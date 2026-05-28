@@ -1,0 +1,29 @@
+# 爬蟲 / 採集工具
+crawl/
+crawl_*.py
+dump/
+dump_*.py
+dump_verify_result/
+fetch_result_images.py
+journey/
+journey_*.py
+step_recorder.py
+verify_*.py
+verify_memlogin/
+網站復刻採集流程架構_v1.0.md
+規格書/
+__pycache__/
+.claude/
+
+# Django
+後端_管理系統/__pycache__/
+後端_管理系統/**/__pycache__/
+後端_管理系統/db.sqlite3
+後端_管理系統/staticfiles/
+後端_管理系統/.env
+後端_管理系統/uploads/
+*.pyc
+
+# Node
+project/node_modules/
+.env

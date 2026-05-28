@@ -100,11 +100,9 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js?v=1"></script>
 <div class="container" id="home">
 	<div class="row">
-		{% if block_content_7 %}
 		<div class="col-lg-12">
-			<div class="chaoverscroll" id="chaoverscroll_box">{{ block_content_7|safe }}</div>
+			<div class="chaoverscroll" id="chaoverscroll_box">{% if block_content_7 %}{{ block_content_7|safe }}{% endif %}</div>
 		</div>
-		{% endif %}
 		{% if is_qkit %}
 		<!-- Scenario A：防偽碼有效 -->
 		<div class="col-lg-12">
@@ -166,7 +164,7 @@
 		<section>
 			<div class="col-lg-12">
 				<div style="text-align:center;">
-					<div class="pd-l" style="padding-bottom:0px;padding-top:0px;" id="main6">
+					<div class="bg-blue pd-l" style="padding-bottom:0px;padding-top:0px;" id="main6">
 						<p style="margin:0px;">&nbsp;</p>
 						<p>T-Security Inc. © 2016-2026</p>
 						<p style="margin:0px;">&nbsp;</p>

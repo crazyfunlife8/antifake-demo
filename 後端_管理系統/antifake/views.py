@@ -19,8 +19,8 @@ from .models import AntiFakeCode, VerificationLog, UploadedFile, \
 
 # ── 工具 ────────────────────────────────────────────────────────────────────
 
-PAGES_DIR = os.path.join(settings.BASE_DIR, '..', 'project', 'pages')
-UPLOAD_DIR = os.path.join(settings.BASE_DIR, '..', 'project', 'uploads')
+PAGES_DIR = os.path.join(settings.BASE_DIR, 'project', 'pages')
+UPLOAD_DIR = os.path.join(settings.BASE_DIR, 'project', 'uploads')
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 SYS_MSG = {

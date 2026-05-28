@@ -21,6 +21,7 @@ TRANS = {
         'nav_lang_select': '選取語言',
         'nav_lang_close':  '關閉語言',
         'lang_cht':        '繁體中文',
+        'lang_eng':        '英文',
         'scroll_top':      '頁面往上',
 
         # ── 頁尾 ───────────────────────────────────────────────────────────
@@ -147,6 +148,7 @@ TRANS = {
         'nav_lang_select': 'Select Language',
         'nav_lang_close':  'Close',
         'lang_cht':        'Traditional Chinese',
+        'lang_eng':        'English',
         'scroll_top':      'Back to Top',
 
         # ── 頁尾 ───────────────────────────────────────────────────────────

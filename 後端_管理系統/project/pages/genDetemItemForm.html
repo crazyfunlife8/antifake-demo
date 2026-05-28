@@ -92,6 +92,9 @@
 						<li class="langChange" title="CHT">
 							<a href="#"><img src="/generic/getImg.do?fileNo=1833" alt="{{ t.lang_cht }}">{{ t.lang_cht }}</a>
 						</li>
+						<li class="langChange" title="ENG">
+							<a href="#">{{ t.lang_eng }}</a>
+						</li>
 				</ul>
 			</div>
 		</div>
@@ -200,10 +203,10 @@ $(function () {
 					window.location.href = "/mainEntry.do";
 					return;
 				}
-				
+
 			} else{
 				alertMsgFront("QKIT_ERR_MSG_001");
-				setTimeout(function(){ 
+				setTimeout(function(){
 					window.location.href = "/mainEntry.do"; }, 2000);
 			}
 			

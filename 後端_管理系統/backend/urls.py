@@ -6,7 +6,7 @@ import os
 
 from antifake import views
 
-PROJECT_DIR = os.path.join(settings.BASE_DIR, '..', 'project')
+PROJECT_DIR = os.path.join(settings.BASE_DIR, 'project')
 
 urlpatterns = [
     # ── 管理後台 ────────────────────────────────────────────────────────────

@@ -55,7 +55,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'antifake' / 'templates',
-            BASE_DIR.parent / 'project' / 'pages',
+            BASE_DIR / 'project' / 'pages',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

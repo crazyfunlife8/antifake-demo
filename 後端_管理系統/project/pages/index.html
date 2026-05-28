@@ -144,7 +144,17 @@
 
 	function submitForm() {
 		var $form = $("#dataForm");
-		if (!valid()) {
+		var msg = null;
+		$form.find('input.required').each(function() {
+			if (!$(this).val().trim()) {
+				var label = $('label[for="' + $(this).attr('id') + '"]').text().trim();
+				msg = label + alertMsgNotEmptyId;
+				$(this).focus();
+				return false;
+			}
+		});
+		if (msg) {
+			$.featherlight("<div class='lightbox'>" + msg + "</div>", {variant: "fixwidth"});
 			return;
 		}
 		// 把目前驗證碼的 seed 帶到後端做 server-side 校驗

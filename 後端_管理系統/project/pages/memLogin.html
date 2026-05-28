@@ -168,7 +168,19 @@
 	$(function() {
 		$("#login").click(function() {
 			var $form = $("#dataForm");
-			if (!valid()) return;
+			var msg = null;
+			$form.find('input.required').each(function() {
+				if (!$(this).val().trim()) {
+					var label = $('label[for="' + $(this).attr('id') + '"]').text().trim();
+					msg = label + alertMsgNotEmptyId;
+					$(this).focus();
+					return false;
+				}
+			});
+			if (msg) {
+				$.featherlight("<div class='lightbox'>" + msg + "</div>", {variant: "fixwidth"});
+				return;
+			}
 			formSubmit($form, "loginCheck.do");
 		});
 

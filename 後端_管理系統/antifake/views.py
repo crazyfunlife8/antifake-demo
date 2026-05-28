@@ -192,10 +192,10 @@ def call_qkit(request):
     checksum = request.POST.get('checksum', '').strip()
 
     try:
-        AntiFakeCode.objects.get(code=checksum, is_active=True, deleted_at__isnull=True)
+        code_obj = AntiFakeCode.objects.get(code=checksum, is_active=True, deleted_at__isnull=True)
         return JsonResponse({
-            'isSystemMatch': 'true',
-            'data': {'fakeResult': '', 'fakeJudgeImg': ''},
+            'isSystemMatch': 'false',
+            'data': {'fakeResult': _build_fake_result(code_obj.verify_count), 'fakeJudgeImg': ''},
             'isQuest': '0',
         })
     except AntiFakeCode.DoesNotExist:
@@ -335,10 +335,14 @@ def get_img(request):
     except (UploadedFile.DoesNotExist, ValueError):
         pass
 
-    # 查本地 project/generic/getImg{fileNo}.jpg
-    local_path = os.path.join(settings.BASE_DIR, '..', 'project', 'generic', f'getImg{file_no}.jpg')
-    if os.path.exists(local_path):
-        return FileResponse(open(local_path, 'rb'), content_type='image/jpeg')
+    # 查本地靜態檔案（key_images 或 generic 目錄）
+    for candidate in [
+        os.path.join(PAGES_DIR, '..', 'frontPages', 'images', 'key_images', f'fileNo_{file_no}.jpg'),
+        os.path.join(PAGES_DIR, '..', 'generic', f'getImg{file_no}.jpg'),
+    ]:
+        candidate = os.path.abspath(candidate)
+        if os.path.exists(candidate):
+            return FileResponse(open(candidate, 'rb'), content_type='image/jpeg')
 
     # 無對應檔案 → SVG 佔位圖
     svg = (

@@ -277,7 +277,7 @@ def _get_captcha_font(size=22):
             except (IOError, OSError):
                 pass
         if _CAPTCHA_FONT is None:
-            _CAPTCHA_FONT = ImageFont.load_default()
+            _CAPTCHA_FONT = ImageFont.load_default(size=size)
     return _CAPTCHA_FONT
 
 

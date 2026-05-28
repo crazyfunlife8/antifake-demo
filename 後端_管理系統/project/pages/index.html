@@ -144,9 +144,17 @@
 
 	function submitForm() {
 		var $form = $("#dataForm");
-		if (!$form.valid()) {
-			return;
-		}
+		var ok = true;
+		$form.find('input.required').each(function() {
+			if (!$(this).val().trim()) {
+				var label = $('label[for="' + $(this).attr('id') + '"]').text().trim();
+				alert(label + '不可空白');
+				$(this).focus();
+				ok = false;
+				return false;
+			}
+		});
+		if (!ok) return;
 		// 把目前驗證碼的 seed 帶到後端做 server-side 校驗
 		var src = $("#validImg").attr("src") || "";
 		var match = src.match(/code=(\d+)/);

@@ -175,9 +175,17 @@
 	
 	function submitForm(method,ajaxParam,param) {
 		var $form = $("#dataForm");
-		if (!$form.valid()) {
-			return;
-		}
+		var ok = true;
+		$form.find('input.required').each(function() {
+			if (!$(this).val().trim()) {
+				var label = $('label[for="' + $(this).attr('id') + '"]').text().trim();
+				alert(label + '不可空白');
+				$(this).focus();
+				ok = false;
+				return false;
+			}
+		});
+		if (!ok) return;
 		doAjax(method, ajaxParam, function(json) {
 			if(json.result){
 				setFormTag($form, param, json.result);

@@ -104,7 +104,7 @@
 <div class="container" id="home">
 	<div class="row">
 		{% if is_qkit %}
-		<!-- Scenario A：防偽碼有效 -->
+		<!-- Scenario A：防偽碼有效（child1=carousel div） -->
 		<div class="col-lg-12">
 			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
 				<ol class="carousel-indicators">
@@ -142,7 +142,10 @@
 			</div>
 		</section>
 		{% else %}
-		<!-- Scenario B：防偽碼無效 / 未輸入 -->
+		<!-- Scenario B：防偽碼無效（child1=chaoverscroll div） -->
+		<div class="col-lg-12">
+			<div class="chaoverscroll" id="chaoverscroll_box"></div>
+		</div>
 		<section>
 			<div class="col-lg-12">
 				<div class="pd-l" id="main">

@@ -404,11 +404,12 @@
 			navigator.geolocation.getCurrentPosition(
 				function(res){
 					coordinate = {'location.latitude':res.coords.latitude,'location.longitude':res.coords.longitude, 'location.accuracy':res.coords.accuracy};
-					setCookie("locationPermission","Y",180);					 
+					// setCookie("locationPermission","Y",180);					 
 					}
-				,function(){
-					setCookie("locationPermission","N",7);
-					},
+				// ,function(){
+				// 	setCookie("locationPermission","N",7);
+				// 	}
+				,
 				{enableHighAccuracy:true,maximumAge:0,timeout:6000});
 			setTimeout(function(){
 				if(coordinate != undefined){

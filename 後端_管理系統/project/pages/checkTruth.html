@@ -342,7 +342,7 @@
 			} else{
 	    		$.confirm({
     				title: '',
-    				content: alertMsgFront("GEO_LOCATION_PERMISSION", "", "", "", true),
+    				content: '{{ t.sys.GEO_LOCATION_PERMISSION|escapejs }}',
     				buttons: {
         			confirm:{
             			text: '{{ t.msg_geo_agree }}',

@@ -152,7 +152,7 @@ class VerificationLogInline(admin.TabularInline):
 
 @admin.register(AntiFakeCode)
 class AntiFakeCodeAdmin(admin.ModelAdmin):
-    list_display = ["code", "verify_count", "is_active", "last_verify_at", "notes", "created_at"]
+    list_display = ["code", "verify_count", "is_active", "last_verify_at", "has_qrcode", "notes", "created_at"]
     list_filter = [DeletedFilter, "is_active", VerifyCountFilter, "created_at"]
     search_fields = ["code", "notes"]
     readonly_fields = ["verify_count", "first_verify_at", "last_verify_at", "created_at", "updated_at", "deleted_at"]
@@ -161,12 +161,17 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
     inlines = [VerificationLogInline]
     actions = ["export_csv", "export_excel", "soft_delete", "restore", "hard_delete", "generate_qrcode"]
 
+    @admin.display(description="已產生 QR Code", boolean=True)
+    def has_qrcode(self, obj):
+        return obj.qrcode_count > 0
+
     def get_queryset(self, request):
-        # 預設只顯示未刪除
         qs = super().get_queryset(request)
         if request.GET.get("deleted") == "deleted":
-            return qs.filter(deleted_at__isnull=False)
-        return qs.filter(deleted_at__isnull=True)
+            qs = qs.filter(deleted_at__isnull=False)
+        else:
+            qs = qs.filter(deleted_at__isnull=True)
+        return qs.annotate(qrcode_count=Count('qrcodes'))
 
     def has_delete_permission(self, request, obj=None):
         return False  # 停用硬刪除按鈕

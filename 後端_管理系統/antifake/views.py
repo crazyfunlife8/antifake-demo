@@ -67,7 +67,46 @@ def _client_ip(request):
 # ── 頁面路由 ─────────────────────────────────────────────────────────────────
 
 def index(request):
+    code_param = request.GET.get('code', '').strip()
+    if code_param:
+        return _process_qr_scan(request, code_param)
     return _render_page(request, 'index.html')
+
+
+def _process_qr_scan(request, code):
+    lang = _get_lang(request)
+    block_content_7 = SystemConfig.get('BLOCK_CONTENT_7', '')
+    try:
+        code_obj = AntiFakeCode.objects.get(code=code, is_active=True, deleted_at__isnull=True)
+        code_obj.verify_count += 1
+        if code_obj.first_verify_at is None:
+            code_obj.first_verify_at = timezone.now()
+        code_obj.last_verify_at = timezone.now()
+        code_obj.save()
+        n = code_obj.verify_count
+        VerificationLog.objects.create(
+            code=code_obj,
+            verify_count_snapshot=n,
+            client_ip=_client_ip(request),
+            user_agent=request.META.get('HTTP_USER_AGENT', ''),
+        )
+        return _render_page(request, 'checkTruth.html', {
+            'checksum': code, 'is_qkit': True,
+            'fake_result': _build_fake_result(n, lang),
+            'block_content_7': block_content_7,
+        })
+    except AntiFakeCode.DoesNotExist:
+        VerificationLog.objects.create(
+            code=None,
+            verify_count_snapshot=0,
+            client_ip=_client_ip(request),
+            user_agent=request.META.get('HTTP_USER_AGENT', ''),
+        )
+        return _render_page(request, 'checkTruth.html', {
+            'checksum': code, 'is_qkit': False,
+            'fake_result': '',
+            'block_content_7': block_content_7,
+        })
 
 
 def main_entry(request):

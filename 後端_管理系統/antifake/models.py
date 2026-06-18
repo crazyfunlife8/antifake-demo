@@ -209,6 +209,24 @@ class QuestionnaireResponse(models.Model):
         return f"{code_str} @ {self.created_at:%Y-%m-%d}"
 
 
+class QrCodeRecord(models.Model):
+    code = models.ForeignKey(
+        AntiFakeCode, on_delete=models.CASCADE,
+        verbose_name='防偽碼', related_name='qrcodes'
+    )
+    full_url = models.URLField('完整 URL', max_length=500)
+    image_b64 = models.TextField('QR Code 圖片（base64）')
+    created_at = models.DateTimeField('建立時間', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'QR Code 記錄'
+        verbose_name_plural = 'QR Code 記錄'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'QR:{self.code_id} @ {self.created_at:%Y-%m-%d %H:%M}'
+
+
 class SystemConfig(models.Model):
     key = models.CharField("設定鍵", max_length=100, unique=True)
     value = models.TextField("設定值", blank=True, default="")

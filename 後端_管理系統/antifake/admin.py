@@ -1,9 +1,11 @@
+import base64
 import csv
 import io
 import random
 from datetime import timedelta
 
 import openpyxl
+import qrcode
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -13,9 +15,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import path
 from django.utils import timezone
+from django.utils.html import format_html
 from .models import (
     AntiFakeCode, VerificationLog, UploadedFile,
     ContactTicket, SupplementReport, QuestionnaireResponse, SystemConfig,
+    QrCodeRecord,
 )
 
 
@@ -155,7 +159,7 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
     ordering = ["-created_at"]
     date_hierarchy = "created_at"
     inlines = [VerificationLogInline]
-    actions = ["export_csv", "export_excel", "soft_delete", "restore", "hard_delete"]
+    actions = ["export_csv", "export_excel", "soft_delete", "restore", "hard_delete", "generate_qrcode"]
 
     def get_queryset(self, request):
         # 預設只顯示未刪除
@@ -202,6 +206,26 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
             return
         headers, rows = _antifakecode_rows(queryset)
         return _export_excel(rows, headers, "防偽碼")
+
+    @admin.action(description="產生 QR Code")
+    def generate_qrcode(self, request, queryset):
+        base_url = SystemConfig.get('SITE_BASE_URL', '').rstrip('/')
+        if not base_url:
+            self.message_user(request, "請先在系統設定中設定 SITE_BASE_URL。", level="error")
+            return
+        created = 0
+        for obj in queryset:
+            url = f"{base_url}/?code={obj.code}"
+            qr = qrcode.QRCode(version=1, box_size=10, border=4)
+            qr.add_data(url)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            buf = io.BytesIO()
+            img.save(buf, format='PNG')
+            b64 = base64.b64encode(buf.getvalue()).decode()
+            QrCodeRecord.objects.create(code=obj, full_url=url, image_b64=b64)
+            created += 1
+        self.message_user(request, f"已產生 {created} 筆 QR Code 記錄。")
 
     def get_readonly_fields(self, request, obj=None):
         if obj:  # 編輯既有記錄時，code 不可改
@@ -441,6 +465,31 @@ class SystemConfigAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(QrCodeRecord)
+class QrCodeRecordAdmin(admin.ModelAdmin):
+    list_display = ['code', 'full_url', 'qr_preview', 'created_at']
+    readonly_fields = ['code', 'full_url', 'qr_image_large', 'created_at']
+    fields = ['code', 'full_url', 'qr_image_large', 'created_at']
+    ordering = ['-created_at']
+
+    def has_add_permission(self, request):
+        return False
+
+    def qr_preview(self, obj):
+        return format_html(
+            '<img src="data:image/png;base64,{}" width="60" height="60" style="border:1px solid #ccc;">',
+            obj.image_b64
+        )
+    qr_preview.short_description = 'QR Code'
+
+    def qr_image_large(self, obj):
+        return format_html(
+            '<img src="data:image/png;base64,{}" width="200" height="200">',
+            obj.image_b64
+        )
+    qr_image_large.short_description = 'QR Code 圖片'
 
 
 admin.site.unregister(User)

@@ -478,9 +478,28 @@ class QrCodeRecordAdmin(admin.ModelAdmin):
     readonly_fields = ['code', 'full_url', 'qr_image_large', 'created_at']
     fields = ['code', 'full_url', 'qr_image_large', 'created_at']
     ordering = ['-created_at']
+    actions = ['print_qrcode']
 
     def has_add_permission(self, request):
         return False
+
+    def get_urls(self):
+        return [
+            path('print/', self.admin_site.admin_view(self.print_view),
+                 name='antifake_qrcoderecord_print'),
+        ] + super().get_urls()
+
+    @admin.action(description='列印選取 QR Code')
+    def print_qrcode(self, request, queryset):
+        request.session['print_qrcode_ids'] = list(queryset.values_list('pk', flat=True))
+        return redirect('admin:antifake_qrcoderecord_print')
+
+    def print_view(self, request):
+        ids = request.session.pop('print_qrcode_ids', [])
+        records = QrCodeRecord.objects.filter(pk__in=ids).select_related('code').order_by('code_id')
+        return render(request, 'admin/antifake/qrcoderecord/print.html', {
+            'records': records,
+        })
 
     def qr_preview(self, obj):
         return format_html(

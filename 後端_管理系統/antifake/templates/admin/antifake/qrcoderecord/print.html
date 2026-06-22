@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Code 列印</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "微軟正黑體", sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* 列印控制列（列印時隱藏） */
+        .print-toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: #063a6b;
+            color: #fff;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .print-toolbar span { flex: 1; font-size: 14px; }
+        .print-toolbar button {
+            padding: 6px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-print { background: #fff; color: #063a6b; font-weight: bold; }
+        .btn-close { background: rgba(255,255,255,0.2); color: #fff; }
+
+        /* 列印內容區 */
+        .page-wrap {
+            margin-top: 56px;
+            padding: 10mm;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8mm;
+        }
+
+        .cell {
+            border: 1px dashed #bbb;
+            padding: 6mm;
+            text-align: center;
+            background: #fff;
+            break-inside: avoid;
+        }
+
+        .cell img {
+            width: 55mm;
+            height: 55mm;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .cell .code {
+            margin-top: 3mm;
+            font-size: 11pt;
+            font-family: "Courier New", monospace;
+            letter-spacing: 1px;
+            color: #222;
+        }
+
+        @media print {
+            body { background: #fff; }
+            .print-toolbar { display: none; }
+            .page-wrap { margin-top: 0; padding: 8mm; }
+            .grid { gap: 6mm; }
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 10mm;
+        }
+    </style>
+</head>
+<body>
+
+<div class="print-toolbar">
+    <span>共 {{ records|length }} 張 QR Code</span>
+    <button class="btn-print" onclick="window.print()">列印</button>
+    <button class="btn-close" onclick="window.close()">關閉</button>
+</div>
+
+<div class="page-wrap">
+    <div class="grid">
+        {% for r in records %}
+        <div class="cell">
+            <img src="data:image/png;base64,{{ r.image_b64 }}" alt="QR Code">
+            <div class="code">{{ r.code_id }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

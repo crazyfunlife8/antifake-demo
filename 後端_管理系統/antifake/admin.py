@@ -159,7 +159,7 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
     ordering = ["-created_at"]
     date_hierarchy = "created_at"
     inlines = [VerificationLogInline]
-    actions = ["export_csv", "export_excel", "soft_delete", "restore", "hard_delete", "generate_qrcode", "delete_selected"]
+    actions = ["export_csv", "export_excel", "restore", "generate_qrcode", "soft_delete", "hard_delete"] # 刪除鍵放末尾(軟刪放刪除鍵前)
 
     @admin.display(description="已產生 QR Code", boolean=True)
     def has_qrcode(self, obj):
@@ -478,7 +478,7 @@ class QrCodeRecordAdmin(admin.ModelAdmin):
     readonly_fields = ['code', 'full_url', 'qr_image_large', 'created_at']
     fields = ['code', 'full_url', 'qr_image_large', 'created_at']
     ordering = ['-created_at']
-    actions = ['print_qrcode', 'delete_selected']
+    actions = ['print_qrcode', 'delete_selected'] # 刪除鍵放末尾
 
     def has_add_permission(self, request):
         return False

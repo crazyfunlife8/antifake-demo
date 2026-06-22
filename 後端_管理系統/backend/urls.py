@@ -14,6 +14,7 @@ urlpatterns = [
 
     # ── 頁面路由 ────────────────────────────────────────────────────────────
     path('', views.index),
+    path('verifyResult.do', views.verify_result),
     path('mainEntry.do', views.main_entry),
     path('memLogin.do', views.mem_login),
     path('loginCheck.do', views.login_check),

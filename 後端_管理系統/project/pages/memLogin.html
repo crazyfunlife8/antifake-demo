@@ -72,7 +72,11 @@
 					</div>
 					<nav id="menu">
 						<ul>
-							<li><a href="/mainEntry.do"><i class="fa fa-commenting" aria-hidden="true"></i> {{ t.nav_result }}</a></li>
+							{% if has_verify_result %}
+							<li><a href="/verifyResult.do"><i class="fa fa-commenting" aria-hidden="true"></i> {{ t.nav_result }}</a></li>
+							{% else %}
+							<li><a href="/"><i class="fa fa-search" aria-hidden="true"></i> {{ t.nav_verify }}</a></li>
+							{% endif %}
 							<li><a href="/contact.do"><i class="fa fa-envelope" aria-hidden="true"></i> {{ t.nav_contact }}</a></li>
 						</ul>
 					</nav>

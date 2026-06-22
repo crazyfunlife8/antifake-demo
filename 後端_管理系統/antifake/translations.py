@@ -16,6 +16,7 @@ TRANS = {
     'CHT': {
         # ── 導覽列 ─────────────────────────────────────────────────────────
         'nav_result':      '查詢結果',
+        'nav_verify':      '真偽查詢',
         'nav_contact':     '聯絡我們',
         'nav_login':       '會員登入',
         'nav_lang_select': '選取語言',
@@ -142,6 +143,7 @@ TRANS = {
 
     'ENG': {
         'nav_result':      'Check Result',
+        'nav_verify':      'Authenticity Check',
         'nav_contact':     'Contact Us',
         'nav_login':       'Member Login',
         'nav_lang_select': 'Select Language',
@@ -252,6 +254,7 @@ TRANS = {
 
     'CHS': {
         'nav_result':      '查询结果',
+        'nav_verify':      '真伪查询',
         'nav_contact':     '联系我们',
         'nav_login':       '会员登录',
         'nav_lang_select': '选择语言',
@@ -360,6 +363,7 @@ TRANS = {
 
     'JPN': {
         'nav_result':      '照会結果',
+        'nav_verify':      '真偽照会',
         'nav_contact':     'お問い合わせ',
         'nav_login':       'ログイン',
         'nav_lang_select': '言語選択',
@@ -468,6 +472,7 @@ TRANS = {
 
     'MS': {
         'nav_result':      'Hasil Semakan',
+        'nav_verify':      'Semak Ketulenan',
         'nav_contact':     'Hubungi Kami',
         'nav_login':       'Log Masuk Ahli',
         'nav_lang_select': 'Pilih Bahasa',
@@ -576,6 +581,7 @@ TRANS = {
 
     'VI': {
         'nav_result':      'Kết Quả Tra Cứu',
+        'nav_verify':      'Kiểm Tra Xác Thực',
         'nav_contact':     'Liên Hệ',
         'nav_login':       'Đăng Nhập',
         'nav_lang_select': 'Chọn Ngôn Ngữ',

@@ -43,7 +43,12 @@ def _render_page(request, filename, extra_ctx=None):
     base, ext = os.path.splitext(filename)
     variant = f'{base}_{lang.lower()}{ext}'
     tpl = variant if os.path.exists(os.path.join(PAGES_DIR, variant)) else filename
-    ctx = {'t': t, 'lang': lang, **(extra_ctx or {})}
+    ctx = {
+        't': t,
+        'lang': lang,
+        'has_verify_result': 'last_verify' in request.session,
+        **(extra_ctx or {}),
+    }
     return render(request, tpl, ctx)
 
 
@@ -90,6 +95,7 @@ def _process_qr_scan(request, code):
             client_ip=_client_ip(request),
             user_agent=request.META.get('HTTP_USER_AGENT', ''),
         )
+        request.session['last_verify'] = {'checksum': code, 'is_qkit': True, 'verify_count': n}
         return _render_page(request, 'checkTruth.html', {
             'checksum': code, 'is_qkit': True,
             'fake_result': _build_fake_result(n, lang),
@@ -102,11 +108,26 @@ def _process_qr_scan(request, code):
             client_ip=_client_ip(request),
             user_agent=request.META.get('HTTP_USER_AGENT', ''),
         )
+        request.session['last_verify'] = {'checksum': code, 'is_qkit': False, 'verify_count': 0}
         return _render_page(request, 'checkTruth.html', {
             'checksum': code, 'is_qkit': False,
             'fake_result': '',
             'block_content_7': block_content_7,
         })
+
+
+def verify_result(request):
+    last = request.session.get('last_verify')
+    if not last:
+        return redirect('/')
+    lang = _get_lang(request)
+    block_content_7 = SystemConfig.get('BLOCK_CONTENT_7', '')
+    return _render_page(request, 'checkTruth.html', {
+        'checksum': last['checksum'],
+        'is_qkit': last['is_qkit'],
+        'fake_result': _build_fake_result(last['verify_count'], lang) if last['is_qkit'] else '',
+        'block_content_7': block_content_7,
+    })
 
 
 def main_entry(request):
@@ -167,6 +188,7 @@ def check_truth(request):
                 client_ip=_client_ip(request),
                 user_agent=request.META.get('HTTP_USER_AGENT', ''),
             )
+            request.session['last_verify'] = {'checksum': code, 'is_qkit': True, 'verify_count': n}
             return _render_page(request, 'checkTruth.html', {
                 'checksum': code, 'is_qkit': True,
                 'fake_result': _build_fake_result(n, lang),
@@ -179,6 +201,7 @@ def check_truth(request):
                 client_ip=_client_ip(request),
                 user_agent=request.META.get('HTTP_USER_AGENT', ''),
             )
+            request.session['last_verify'] = {'checksum': code, 'is_qkit': False, 'verify_count': 0}
             return _render_page(request, 'checkTruth.html', {
                 'checksum': code, 'is_qkit': False,
                 'fake_result': '',

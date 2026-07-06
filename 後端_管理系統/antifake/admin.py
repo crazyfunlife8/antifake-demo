@@ -269,29 +269,7 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
         if request.method == "POST":
             action = request.POST.get("action")
 
-            if action == "csv":
-                f = request.FILES.get("csv_file")
-                if not f:
-                    messages.error(request, "請選擇 CSV 檔案。")
-                    return redirect(".")
-                text = f.read().decode("utf-8-sig")
-                reader = csv.reader(io.StringIO(text))
-                to_create, skipped = [], 0
-                existing = set(AntiFakeCode.objects.values_list("code", flat=True))
-                for row in reader:
-                    if not row:
-                        continue
-                    code = row[0].strip()
-                    notes = row[1].strip() if len(row) > 1 else ""
-                    if not code or code in existing:
-                        skipped += 1
-                        continue
-                    to_create.append(AntiFakeCode(code=code, notes=notes))
-                    existing.add(code)
-                AntiFakeCode.objects.bulk_create(to_create)
-                messages.success(request, f"成功匯入 {len(to_create)} 筆，跳過 {skipped} 筆（重複或空白）。")
-
-            elif action == "generate":
+            if action == "generate":
                 count = min(int(request.POST.get("count", 10)), 10000)
                 length = int(request.POST.get("length", 12))
                 notes = request.POST.get("notes", "").strip()

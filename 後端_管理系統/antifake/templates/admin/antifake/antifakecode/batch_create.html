@@ -13,34 +13,14 @@
 
 <style>
     .batch-section { background:#f8f8f8; border:1px solid #ddd; border-radius:4px; padding:20px; margin-bottom:24px; }
-    .batch-section h2 { margin-top:0; font-size:16px; }
     .batch-section label { display:block; margin-bottom:4px; font-weight:bold; }
     .batch-section input[type=text], .batch-section input[type=number],
-    .batch-section select, .batch-section textarea { width:100%; max-width:400px; padding:6px 8px; box-sizing:border-box; }
+    .batch-section select { width:100%; max-width:400px; padding:6px 8px; box-sizing:border-box; }
     .batch-section .help { color:#888; font-size:12px; margin-top:2px; }
     .submit-row { margin-top:12px; }
 </style>
 
-<!-- 方式 A：CSV 上傳 -->
 <div class="batch-section">
-    <h2>方式 A：上傳 CSV</h2>
-    <p>CSV 格式：第一欄 <code>code</code>（必填），第二欄 <code>notes</code>（選填），不含標題列。</p>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="hidden" name="action" value="csv">
-        <div style="margin-bottom:12px;">
-            <label>選擇 CSV 檔案</label>
-            <input type="file" name="csv_file" accept=".csv" required>
-        </div>
-        <div class="submit-row">
-            <input type="submit" value="匯入 CSV" class="default">
-        </div>
-    </form>
-</div>
-
-<!-- 方式 B：自動產生 -->
-<div class="batch-section">
-    <h2>方式 B：自動產生</h2>
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="action" value="generate">

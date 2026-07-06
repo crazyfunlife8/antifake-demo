@@ -1,6 +1,7 @@
 import base64
 import csv
 import io
+import json
 import random
 from datetime import timedelta
 
@@ -241,7 +242,43 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
         return [
             path("batch-create/", self.admin_site.admin_view(self.batch_create_view),
                  name="antifake_antifakecode_batch_create"),
+            path("<str:code>/detail/", self.admin_site.admin_view(self.code_detail_view),
+                 name="antifake_antifakecode_detail"),
         ] + super().get_urls()
+
+    def code_detail_view(self, request, code):
+        try:
+            obj = AntiFakeCode.objects.get(code=code)
+        except AntiFakeCode.DoesNotExist:
+            messages.error(request, f"防偽碼 {code} 不存在。")
+            return redirect("../../../")
+
+        logs = obj.logs.order_by("-verify_at")
+
+        questionnaires = []
+        for q in obj.questionnaire_responses.order_by("-created_at"):
+            try:
+                raw = json.loads(q.answers_json) if q.answers_json else {}
+            except Exception:
+                raw = {}
+            city, clinic = "", ""
+            for i in range(10):
+                qid = raw.get(f"questObjectList[{i}].prodRltAdvQuesId", "")
+                ans = raw.get(f"questObjectList[{i}].answer", "")
+                if qid == "1985":
+                    city = ans
+                elif qid == "1983":
+                    clinic = ans
+            questionnaires.append({"obj": q, "city": city, "clinic": clinic})
+
+        return render(request, "admin/antifake/antifakecode/code_detail.html", {
+            **self.admin_site.each_context(request),
+            "title": f"防偽碼詳情：{code}",
+            "obj": obj,
+            "logs": logs,
+            "questionnaires": questionnaires,
+            "opts": self.model._meta,
+        })
 
     def batch_create_view(self, request):
         if request.method == "POST":
@@ -493,6 +530,11 @@ class QrCodeRecordAdmin(admin.ModelAdmin):
     def print_qrcode(self, request, queryset):
         request.session['print_qrcode_ids'] = list(queryset.values_list('pk', flat=True))
         return redirect('admin:antifake_qrcoderecord_print')
+    
+    @admin.action(description='⚠️ 刪除所選的 QR Code 紀錄')
+    def delete_selected(self, request, queryset):
+        from django.contrib.admin.actions import delete_selected as _delete
+        return _delete(self, request, queryset)
 
     def print_view(self, request):
         ids = request.session.pop('print_qrcode_ids', [])
@@ -542,3 +584,31 @@ class SimpleUserAdmin(BaseUserAdmin):
     @admin.display(description="群組")
     def get_groups(self, obj):
         return "、".join(g.name for g in obj.groups.all()) or "（無）"
+
+
+# ── 後台首頁 Dashboard patch ──────────────────────────────────────────────────
+
+from django.core.paginator import Paginator as _Paginator
+
+_orig_admin_index = admin.AdminSite.index
+
+
+def _dashboard_index(self, request, extra_context=None):
+    extra_context = extra_context or {}
+    if request.user.is_authenticated:
+        search_q = request.GET.get("q", "").strip()
+        qs = (
+            AntiFakeCode.objects
+            .filter(verify_count__gte=1, deleted_at__isnull=True)
+            .order_by("-last_verify_at")
+        )
+        if search_q:
+            qs = qs.filter(code__icontains=search_q)
+        paginator = _Paginator(qs, 20)
+        page_obj = paginator.get_page(request.GET.get("page", 1))
+        extra_context["dashboard_page"] = page_obj
+        extra_context["dashboard_search"] = search_q
+    return _orig_admin_index(self, request, extra_context)
+
+
+admin.AdminSite.index = _dashboard_index

@@ -1,0 +1,132 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+.detail-module { margin-bottom: 24px; }
+.detail-module h2 { font-size: 15px; padding: 8px 12px; background: #063a6b; color: #fff; margin: 0; }
+.detail-module table { width: 100%; border-collapse: collapse; }
+.detail-module th { background: #f4f4f4; padding: 7px 12px; text-align: left; border-bottom: 1px solid #ddd; font-weight: 600; white-space: nowrap; }
+.detail-module td { padding: 7px 12px; border-bottom: 1px solid #eee; word-break: break-all; }
+.detail-module tr:hover td { background: #f9fbff; }
+.warn-red { color: #c00; font-weight: bold; }
+.empty-msg { padding: 12px; color: #888; font-style: italic; }
+.back-link { margin-bottom: 16px; display: inline-block; }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<nav aria-label="Breadcrumb">
+  <div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">首頁</a>
+    &rsaquo; <a href="{% url 'admin:antifake_antifakecode_changelist' %}">防偽碼清單</a>
+    &rsaquo; {{ obj.code }}
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+
+  <a class="back-link button" href="{% url 'admin:index' %}">&larr; 返回首頁</a>
+
+  {# ── 基本資訊 ── #}
+  <div class="detail-module module">
+    <h2>基本資訊</h2>
+    <table>
+      <tr>
+        <th style="width:140px;">防偽碼</th>
+        <td><strong>{{ obj.code }}</strong></td>
+      </tr>
+      <tr>
+        <th>驗證次數</th>
+        <td class="{% if obj.verify_count >= 3 %}warn-red{% endif %}">
+          {{ obj.verify_count }} 次{% if obj.verify_count >= 3 %} ⚠️ 異常{% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>首次驗證時間</th>
+        <td>{{ obj.first_verify_at|date:"Y-m-d H:i:s"|default:"—" }}</td>
+      </tr>
+      <tr>
+        <th>最近驗證時間</th>
+        <td>{{ obj.last_verify_at|date:"Y-m-d H:i:s"|default:"—" }}</td>
+      </tr>
+      <tr>
+        <th>啟用狀態</th>
+        <td>{% if obj.is_active %}啟用中{% else %}已停用{% endif %}</td>
+      </tr>
+      {% if obj.notes %}
+      <tr>
+        <th>備註</th>
+        <td>{{ obj.notes }}</td>
+      </tr>
+      {% endif %}
+    </table>
+  </div>
+
+  {# ── 掃碼歷史 ── #}
+  <div class="detail-module module">
+    <h2>掃碼歷史（{{ logs|length }} 筆）</h2>
+    {% if logs %}
+    <table>
+      <thead>
+        <tr>
+          <th>第 N 次</th>
+          <th>掃碼時間</th>
+          <th>IP 位置</th>
+          <th>緯度</th>
+          <th>經度</th>
+          <th>定位精度 (m)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <td>{{ log.verify_count_snapshot }}</td>
+          <td>{{ log.verify_at|date:"Y-m-d H:i:s" }}</td>
+          <td>{{ log.client_ip|default:"—" }}</td>
+          <td>{{ log.geo_lat|default:"—" }}</td>
+          <td>{{ log.geo_lng|default:"—" }}</td>
+          <td>{{ log.geo_accuracy|default:"—" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="empty-msg">無掃碼記錄。</p>
+    {% endif %}
+  </div>
+
+  {# ── 問卷回應 ── #}
+  <div class="detail-module module">
+    <h2>問卷回應（{{ questionnaires|length }} 筆）</h2>
+    {% if questionnaires %}
+    <table>
+      <thead>
+        <tr>
+          <th>提交時間</th>
+          <th>施打縣市</th>
+          <th>診所 / 醫療院所</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for q in questionnaires %}
+        <tr>
+          <td>{{ q.obj.created_at|date:"Y-m-d H:i:s" }}</td>
+          <td>{{ q.city|default:"—" }}</td>
+          <td>{{ q.clinic|default:"—" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="empty-msg">此防偽碼尚無問卷回應。</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

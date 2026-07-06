@@ -511,7 +511,15 @@ def save_form_fields(request):
 @require_POST
 def save_answer_record(request):
     answers = {k: v for k, v in request.POST.items()}
+    code = None
+    checksum = request.session.get('last_verify', {}).get('checksum', '')
+    if checksum:
+        try:
+            code = AntiFakeCode.objects.get(code=checksum)
+        except AntiFakeCode.DoesNotExist:
+            pass
     QuestionnaireResponse.objects.create(
+        code=code,
         answers_json=json_lib.dumps(answers, ensure_ascii=False),
     )
     return JsonResponse({'finish': True})

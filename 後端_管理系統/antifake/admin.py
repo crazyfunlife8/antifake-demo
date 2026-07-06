@@ -149,8 +149,8 @@ class VerificationLogInline(admin.TabularInline):
 
 @admin.register(AntiFakeCode)
 class AntiFakeCodeAdmin(admin.ModelAdmin):
-    list_display = ["code", "verify_count", "is_active", "last_verify_at", "notes", "created_at"]
-    list_filter = [DeletedFilter, "is_active", VerifyCountFilter, "created_at"]
+    list_display = ["code", "verify_count", "is_active", "url_exported", "last_verify_at", "notes", "created_at"]
+    list_filter = [DeletedFilter, "is_active", VerifyCountFilter, "url_exported", "created_at"]
     search_fields = ["code", "notes"]
     readonly_fields = ["verify_count", "first_verify_at", "last_verify_at", "created_at", "updated_at", "deleted_at"]
     ordering = ["-created_at"]
@@ -216,6 +216,7 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
             return
         headers = ["防偽碼", "掃描網址"]
         rows = [[obj.code, f"{base_url}/?code={obj.code}"] for obj in queryset]
+        queryset.update(url_exported=True)
         return _export_excel(rows, headers, "防偽碼URL")
 
     def get_readonly_fields(self, request, obj=None):
@@ -279,6 +280,8 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
                 count = min(int(request.POST.get("count", 10)), 10000)
                 length = int(request.POST.get("length", 12))
                 notes = request.POST.get("notes", "").strip()
+                export_urls = request.POST.get("export_urls") == "1"
+
                 existing = set(AntiFakeCode.objects.values_list("code", flat=True))
                 to_create = []
                 attempts = 0
@@ -286,9 +289,19 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
                     code = _generate_code(length)
                     attempts += 1
                     if code not in existing:
-                        to_create.append(AntiFakeCode(code=code, notes=notes))
+                        to_create.append(AntiFakeCode(code=code, notes=notes, url_exported=export_urls))
                         existing.add(code)
                 AntiFakeCode.objects.bulk_create(to_create)
+
+                if export_urls:
+                    base_url = SystemConfig.get('SITE_BASE_URL', '').rstrip('/')
+                    if not base_url:
+                        messages.error(request, "請先在系統設定中設定 SITE_BASE_URL。")
+                        return redirect("../")
+                    headers = ["防偽碼", "掃描網址"]
+                    rows = [[obj.code, f"{base_url}/?code={obj.code}"] for obj in to_create]
+                    return _export_excel(rows, headers, "防偽碼URL")
+
                 messages.success(request, f"成功產生並建立 {len(to_create)} 筆防偽碼。")
 
             return redirect("../")

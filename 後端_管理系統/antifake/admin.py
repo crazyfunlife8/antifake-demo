@@ -1,3 +1,4 @@
+import base64
 import csv
 import io
 import json
@@ -12,7 +13,7 @@ from django.forms import CheckboxSelectMultiple
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.urls import path
+from django.urls import path, reverse
 from django.utils import timezone
 from .models import (
     AntiFakeCode, VerificationLog, UploadedFile,
@@ -300,7 +301,21 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
                         return redirect("../")
                     headers = ["防偽碼", "掃描網址"]
                     rows = [[obj.code, f"{base_url}/?code={obj.code}"] for obj in to_create]
-                    return _export_excel(rows, headers, "防偽碼URL")
+                    wb = openpyxl.Workbook()
+                    ws = wb.active
+                    ws.append(headers)
+                    for row in rows:
+                        ws.append(row)
+                    buf = io.BytesIO()
+                    wb.save(buf)
+                    excel_b64 = base64.b64encode(buf.getvalue()).decode('ascii')
+                    changelist_url = reverse('admin:antifake_antifakecode_changelist')
+                    return render(request, "admin/antifake/antifakecode/batch_create_download.html", {
+                        **self.admin_site.each_context(request),
+                        "excel_b64": excel_b64,
+                        "count": len(to_create),
+                        "changelist_url": changelist_url,
+                    })
 
                 messages.success(request, f"成功產生並建立 {len(to_create)} 筆防偽碼。")
 

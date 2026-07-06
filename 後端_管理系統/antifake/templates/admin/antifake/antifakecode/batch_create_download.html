@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+{% block title %}正在下載...{% endblock %}
+{% block content %}
+<p style="padding:20px;color:#555;">正在下載 Excel（共 {{ count }} 筆），稍後自動返回清單頁...</p>
+<script>
+(function () {
+    var b64 = '{{ excel_b64 }}';
+    var binary = atob(b64);
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    var blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '防偽碼URL.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { window.location.href = '{{ changelist_url }}'; }, 600);
+})();
+</script>
+{% endblock %}

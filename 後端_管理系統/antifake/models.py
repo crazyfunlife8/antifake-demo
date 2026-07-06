@@ -28,10 +28,6 @@ class AntiFakeCode(models.Model):
         "備註", blank=True, default="",
         help_text="批次號 / 產品 SKU / 出貨對象等業主自由備註"
     )
-    url_exported = models.BooleanField(
-        "已匯出 URL", default=False,
-        help_text="是否已將完整掃描 URL 匯出給廠商製作 QR Code"
-    )
     deleted_at = models.DateTimeField("刪除時間", null=True, blank=True)
     created_at = models.DateTimeField("建立時間", auto_now_add=True)
     updated_at = models.DateTimeField("最後修改時間", auto_now=True)

@@ -150,14 +150,14 @@ class VerificationLogInline(admin.TabularInline):
 
 @admin.register(AntiFakeCode)
 class AntiFakeCodeAdmin(admin.ModelAdmin):
-    list_display = ["code", "verify_count", "is_active", "url_exported", "last_verify_at", "notes", "created_at"]
-    list_filter = [DeletedFilter, "is_active", VerifyCountFilter, "url_exported", "created_at"]
+    list_display = ["code", "verify_count", "is_active", "last_verify_at", "notes", "created_at"]
+    list_filter = [DeletedFilter, "is_active", VerifyCountFilter, "created_at"]
     search_fields = ["code", "notes"]
     readonly_fields = ["verify_count", "first_verify_at", "last_verify_at", "created_at", "updated_at", "deleted_at"]
     ordering = ["-created_at"]
     date_hierarchy = "created_at"
     inlines = [VerificationLogInline]
-    actions = ["export_csv", "export_excel", "export_url_excel", "restore", "soft_delete", "hard_delete"] # 刪除鍵放末尾(軟刪放刪除鍵前)
+    actions = ["export_csv", "export_excel", "restore", "soft_delete", "hard_delete"] # 刪除鍵放末尾(軟刪放刪除鍵前)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -166,6 +166,9 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
         else:
             qs = qs.filter(deleted_at__isnull=True)
         return qs
+
+    def has_add_permission(self, request):
+        return False  # 停用單筆新增，改用批量新增
 
     def has_delete_permission(self, request, obj=None):
         return False  # 停用硬刪除按鈕
@@ -205,20 +208,6 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
             return
         headers, rows = _antifakecode_rows(queryset)
         return _export_excel(rows, headers, "防偽碼")
-
-    @admin.action(description="匯出防偽碼 URL 為 Excel")
-    def export_url_excel(self, request, queryset):
-        if not _can_export(request):
-            self.message_user(request, "您沒有匯出權限。", level="error")
-            return
-        base_url = SystemConfig.get('SITE_BASE_URL', '').rstrip('/')
-        if not base_url:
-            self.message_user(request, "請先在系統設定中設定 SITE_BASE_URL。", level="error")
-            return
-        headers = ["防偽碼", "掃描網址"]
-        rows = [[obj.code, f"{base_url}/?code={obj.code}"] for obj in queryset]
-        queryset.update(url_exported=True)
-        return _export_excel(rows, headers, "防偽碼URL")
 
     def get_readonly_fields(self, request, obj=None):
         if obj:  # 編輯既有記錄時，code 不可改
@@ -281,7 +270,6 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
                 count = min(int(request.POST.get("count", 10)), 10000)
                 length = int(request.POST.get("length", 12))
                 notes = request.POST.get("notes", "").strip()
-                export_urls = request.POST.get("export_urls") == "1"
 
                 existing = set(AntiFakeCode.objects.values_list("code", flat=True))
                 to_create = []
@@ -290,34 +278,31 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
                     code = _generate_code(length)
                     attempts += 1
                     if code not in existing:
-                        to_create.append(AntiFakeCode(code=code, notes=notes, url_exported=export_urls))
+                        to_create.append(AntiFakeCode(code=code, notes=notes))
                         existing.add(code)
                 AntiFakeCode.objects.bulk_create(to_create)
 
-                if export_urls:
-                    base_url = SystemConfig.get('SITE_BASE_URL', '').rstrip('/')
-                    if not base_url:
-                        messages.error(request, "請先在系統設定中設定 SITE_BASE_URL。")
-                        return redirect("../")
-                    headers = ["防偽碼", "掃描網址"]
-                    rows = [[obj.code, f"{base_url}/?code={obj.code}"] for obj in to_create]
-                    wb = openpyxl.Workbook()
-                    ws = wb.active
-                    ws.append(headers)
-                    for row in rows:
-                        ws.append(row)
-                    buf = io.BytesIO()
-                    wb.save(buf)
-                    excel_b64 = base64.b64encode(buf.getvalue()).decode('ascii')
-                    changelist_url = reverse('admin:antifake_antifakecode_changelist')
-                    return render(request, "admin/antifake/antifakecode/batch_create_download.html", {
-                        **self.admin_site.each_context(request),
-                        "excel_b64": excel_b64,
-                        "count": len(to_create),
-                        "changelist_url": changelist_url,
-                    })
-
-                messages.success(request, f"成功產生並建立 {len(to_create)} 筆防偽碼。")
+                base_url = SystemConfig.get('SITE_BASE_URL', '').rstrip('/')
+                if not base_url:
+                    messages.error(request, "請先在系統設定中設定 SITE_BASE_URL。")
+                    return redirect("../")
+                headers = ["防偽碼", "掃描網址"]
+                rows = [[obj.code, f"{base_url}/?code={obj.code}"] for obj in to_create]
+                wb = openpyxl.Workbook()
+                ws = wb.active
+                ws.append(headers)
+                for row in rows:
+                    ws.append(row)
+                buf = io.BytesIO()
+                wb.save(buf)
+                excel_b64 = base64.b64encode(buf.getvalue()).decode('ascii')
+                changelist_url = reverse('admin:antifake_antifakecode_changelist')
+                return render(request, "admin/antifake/antifakecode/batch_create_download.html", {
+                    **self.admin_site.each_context(request),
+                    "excel_b64": excel_b64,
+                    "count": len(to_create),
+                    "changelist_url": changelist_url,
+                })
 
             return redirect("../")
 

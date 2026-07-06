@@ -254,7 +254,13 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
                     city = ans
                 elif qid == "1983":
                     clinic = ans
-            questionnaires.append({"obj": q, "city": city, "clinic": clinic})
+                scan_log = obj.logs.filter(verify_at__lte=q.created_at).order_by("-verify_at").first()
+            questionnaires.append({
+                "obj": q,
+                "city": city,
+                "clinic": clinic,
+                "scan_time": scan_log.verify_at if scan_log else None,
+            })
 
         return render(request, "admin/antifake/antifakecode/code_detail.html", {
             **self.admin_site.each_context(request),

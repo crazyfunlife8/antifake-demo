@@ -205,7 +205,7 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
         headers, rows = _antifakecode_rows(queryset)
         return _export_excel(rows, headers, "防偽碼")
 
-    @admin.action(description="匯出防偽碼 URL 為 Excel（供廠商製作 QR Code）")
+    @admin.action(description="匯出防偽碼 URL 為 Excel")
     def export_url_excel(self, request, queryset):
         if not _can_export(request):
             self.message_user(request, "您沒有匯出權限。", level="error")

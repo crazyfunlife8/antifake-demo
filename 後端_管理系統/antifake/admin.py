@@ -587,14 +587,16 @@ class SimpleUserAdmin(BaseUserAdmin):
 
 
 # ── 後台首頁 Dashboard patch ──────────────────────────────────────────────────
+# 使用 each_context 而非 index，因為 each_context 在 request 時期才被動態查找，
+# 不受 URL pattern 建立時機影響。
 
 from django.core.paginator import Paginator as _Paginator
 
-_orig_admin_index = admin.AdminSite.index
+_orig_each_context = admin.AdminSite.each_context
 
 
-def _dashboard_index(self, request, extra_context=None):
-    extra_context = extra_context or {}
+def _dashboard_each_context(self, request):
+    context = _orig_each_context(self, request)
     if request.user.is_authenticated:
         search_q = request.GET.get("q", "").strip()
         qs = (
@@ -606,9 +608,9 @@ def _dashboard_index(self, request, extra_context=None):
             qs = qs.filter(code__icontains=search_q)
         paginator = _Paginator(qs, 20)
         page_obj = paginator.get_page(request.GET.get("page", 1))
-        extra_context["dashboard_page"] = page_obj
-        extra_context["dashboard_search"] = search_q
-    return _orig_admin_index(self, request, extra_context)
+        context["dashboard_page"] = page_obj
+        context["dashboard_search"] = search_q
+    return context
 
 
-admin.AdminSite.index = _dashboard_index
+admin.AdminSite.each_context = _dashboard_each_context

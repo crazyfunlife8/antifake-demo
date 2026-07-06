@@ -1,4 +1,3 @@
-import base64
 import csv
 import io
 import json
@@ -6,7 +5,6 @@ import random
 from datetime import timedelta
 
 import openpyxl
-import qrcode
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -16,11 +14,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import path
 from django.utils import timezone
-from django.utils.html import format_html
 from .models import (
     AntiFakeCode, VerificationLog, UploadedFile,
     ContactTicket, SupplementReport, QuestionnaireResponse, SystemConfig,
-    QrCodeRecord,
 )
 
 
@@ -153,18 +149,14 @@ class VerificationLogInline(admin.TabularInline):
 
 @admin.register(AntiFakeCode)
 class AntiFakeCodeAdmin(admin.ModelAdmin):
-    list_display = ["code", "verify_count", "is_active", "last_verify_at", "has_qrcode", "notes", "created_at"]
+    list_display = ["code", "verify_count", "is_active", "last_verify_at", "notes", "created_at"]
     list_filter = [DeletedFilter, "is_active", VerifyCountFilter, "created_at"]
     search_fields = ["code", "notes"]
     readonly_fields = ["verify_count", "first_verify_at", "last_verify_at", "created_at", "updated_at", "deleted_at"]
     ordering = ["-created_at"]
     date_hierarchy = "created_at"
     inlines = [VerificationLogInline]
-    actions = ["export_csv", "export_excel", "restore", "generate_qrcode", "soft_delete", "hard_delete"] # 刪除鍵放末尾(軟刪放刪除鍵前)
-
-    @admin.display(description="已產生 QR Code", boolean=True)
-    def has_qrcode(self, obj):
-        return obj.qrcode_count > 0
+    actions = ["export_csv", "export_excel", "export_url_excel", "restore", "soft_delete", "hard_delete"] # 刪除鍵放末尾(軟刪放刪除鍵前)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -172,7 +164,7 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
             qs = qs.filter(deleted_at__isnull=False)
         else:
             qs = qs.filter(deleted_at__isnull=True)
-        return qs.annotate(qrcode_count=Count('qrcodes'))
+        return qs
 
     def has_delete_permission(self, request, obj=None):
         return False  # 停用硬刪除按鈕
@@ -213,25 +205,18 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
         headers, rows = _antifakecode_rows(queryset)
         return _export_excel(rows, headers, "防偽碼")
 
-    @admin.action(description="產生 QR Code")
-    def generate_qrcode(self, request, queryset):
+    @admin.action(description="匯出防偽碼 URL 為 Excel（供廠商製作 QR Code）")
+    def export_url_excel(self, request, queryset):
+        if not _can_export(request):
+            self.message_user(request, "您沒有匯出權限。", level="error")
+            return
         base_url = SystemConfig.get('SITE_BASE_URL', '').rstrip('/')
         if not base_url:
             self.message_user(request, "請先在系統設定中設定 SITE_BASE_URL。", level="error")
             return
-        created = 0
-        for obj in queryset:
-            url = f"{base_url}/?code={obj.code}"
-            qr = qrcode.QRCode(version=1, box_size=10, border=4)
-            qr.add_data(url)
-            qr.make(fit=True)
-            img = qr.make_image(fill_color="black", back_color="white")
-            buf = io.BytesIO()
-            img.save(buf, format='PNG')
-            b64 = base64.b64encode(buf.getvalue()).decode()
-            QrCodeRecord.objects.create(code=obj, full_url=url, image_b64=b64)
-            created += 1
-        self.message_user(request, f"已產生 {created} 筆 QR Code 記錄。")
+        headers = ["防偽碼", "掃描網址"]
+        rows = [[obj.code, f"{base_url}/?code={obj.code}"] for obj in queryset]
+        return _export_excel(rows, headers, "防偽碼URL")
 
     def get_readonly_fields(self, request, obj=None):
         if obj:  # 編輯既有記錄時，code 不可改
@@ -507,55 +492,6 @@ class SystemConfigAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
-
-
-@admin.register(QrCodeRecord)
-class QrCodeRecordAdmin(admin.ModelAdmin):
-    list_display = ['code', 'full_url', 'qr_preview', 'created_at']
-    readonly_fields = ['code', 'full_url', 'qr_image_large', 'created_at']
-    fields = ['code', 'full_url', 'qr_image_large', 'created_at']
-    ordering = ['-created_at']
-    actions = ['print_qrcode', 'delete_selected'] # 刪除鍵放末尾
-
-    def has_add_permission(self, request):
-        return False
-
-    def get_urls(self):
-        return [
-            path('print/', self.admin_site.admin_view(self.print_view),
-                 name='antifake_qrcoderecord_print'),
-        ] + super().get_urls()
-
-    @admin.action(description='列印選取 QR Code')
-    def print_qrcode(self, request, queryset):
-        request.session['print_qrcode_ids'] = list(queryset.values_list('pk', flat=True))
-        return redirect('admin:antifake_qrcoderecord_print')
-    
-    @admin.action(description='⚠️ 刪除所選的 QR Code 紀錄')
-    def delete_selected(self, request, queryset):
-        from django.contrib.admin.actions import delete_selected as _delete
-        return _delete(self, request, queryset)
-
-    def print_view(self, request):
-        ids = request.session.pop('print_qrcode_ids', [])
-        records = QrCodeRecord.objects.filter(pk__in=ids).select_related('code').order_by('code_id')
-        return render(request, 'admin/antifake/qrcoderecord/print.html', {
-            'records': records,
-        })
-
-    def qr_preview(self, obj):
-        return format_html(
-            '<img src="data:image/png;base64,{}" width="60" height="60" style="border:1px solid #ccc;">',
-            obj.image_b64
-        )
-    qr_preview.short_description = 'QR Code'
-
-    def qr_image_large(self, obj):
-        return format_html(
-            '<img src="data:image/png;base64,{}" width="200" height="200">',
-            obj.image_b64
-        )
-    qr_image_large.short_description = 'QR Code 圖片'
 
 
 admin.site.unregister(User)

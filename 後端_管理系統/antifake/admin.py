@@ -599,6 +599,7 @@ def _dashboard_each_context(self, request):
     context = _orig_each_context(self, request)
     if request.user.is_authenticated:
         search_q = request.GET.get("q", "").strip()
+        warn_filter = request.GET.get("warn") == "1"
         qs = (
             AntiFakeCode.objects
             .filter(verify_count__gte=1, deleted_at__isnull=True)
@@ -606,10 +607,13 @@ def _dashboard_each_context(self, request):
         )
         if search_q:
             qs = qs.filter(code__icontains=search_q)
+        if warn_filter:
+            qs = qs.filter(verify_count__gte=3)
         paginator = _Paginator(qs, 20)
         page_obj = paginator.get_page(request.GET.get("page", 1))
         context["dashboard_page"] = page_obj
         context["dashboard_search"] = search_q
+        context["dashboard_warn_filter"] = warn_filter
     return context
 
 

@@ -17,8 +17,13 @@
 .dashboard-search { display: flex; gap: 6px; margin-bottom: 12px; align-items: center; }
 .dashboard-search input[type=text] { padding: 5px 8px; border: 1px solid #ccc; border-radius: 3px; width: 220px; font-size: 13px; }
 .dashboard-search button { padding: 5px 12px; background: var(--button-bg, #063a6b); color: #fff; border: none; border-radius: 3px; cursor: pointer; font-size: 13px; }
-.dashboard-search a { font-size: 13px; color: #666; }
+.dashboard-search .clear-link { font-size: 13px; color: #666; }
 .dashboard-warn { color: #c00; font-weight: bold; }
+.dashboard-warn a { color: #c00; }
+.warn-filter-btn { padding: 4px 10px; background: #fff8e1; color: #7a5500; border: 1px solid #ffc107; border-radius: 3px; text-decoration: none; font-size: 13px; white-space: nowrap; }
+.warn-filter-btn:hover { background: #ffecb3; }
+.warn-filter-active { padding: 4px 10px; background: #c00; color: #fff !important; border-radius: 3px; text-decoration: none; font-size: 13px; font-weight: bold; white-space: nowrap; }
+.warn-filter-active:hover { background: #a00; }
 .dashboard-pagination { margin-top: 10px; display: flex; gap: 6px; align-items: center; font-size: 13px; }
 .dashboard-pagination a, .dashboard-pagination span { padding: 3px 8px; border: 1px solid #ccc; border-radius: 3px; text-decoration: none; }
 .dashboard-pagination .current-page { background: var(--button-bg, #063a6b); color: #fff; border-color: var(--button-bg, #063a6b); }
@@ -34,10 +39,16 @@
     <h2>已驗證防偽碼</h2>
 
     <form method="get" action="" class="dashboard-search">
+      {% if dashboard_warn_filter %}<input type="hidden" name="warn" value="1">{% endif %}
       <input type="text" name="q" value="{{ dashboard_search }}" placeholder="搜尋防偽碼...">
       <button type="submit">搜尋</button>
       {% if dashboard_search %}
-        <a href="{% url 'admin:index' %}">清除</a>
+        <a class="clear-link" href="{% url 'admin:index' %}{% if dashboard_warn_filter %}?warn=1{% endif %}">清除</a>
+      {% endif %}
+      {% if dashboard_warn_filter %}
+        <a class="warn-filter-active" href="{% url 'admin:index' %}{% if dashboard_search %}?q={{ dashboard_search }}{% endif %}">⚠️ 只看異常（取消）</a>
+      {% else %}
+        <a class="warn-filter-btn" href="?warn=1{% if dashboard_search %}&q={{ dashboard_search }}{% endif %}">⚠️ 只看異常</a>
       {% endif %}
     </form>
 
@@ -69,20 +80,20 @@
 
     <div class="dashboard-pagination">
       {% if dashboard_page.has_previous %}
-        <a href="?page={{ dashboard_page.previous_page_number }}{% if dashboard_search %}&q={{ dashboard_search }}{% endif %}">&laquo; 上一頁</a>
+        <a href="?page={{ dashboard_page.previous_page_number }}{% if dashboard_search %}&q={{ dashboard_search }}{% endif %}{% if dashboard_warn_filter %}&warn=1{% endif %}">&laquo; 上一頁</a>
       {% endif %}
 
       <span class="current-page">第 {{ dashboard_page.number }} / {{ dashboard_page.paginator.num_pages }} 頁</span>
       <span style="color:#666;">（共 {{ dashboard_page.paginator.count }} 筆）</span>
 
       {% if dashboard_page.has_next %}
-        <a href="?page={{ dashboard_page.next_page_number }}{% if dashboard_search %}&q={{ dashboard_search }}{% endif %}">下一頁 &raquo;</a>
+        <a href="?page={{ dashboard_page.next_page_number }}{% if dashboard_search %}&q={{ dashboard_search }}{% endif %}{% if dashboard_warn_filter %}&warn=1{% endif %}">下一頁 &raquo;</a>
       {% endif %}
     </div>
 
     {% else %}
     <p style="padding:10px;color:#666;">
-      {% if dashboard_search %}查無符合「{{ dashboard_search }}」的防偽碼。{% else %}目前尚無驗證記錄。{% endif %}
+      {% if dashboard_search %}查無符合「{{ dashboard_search }}」的防偽碼。{% elif dashboard_warn_filter %}目前無驗證次數異常的記錄。{% else %}目前尚無驗證記錄。{% endif %}
     </p>
     {% endif %}
   </div>

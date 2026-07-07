@@ -86,6 +86,9 @@ DATABASES = {
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
+# 圖片上傳大小上限（base64 以 POST 欄位傳送，預設 2.5MB 不夠用）
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024  # 20MB
+
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 

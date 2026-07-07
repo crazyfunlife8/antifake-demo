@@ -78,9 +78,7 @@
           <th>次數</th>
           <th>掃碼時間</th>
           <th>IP 位置</th>
-          <th>緯度</th>
-          <th>經度</th>
-          <th>定位精度 (m)</th>
+          <th>地點</th>
         </tr>
       </thead>
       <tbody>
@@ -89,9 +87,7 @@
           <td>{{ log.verify_count_snapshot }}</td>
           <td>{{ log.verify_at|date:"Y-m-d H:i:s" }}</td>
           <td>{{ log.client_ip|default:"—" }}</td>
-          <td>{{ log.geo_lat|default:"—" }}</td>
-          <td>{{ log.geo_lng|default:"—" }}</td>
-          <td>{{ log.geo_accuracy|default:"—" }}</td>
+          <td>{{ log.geo_city|default:"—" }}</td>
         </tr>
         {% endfor %}
       </tbody>

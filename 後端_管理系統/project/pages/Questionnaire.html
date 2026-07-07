@@ -245,7 +245,8 @@
 								if (ansMold == "11") {
 									var $label = $("<label for='input-folder-1' class='sr-only'>").html("{{ t.label_file_upload }}");
 									var $input = $("<input type='file' accept='image/*' capture='environment' class='filestyle' data-placeholder='{{ t.placeholder_no_file }}' onchange='fileUpload(this," + idx + ")'><input type='hidden' name='questObjectList[" + idx + "].answer'>");
-									var $div = $("<div class='form-group file'>").append($label).append($input);
+									var $status = $("<div id='upload-status-" + idx + "' style='font-size:13px;margin-top:4px;'></div>");
+									var $div = $("<div class='form-group file'>").append($label).append($input).append($status);
 									$(tmp).find('.quesAnsOption').append($div);
 								}
 
@@ -267,10 +268,16 @@
 				}
 
 				function fileUpload(file, idx) {
-					if (file.files[0].size > 10000000) {
-						alertMsgFront("BIG_FILE_SIZE", 10000, "", "");
+					var $status = $('#upload-status-' + idx);
+					if (!file.files || !file.files[0]) {
+						alert('無法讀取檔案，請重試');
 						return;
 					}
+					if (file.files[0].size > 10000000) {
+						alert('檔案太大（上限 10MB），請重新拍攝');
+						return;
+					}
+					$status.text('上傳中...').css('color', '#888');
 					var formData = new FormData();
 					var reader = new FileReader();
 					reader.readAsDataURL(file.files[0]);
@@ -282,7 +289,7 @@
 						$.ajaxSettings.traditional = true;
 						$.ajaxSettings.cache = false;
 						$.ajax({
-							url: "generic/uploadImg.do",
+							url: "/generic/uploadImg.do",
 							data: formData,
 							type: "post",
 							dataType: "json",
@@ -295,7 +302,14 @@
 								$('#loading').css({ 'opacity': '0.75', 'display': 'block' });
 							},
 							success: function(json, status) {
-								$("input[name='questObjectList[" + idx + "].answer']").val(json.fileNo);
+								if (json.fileNo) {
+									$("input[name='questObjectList[" + idx + "].answer']").val(json.fileNo);
+									$status.text('✓ 上傳成功').css('color', 'green');
+								} else {
+									file.value = "";
+									$status.text('✗ 上傳失敗').css('color', 'red');
+									alert('上傳回應異常（HTTP ' + status + '），請重試');
+								}
 							},
 							xhr: function() {
 								var myXhr = $.ajaxSettings.xhr();
@@ -309,15 +323,20 @@
 								}
 								return myXhr;
 							},
-							error: function() {
+							error: function(xhr) {
 								file.value = "";
-								alertMsgFront("FORBIDDEN_FILE");
+								$status.text('✗ 上傳失敗').css('color', 'red');
+								alert('上傳失敗（HTTP ' + xhr.status + '），請重試');
 							},
 							complete: function() {
 								$('#loading').fadeOut(800);
 								$('#bar').remove();
 							}
 						});
+					};
+					reader.onerror = function() {
+						$status.text('✗ 無法讀取').css('color', 'red');
+						alert('無法讀取照片，請重試');
 					};
 				}
 

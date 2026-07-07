@@ -462,8 +462,18 @@ class ContactTicketAdmin(admin.ModelAdmin):
 @admin.register(SupplementReport)
 class SupplementReportAdmin(admin.ModelAdmin):
     list_display = ["contact_info", "uploaded_file", "created_at"]
-    readonly_fields = ["created_at"]
+    readonly_fields = ["created_at", "download_link"]
+    fieldsets = [
+        (None, {"fields": ["contact_info", ("uploaded_file", "download_link"), "created_at"]}),
+    ]
     actions = ["export_csv", "export_excel"]
+
+    @admin.display(description="下載圖片")
+    def download_link(self, obj):
+        if obj.uploaded_file:
+            url = reverse("admin:antifake_uploadedfile_download", args=[obj.uploaded_file.file_no])
+            return format_html('<a href="{}" class="button">⬇ 下載圖片</a>', url)
+        return "（無附件）"
 
     @admin.action(description="匯出選取項目為 CSV")
     def export_csv(self, request, queryset):

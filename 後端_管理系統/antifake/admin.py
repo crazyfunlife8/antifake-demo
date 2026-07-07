@@ -113,9 +113,9 @@ def _antifakecode_rows(qs):
 
 
 def _verificationlog_rows(qs):
-    headers = ["防偽碼", "驗證時間", "當次次數", "IP", "緯度", "經度", "定位精度", "UA"]
+    headers = ["防偽碼", "驗證時間", "當次次數", "IP", "地點", "緯度", "經度", "定位精度", "UA"]
     rows = [[o.code_id, o.verify_at, o.verify_count_snapshot,
-             o.client_ip, o.geo_lat, o.geo_lng, o.geo_accuracy, o.user_agent] for o in qs]
+             o.client_ip, o.geo_city, o.geo_lat, o.geo_lng, o.geo_accuracy, o.user_agent] for o in qs]
     return headers, rows
 
 
@@ -140,8 +140,8 @@ def _questionnaireresponse_rows(qs):
 
 class VerificationLogInline(admin.TabularInline):
     model = VerificationLog
-    fields = ["verify_at", "verify_count_snapshot", "client_ip", "geo_lat", "geo_lng", "user_agent"]
-    readonly_fields = ["verify_at", "verify_count_snapshot", "client_ip", "geo_lat", "geo_lng", "user_agent"]
+    fields = ["verify_at", "verify_count_snapshot", "client_ip", "geo_city", "user_agent"]
+    readonly_fields = ["verify_at", "verify_count_snapshot", "client_ip", "geo_city", "user_agent"]
     extra = 0
     can_delete = False
     ordering = ["-verify_at"]
@@ -315,7 +315,7 @@ class AntiFakeCodeAdmin(admin.ModelAdmin):
 
 @admin.register(VerificationLog)
 class VerificationLogAdmin(admin.ModelAdmin):
-    list_display = ["code", "verify_at", "verify_count_snapshot", "client_ip", "geo_lat", "geo_lng"]
+    list_display = ["code", "verify_at", "verify_count_snapshot", "client_ip", "geo_city"]
     list_filter = ["verify_at"]
     search_fields = ["code__code", "client_ip"]
     readonly_fields = ["verify_at"]

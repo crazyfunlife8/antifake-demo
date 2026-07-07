@@ -6,6 +6,7 @@ import io
 import os
 import base64
 import json as json_lib
+import urllib.request
 from PIL import Image, ImageDraw, ImageFont
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse, FileResponse  # FileResponse still used by get_img
@@ -268,6 +269,23 @@ def non_qkit(request):
     return JsonResponse({'success': True})
 
 
+def _reverse_geocode(lat, lng):
+    try:
+        url = (
+            f"https://nominatim.openstreetmap.org/reverse"
+            f"?lat={lat}&lon={lng}&format=json&accept-language=zh-TW"
+        )
+        req = urllib.request.Request(url, headers={'User-Agent': 'AntifakeVerifySystem/1.0'})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json_lib.loads(resp.read().decode())
+        addr = data.get('address', {})
+        city = addr.get('city') or addr.get('county') or addr.get('state', '')
+        district = addr.get('city_district') or addr.get('town') or addr.get('suburb') or ''
+        return (city + district).strip() or data.get('display_name', '')[:50]
+    except Exception:
+        return ''
+
+
 @csrf_exempt
 @require_POST
 def update_geo_location(request):
@@ -280,6 +298,7 @@ def update_geo_location(request):
         last_log.geo_lat = lat
         last_log.geo_lng = lng
         last_log.geo_accuracy = acc
+        last_log.geo_city = _reverse_geocode(lat, lng)
         last_log.save()
     return JsonResponse({'success': True})
 

@@ -71,6 +71,7 @@ class VerificationLog(models.Model):
     geo_accuracy = models.DecimalField(
         "定位精度", max_digits=8, decimal_places=2, null=True, blank=True
     )
+    geo_city = models.CharField("地點", max_length=100, blank=True, default="")
     auth_token = models.CharField("auth token", max_length=100, blank=True, default="")
     request_info_id = models.CharField("requestInfoId", max_length=100, blank=True, default="")
 

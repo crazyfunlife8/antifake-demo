@@ -121,19 +121,20 @@
       <div> 
        <input type="hidden" name="submissionValues[0].fieldName" value="標籤照上傳2-上傳"> 
        <input type="hidden" name="submissionValues[0].formId" value="135"> 
-       <div class="form-group"> 
-        <span style="color: red">*</span> 
+       <div class="form-group">
+        <span style="color: red">*</span>
         <label for="submissionValues[0].fieldValue"><span style="color: black">{{ t.label_upload_photo }}</span></label>
         <input type="file" class="filestyle" accept="image/*" name="file_0" id="filestyle-0" tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
 			<!-- <div class="bootstrap-filestyle input-group">
-				<input type="text" class="form-control " placeholder="" disabled=""> 
+				<input type="text" class="form-control " placeholder="" disabled="">
 				<span class="group-span-filestyle input-group-btn" tabindex="0">
 					<label for="filestyle-0" class="btn btn-default ">
 						<span class="buttonText">選擇檔案</span>
 					</label>
 				</span>
 			</div>  -->
-        <input type="hidden" id="submissionValues[0].fieldValue" class="required" name="submissionValues[0].fieldValue"> 
+        <input type="hidden" id="submissionValues[0].fieldValue" class="required" name="submissionValues[0].fieldValue">
+        <div id="upload-status-0" style="margin-top:4px;font-size:13px;"></div>
        </div> 
       </div> 
      </div> 
@@ -217,8 +218,16 @@ $(function () {
 	
 	$("input[type=file]").change(function() {
 		var idx = this.name.split('_')[1];
-		uploadImg($(this), function(fileNo) {
+		var $statusEl = $('#upload-status-' + idx);
+		$statusEl.text('上傳中...').css('color', '#888');
+		$("#submit").prop('disabled', true);
+		uploadImg($(this), idx, function(fileNo) {
 			document.getElementById('submissionValues['+idx+'].fieldValue').value = fileNo;
+			$statusEl.text('✓ 上傳成功').css('color', 'green');
+			$("#submit").prop('disabled', false);
+		}, function() {
+			$statusEl.text('✗ 上傳失敗，請重新選擇').css('color', 'red');
+			$("#submit").prop('disabled', false);
 		});
 	});
 
@@ -227,30 +236,34 @@ $(function () {
 		document.getElementById('submissionValues['+idx+'].fieldValue').value = this.value;
 	});
 
-	function uploadImg($file, successFunction) {
+	function uploadImg($file, idx, successFunction, failFunction) {
+		if (!$file[0].files || !$file[0].files[0]) {
+			failFunction();
+			return;
+		}
 		var filesize = $file[0].files[0].size;
 		var fileType = $file[0].files[0].type;
 		var patt = /image/i;
-		console.log($file);
 		if (filesize > 10000000) {
-			alertMsgFront("BIG_FILE_SIZE", 10000, "", "");
+			alert('檔案太大（上限 10MB），請重新選擇');
 			$file[0].value = "";
+			failFunction();
 			return;
 		}
-		else if (!patt.test(fileType)) {
+		else if (fileType && !patt.test(fileType)) {
+			alert('請選擇圖片檔案');
 			$file[0].value = "";
-			alertMsgFront("RESTRICT_IMG");
+			failFunction();
 			return;
 		}
 
 		var formData = new FormData();
-		var base64Result;
 		$.each($file[0].files, function (i, file) {
 			var reader = new FileReader();
 			reader.readAsDataURL(file);
 			reader.onloadend = function (e) {
-				var dataUrl = reader.result; // base64 string
-				base64Result = JSON.stringify(dataUrl.substr(dataUrl.indexOf("base64") + 7));
+				var dataUrl = reader.result;
+				var base64Result = JSON.stringify(dataUrl.substr(dataUrl.indexOf("base64") + 7));
 				formData.append('uploadBase64Img', base64Result);
 				formData.append('uploadFileName', file.name);
 				$.ajaxSettings.traditional = true;
@@ -273,10 +286,9 @@ $(function () {
 							successFunction(json.fileNo);
 						} else{
 							$file[0].value = "";
-							$("input[type=text]")[0].value = "";
-							alertMsgFront("QKIT_ERR_MSG_001");
+							alert('上傳回應異常，請重試');
+							failFunction();
 						}
-						
 					},
 					xhr: function () {
 						var myXhr = $.ajaxSettings.xhr();
@@ -296,15 +308,19 @@ $(function () {
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
 						$file[0].value = "";
-						$("input[type=text]")[0].value = "";
-						alertMsgFront("FORBIDDEN_FILE");
+						alert('上傳失敗（HTTP ' + xhr.status + '），請重試');
+						failFunction();
 					},
 					complete: function () {
 						$('#loading').fadeOut(800);
 						$('#bar').remove();
 					}
 				});
-			}
+			};
+			reader.onerror = function() {
+				alert('無法讀取檔案，請重試');
+				failFunction();
+			};
 		});
 	}
 	

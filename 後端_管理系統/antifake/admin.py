@@ -11,7 +11,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 from django.forms import CheckboxSelectMultiple
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import FileResponse, HttpResponse
+from django.utils.html import format_html
 from django.shortcuts import render, redirect
 from django.urls import path, reverse
 from django.utils import timezone
@@ -402,8 +403,35 @@ class VerificationLogAdmin(admin.ModelAdmin):
 
 @admin.register(UploadedFile)
 class UploadedFileAdmin(admin.ModelAdmin):
-    list_display = ["file_no", "filename", "content_type", "file_size", "uploaded_at"]
+    list_display = ["file_no", "filename", "content_type", "file_size", "uploaded_at", "download_link"]
     readonly_fields = ["file_no", "uploaded_at"]
+    ordering = ["-file_size"]
+
+    def get_urls(self):
+        return [
+            path("<int:file_no>/download/", self.admin_site.admin_view(self.download_view),
+                 name="antifake_uploadedfile_download"),
+        ] + super().get_urls()
+
+    @admin.display(description="下載")
+    def download_link(self, obj):
+        url = reverse("admin:antifake_uploadedfile_download", args=[obj.file_no])
+        return format_html('<a href="{}">⬇ 下載</a>', url)
+
+    def download_view(self, request, file_no):
+        import os
+        try:
+            f = UploadedFile.objects.get(file_no=file_no)
+        except UploadedFile.DoesNotExist:
+            messages.error(request, "找不到此檔案記錄。")
+            return redirect("../../")
+        if not f.storage_path or not os.path.exists(f.storage_path):
+            messages.error(request, f"實體檔案不存在：{f.storage_path}")
+            return redirect("../../")
+        filename = f.filename or f"file_{file_no}"
+        response = FileResponse(open(f.storage_path, 'rb'), content_type=f.content_type or 'application/octet-stream')
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
 
 
 @admin.register(ContactTicket)

@@ -319,6 +319,14 @@ class VerificationLogAdmin(admin.ModelAdmin):
     list_filter = ["verify_at"]
     search_fields = ["code__code", "client_ip"]
     readonly_fields = ["verify_at"]
+    fieldsets = [
+        (None, {"fields": [
+            "code", "verify_at", "verify_count_snapshot",
+            "client_ip", "user_agent",
+            "geo_city", ("geo_lat", "geo_lng", "geo_accuracy"),
+            "auth_token", "request_info_id",
+        ]}),
+    ]
     actions = ["export_csv", "export_excel"]
 
     @admin.action(description="匯出選取項目為 CSV")

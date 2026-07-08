@@ -56,6 +56,9 @@ TRANS = {
             '<a href="tel:{phone_no}">{phone}</a></p>'
             '<p>為保障您的權益，請按&quot;下一步&quot; 進行驗證。</p>'
         ),
+        'fake_result_final': (
+            '<p><span style="font-size:16px;">您使用的產品經比對為 Solta Medical 原廠正貨。</span></p>'
+        ),
 
         # ── memLogin.html ──────────────────────────────────────────────────
         'title_login':         '會員登入',
@@ -177,6 +180,9 @@ TRANS = {
             'the manufacturer immediately at <a href="tel:{phone_no}">{phone}</a></p>'
             '<p>To protect your rights, please click &quot;Next&quot; to proceed with verification.</p>'
         ),
+        'fake_result_final': (
+            '<p><span style="font-size:16px;">Your product has been verified as a genuine Solta Medical product.</span></p>'
+        ),
         'title_login':         'Member Login',
         'label_account':       'Account (Email)',
         'label_password':      'Password',
@@ -285,6 +291,9 @@ TRANS = {
             '为避免使用到假货</span>，请尽速与原厂联络'
             '<a href="tel:{phone_no}">{phone}</a></p>'
             '<p>为保障您的权益，请按&quot;下一步&quot; 进行验证。</p>'
+        ),
+        'fake_result_final': (
+            '<p><span style="font-size:16px;">您使用的产品经比对为 Solta Medical 原厂正货。</span></p>'
         ),
         'title_login':         '会员登录',
         'label_account':       '账号（电子邮箱）',
@@ -395,6 +404,9 @@ TRANS = {
             '<a href="tel:{phone_no}">{phone}</a></p>'
             '<p>お客様の権益を保護するために、「次へ」をクリックして確認を進めてください。</p>'
         ),
+        'fake_result_final': (
+            '<p><span style="font-size:16px;">お客様の製品は Solta Medical の正規品であることが確認されました。</span></p>'
+        ),
         'title_login':         'ログイン',
         'label_account':       'アカウント（メールアドレス）',
         'label_password':      'パスワード',
@@ -504,6 +516,9 @@ TRANS = {
             ' <a href="tel:{phone_no}">{phone}</a></p>'
             '<p>Untuk melindungi hak anda, sila klik &quot;Seterusnya&quot; untuk meneruskan pengesahan.</p>'
         ),
+        'fake_result_final': (
+            '<p><span style="font-size:16px;">Produk anda telah disahkan sebagai produk tulen Solta Medical.</span></p>'
+        ),
         'title_login':         'Log Masuk Ahli',
         'label_account':       'Akaun (E-mel)',
         'label_password':      'Kata Laluan',
@@ -612,6 +627,9 @@ TRANS = {
             ' Để tránh sử dụng hàng giả</span>, vui lòng liên hệ nhà sản xuất ngay tại'
             ' <a href="tel:{phone_no}">{phone}</a></p>'
             '<p>Để bảo vệ quyền lợi của bạn, vui lòng nhấn &quot;Tiếp Theo&quot; để tiến hành xác minh.</p>'
+        ),
+        'fake_result_final': (
+            '<p><span style="font-size:16px;">Sản phẩm của bạn đã được xác nhận là hàng chính hãng Solta Medical.</span></p>'
         ),
         'title_login':         'Đăng Nhập Thành Viên',
         'label_account':       'Tài Khoản (Email)',

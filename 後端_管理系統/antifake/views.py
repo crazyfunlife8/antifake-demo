@@ -132,7 +132,16 @@ def verify_result(request):
 
 
 def main_entry(request):
-    return _render_page(request, 'mainEntry.html')
+    last = request.session.get('last_verify', {})
+    lang = _get_lang(request)
+    extra = {}
+    if last.get('is_qkit'):
+        t = TRANS.get(lang, TRANS['CHT'])
+        extra = {
+            'is_qkit': True,
+            'fake_result': t['fake_result_final'],
+        }
+    return _render_page(request, 'mainEntry.html', extra)
 
 
 def mem_login(request):
@@ -247,19 +256,21 @@ def logout_check(request):
 def call_qkit(request):
     checksum = request.POST.get('checksum', '').strip()
     lang = _get_lang(request)
+    threshold = int(SystemConfig.get('VERIFY_WARN_THRESHOLD', '2'))
 
     try:
         code_obj = AntiFakeCode.objects.get(code=checksum, is_active=True, deleted_at__isnull=True)
+        n = code_obj.verify_count
         return JsonResponse({
             'isSystemMatch': 'false',
-            'data': {'fakeResult': _build_fake_result(code_obj.verify_count, lang), 'fakeJudgeImg': ''},
-            'isQuest': '0',
+            'data': {'fakeResult': _build_fake_result(n, lang), 'fakeJudgeImg': ''},
+            'isQuest': '0' if n >= threshold else '1',
         })
     except AntiFakeCode.DoesNotExist:
         return JsonResponse({
             'isSystemMatch': 'false',
             'data': {'fakeResult': '', 'fakeJudgeImg': ''},
-            'isQuest': '0',
+            'isQuest': '1',
         })
 
 

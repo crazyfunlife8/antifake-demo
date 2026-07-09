@@ -531,6 +531,11 @@ class QuestionnaireResponseAdmin(admin.ModelAdmin):
     def formatted_answers(self, obj):
         import re
         from urllib.parse import unquote
+
+        def js_unescape(s):
+            s = re.sub(r'%u([0-9A-Fa-f]{4})', lambda m: chr(int(m.group(1), 16)), s)
+            return unquote(s)
+
         try:
             raw = json.loads(obj.answers_json) if obj.answers_json else {}
         except Exception:
@@ -542,7 +547,7 @@ class QuestionnaireResponseAdmin(admin.ModelAdmin):
                 break
             ans_mold = raw.get(f"questObjectList[{i}].ansMold", "")
             desc_raw = raw.get(f"questObjectList[{i}].quesDesc", "")
-            desc_text = re.sub(r'<[^>]+>', '', unquote(desc_raw)).strip() or f"第 {i + 1} 題"
+            desc_text = re.sub(r'<[^>]+>', '', js_unescape(desc_raw)).strip() or f"第 {i + 1} 題"
             ans = raw.get(f"questObjectList[{i}].answer", "")
 
             if ans_mold == "11" and ans.isdigit():

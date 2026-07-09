@@ -57,7 +57,7 @@ TRANS = {
             '<p>為保障您的權益，請按“下一步” 進行驗證。</p>'
         ),
         'fake_result_final': (
-            '<p><span style="font-size:16px; font-weight: 500;">您使用的產品經比對為Solta Medical原廠正貨。</span></p>'
+            '<p><span style="font-size:16px; font-weight: 600;">您使用的產品經比對為Solta Medical原廠正貨。</span></p>'
         ),
 
         # ── memLogin.html ──────────────────────────────────────────────────

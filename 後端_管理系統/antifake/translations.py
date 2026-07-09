@@ -46,15 +46,15 @@ TRANS = {
         'msg_geo_agree':     '同意',
         'msg_geo_decline':   '不同意',
         'fake_result_ok': (
-            '<p>本產品被拆封驗證第<span style="color:#FF0000;">{n}</span>次</p>'
+            "<p>本產品被拆封驗證第<span style='color:#FF0000;'>{n}</span>次</p>"
             '<p>感謝您的使用，本產品為原廠正貨。</p>'
         ),
         'fake_result_warn': (
-            '<p>本產品被拆封驗證第<span style=”color:#FF0000;”>{n}</span>次，<br>'
-            '<span style=”color:#FF0000;”>**如次數顯示大於1，即為有疑慮的探頭，'
-            '為避免使用到假貨</span>，請儘速與原廠聯絡'
-            '<a href=”tel:{phone_no}”>{phone}</a></p>'
-            '<p>為保障您的權益，請按”下一步” 進行驗證。</p>'
+            "<p>本產品被拆封驗證第<span style='color:#FF0000;'>{n}</span>次，<br>"
+            "<span style='color:#FF0000;'>**如次數顯示大於1，即為有疑慮的探頭，"
+            "為避免使用到假貨</span>，請儘速與原廠聯絡"
+            "<a href='tel:{phone_no}'>{phone}</a></p>"
+            '<p>為保障您的權益，請按“下一步” 進行驗證。</p>'
         ),
         'fake_result_final': (
             '<p><span style="font-size:16px; font-weight: 500;">您使用的產品經比對為Solta Medical原廠正貨。</span></p>'

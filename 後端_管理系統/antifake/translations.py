@@ -50,11 +50,11 @@ TRANS = {
             '<p>感謝您的使用，本產品為原廠正貨。</p>'
         ),
         'fake_result_warn': (
-            '<p>本產品被拆封驗證第<span style="color:#FF0000;">{n}</span>次，<br>'
-            '<span style="color:#FF0000;">**如次數顯示大於1，即為有疑慮的探頭，'
-            '為避免使用到假貨，請儘速與原廠聯絡'
-            '<a href="tel:{phone_no}" style="color:#FF0000;">{phone}</a></span></p>'
-            '<p>為保障您的權益，請按“下一步” 進行驗證。</p>'
+            '<p>本產品被拆封驗證第<span style=”color:#FF0000;”>{n}</span>次，<br>'
+            '<span style=”color:#FF0000;”>**如次數顯示大於1，即為有疑慮的探頭，'
+            '為避免使用到假貨</span>，請儘速與原廠聯絡'
+            '<a href=”tel:{phone_no}”>{phone}</a></p>'
+            '<p>為保障您的權益，請按”下一步” 進行驗證。</p>'
         ),
         'fake_result_final': (
             '<p><span style="font-size:16px;">您使用的產品經比對為 Solta Medical 原廠正貨。</span></p>'
@@ -174,10 +174,10 @@ TRANS = {
         ),
         'fake_result_warn': (
             '<p>This product has been verified '
-            '<span style="color:#FF0000;">{n}</span> time(s).<br>'
-            '<span style="color:#FF0000;">**If the count is greater than 1, there is a concern '
-            'about counterfeiting. To avoid using counterfeit products, please contact '
-            'the manufacturer immediately at <a href="tel:{phone_no}" style="color:#FF0000;">{phone}</a></span></p>'
+            '<span style=”color:#FF0000;”>{n}</span> time(s).<br>'
+            '<span style=”color:#FF0000;”>**If the count is greater than 1, there is a concern '
+            'about counterfeiting. To avoid using counterfeit products</span>, please contact '
+            'the manufacturer immediately at <a href=”tel:{phone_no}”>{phone}</a></p>'
             '<p>To protect your rights, please click “Next” to proceed with verification.</p>'
         ),
         'fake_result_final': (
@@ -288,8 +288,8 @@ TRANS = {
         'fake_result_warn': (
             '<p>本产品被拆封验证第<span style="color:#FF0000;">{n}</span>次，<br>'
             '<span style="color:#FF0000;">**如次数显示大于1，即为有疑虑的探头，'
-            '为避免使用到假货，请尽速与原厂联络'
-            '<a href="tel:{phone_no}" style="color:#FF0000;">{phone}</a></span></p>'
+            '为避免使用到假货</span>，请尽速与原厂联络'
+            '<a href="tel:{phone_no}">{phone}</a></p>'
             '<p>为保障您的权益，请按"下一步" 进行验证。</p>'
         ),
         'fake_result_final': (
@@ -400,8 +400,8 @@ TRANS = {
         'fake_result_warn': (
             '<p>本製品は開封確認済み<span style="color:#FF0000;">{n}</span>回目です。<br>'
             '<span style="color:#FF0000;">**回数が1回を超える場合は偽造品の疑いがあります。'
-            '偽造品を避けるため、至急メーカーへご連絡ください'
-            '<a href="tel:{phone_no}" style="color:#FF0000;">{phone}</a></span></p>'
+            '偽造品を避けるため</span>、至急メーカーへご連絡ください'
+            '<a href="tel:{phone_no}">{phone}</a></p>'
             '<p>お客様の権益を保護するために、「次へ」をクリックして確認を進めてください。</p>'
         ),
         'fake_result_final': (
@@ -512,8 +512,8 @@ TRANS = {
         'fake_result_warn': (
             '<p>Produk ini telah disahkan sebanyak <span style="color:#FF0000;">{n}</span> kali.<br>'
             '<span style="color:#FF0000;">**Jika bilangan melebihi 1, produk ini mungkin palsu.'
-            ' Untuk mengelak penggunaan produk palsu, sila hubungi pengeluar segera di'
-            ' <a href="tel:{phone_no}" style="color:#FF0000;">{phone}</a></span></p>'
+            ' Untuk mengelak penggunaan produk palsu</span>, sila hubungi pengeluar segera di'
+            ' <a href="tel:{phone_no}">{phone}</a></p>'
             '<p>Untuk melindungi hak anda, sila klik "Seterusnya" untuk meneruskan pengesahan.</p>'
         ),
         'fake_result_final': (
@@ -624,8 +624,8 @@ TRANS = {
         'fake_result_warn': (
             '<p>Sản phẩm này đã được xác minh <span style="color:#FF0000;">{n}</span> lần.<br>'
             '<span style="color:#FF0000;">**Nếu số lần lớn hơn 1, sản phẩm có thể là hàng giả.'
-            ' Để tránh sử dụng hàng giả, vui lòng liên hệ nhà sản xuất ngay tại'
-            ' <a href="tel:{phone_no}" style="color:#FF0000;">{phone}</a></span></p>'
+            ' Để tránh sử dụng hàng giả</span>, vui lòng liên hệ nhà sản xuất ngay tại'
+            ' <a href="tel:{phone_no}">{phone}</a></p>'
             '<p>Để bảo vệ quyền lợi của bạn, vui lòng nhấn "Tiếp Theo" để tiến hành xác minh.</p>'
         ),
         'fake_result_final': (

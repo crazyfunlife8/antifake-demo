@@ -469,7 +469,7 @@
 			doAjax("generic/frontLangChange.do", {
 				langType: $(this).prop("title")
 			}, function (json, status) {
-				location.href = "/mainEntry.do";
+				location.href = "/verifyResult.do";
 			});
 		});
 		$(".localtime").each(function(index){

@@ -264,7 +264,7 @@ def call_qkit(request):
         return JsonResponse({
             'isSystemMatch': 'false',
             'data': {'fakeResult': _build_fake_result(n, lang), 'fakeJudgeImg': ''},
-            'isQuest': '0' if n >= threshold else '1',
+            'isQuest': '0',
         })
     except AntiFakeCode.DoesNotExist:
         return JsonResponse({

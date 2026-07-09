@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.forms import CheckboxSelectMultiple
 from django.db.models import Count
 from django.http import FileResponse, HttpResponse
-from django.utils.html import format_html
+from django.utils.html import format_html, mark_safe
 from django.shortcuts import render, redirect
 from django.urls import path, reverse
 from django.utils import timezone
@@ -323,7 +323,7 @@ class VerificationLogAdmin(admin.ModelAdmin):
         (None, {"fields": [
             "code", "verify_at", "verify_count_snapshot",
             "client_ip", "user_agent",
-            "geo_city", ("geo_lat", "geo_lng", "geo_accuracy"),
+            "geo_city",
             "auth_token", "request_info_id",
         ]}),
     ]
@@ -502,10 +502,73 @@ class SupplementReportAdmin(admin.ModelAdmin):
 
 @admin.register(QuestionnaireResponse)
 class QuestionnaireResponseAdmin(admin.ModelAdmin):
-    list_display = ["code", "created_at"]
+    list_display = ["code", "answers_summary", "created_at"]
     search_fields = ["code__code"]
-    readonly_fields = ["created_at"]
+    readonly_fields = ["created_at", "formatted_answers"]
+    fieldsets = [
+        (None, {"fields": ["code", "created_at", "formatted_answers"]}),
+    ]
     actions = ["export_csv", "export_excel"]
+
+    @admin.display(description="回答摘要")
+    def answers_summary(self, obj):
+        try:
+            raw = json.loads(obj.answers_json) if obj.answers_json else {}
+        except Exception:
+            return "(解析失敗)"
+        city, clinic = "", ""
+        for i in range(10):
+            qid = raw.get(f"questObjectList[{i}].prodRltAdvQuesId", "")
+            ans = raw.get(f"questObjectList[{i}].answer", "")
+            if qid == "1985":
+                city = ans
+            elif qid == "1983":
+                clinic = ans
+        parts = [p for p in [city, clinic] if p]
+        return " / ".join(parts) or "(無)"
+
+    @admin.display(description="回答內容")
+    def formatted_answers(self, obj):
+        import re
+        from urllib.parse import unquote
+        try:
+            raw = json.loads(obj.answers_json) if obj.answers_json else {}
+        except Exception:
+            return format_html('<pre style="white-space:pre-wrap">{}</pre>', obj.answers_json)
+
+        rows = []
+        for i in range(10):
+            if not raw.get(f"questObjectList[{i}].prodRltAdvQuesId"):
+                break
+            ans_mold = raw.get(f"questObjectList[{i}].ansMold", "")
+            desc_raw = raw.get(f"questObjectList[{i}].quesDesc", "")
+            desc_text = re.sub(r'<[^>]+>', '', unquote(desc_raw)).strip() or f"第 {i + 1} 題"
+            ans = raw.get(f"questObjectList[{i}].answer", "")
+
+            if ans_mold == "11" and ans.isdigit():
+                url = reverse("admin:antifake_uploadedfile_download", args=[int(ans)])
+                ans_cell = format_html('<a href="{}">⬇ 下載圖片 (fileNo={})</a>', url, ans)
+            elif ans:
+                ans_cell = format_html('{}', ans)
+            else:
+                ans_cell = mark_safe('<span style="color:#999">（未填）</span>')
+
+            rows.append(format_html(
+                '<tr style="border-bottom:1px solid #eee">'
+                '<td style="padding:8px 16px 8px 0;font-weight:bold;vertical-align:top;width:45%">{}</td>'
+                '<td style="padding:8px 0">{}</td>'
+                '</tr>',
+                desc_text,
+                ans_cell,
+            ))
+
+        if not rows:
+            return mark_safe('<span style="color:#999">(無資料)</span>')
+
+        return format_html(
+            '<table style="width:100%;border-collapse:collapse;margin-top:4px">{}</table>',
+            mark_safe(''.join(rows)),
+        )
 
     @admin.action(description="匯出選取項目為 CSV")
     def export_csv(self, request, queryset):

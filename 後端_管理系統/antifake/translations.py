@@ -173,11 +173,11 @@ TRANS = {
             '<p>Thank you. This product is genuine.</p>'
         ),
         'fake_result_warn': (
-            '<p>This product has been verified '
-            '<span style=”color:#FF0000;”>{n}</span> time(s).<br>'
-            '<span style=”color:#FF0000;”>**If the count is greater than 1, there is a concern '
+            '<p>This product has been verified'
+            "<span style='color:#FF0000;'>{n}</span> time(s).<br>"
+            "<span style='color:#FF0000;'>**If the count is greater than 1, there is a concern"
             'about counterfeiting. To avoid using counterfeit products</span>, please contact '
-            'the manufacturer immediately at <a href=”tel:{phone_no}”>{phone}</a></p>'
+            "the manufacturer immediately at <a href='tel:{phone_no}'>{phone}</a></p>"
             '<p>To protect your rights, please click “Next” to proceed with verification.</p>'
         ),
         'fake_result_final': (
